@@ -230,7 +230,7 @@ python manage.py sqlmigrate blog  0001
 para migrar el modelo a la base de datos que tenemos configurada volver a recurirr al comando `migrate`.El comando `migrate` aplica realmente las migraciones a tu base de datos (Django lleva la cuenta de cuáles han sido añadidas a la base de datos actual). 
 
 !importante : se puede utilizar pyclean . para eliminar los directorios __pycache__ , este comando es de mucha utilidad cuando se procede a re crear el modelo y ya existen tablas con datos que puede o no contener campos ( columnas ) con datos obligatorios . Como django genera difernciales esto puede generar problemas.
-```
+```bash
 python manage.py migrate
 ```
 
@@ -238,23 +238,82 @@ python manage.py migrate
 <details><summary> -->
 4) Configuracion de Administracion
 <!-- </summary> -->
-a) Creamos el admnistrador y configuramos datos base
-```
+   a) Creamos el admnistrador y configuramos datos base
+```bash
 python manage.py createsuperuser
 ```
 Completamos la informacion para la creacion del usuario administrador en este caso se ingreso :
-```
+```bash
 Username (leave blank to use 'jesus'): admin
 Email address: luciojesusramirezgamarra@gmail.com
 CoderHouse2022
 ```
-Ejecutar el comando runserver para visualizar el adminitrador del blog y acceder utilizando los datos previamente configurados
-```
+   b) Probamos el administador 
+Ejecutar el comando runserver para visualizar el adminitrador del blog y acceder utilizando los datos previamente configurados sobre la ruta : http://127.0.0.1:8000/admin/logout/
+```bash
 python manage.py runserver
 ```
-  <p align="center">    
+<p align="center">    
+    <img src="./public/django_admin_login.png" alt="django Admin" height="250">    
+</p>
+
+Tras ingresar las credenciales podemos ingresar al modulo de administracion de django el cual es generador por default con ciertas funcionales base que nos ayudaran a configurar el blog.
+<p align="center">    
     <img src="./public/django_admin.png" alt="django Admin" height="250">    
-  </p>
+</p>
+<!-- </details>
+<details><summary> -->
+5) Static Files y Templates
+<!-- </summary>    -->
+   a) Creamos directorios directamente desde el IDE de visual code, desde nuestro sistema operativo o a traves del comando mkdir sobre las rutas que sean requeridas hasta obtener 
+```
+    mkdir templates
+```
+<p align="center">    
+    <img src="./public/.django_staticfiles_templates.png" alt="django Static Files and Templates" height="350">    
+</p>
+
+   b) Sobre `setting.py` del directorio `propyecto_final` agregamos la direccion de `DIRS` apuntando al directorio `templates` que creamos previamente.
+```python
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+```
+   c) Sobre `setting.py` del directorio `propyecto_final` agregamos las rutas requeridos para los directorios que contendran los archivos statics del proyecto ( imagenes, css, javascript, etc)
+```python
+STATICFILES_DIRS = [
+    # BASE_DIR  /"statics"
+    os.path.join(BASE_DIR, "static"),
+]
+
+MEDIA_URL = os.path.join(BASE_DIR, "static/media/") 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/static_cdn/")  
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/media_cdn/")  
+```
+
+
+
+<!-- </details>
+<details><summary> -->
+6) creando views
+<!-- </summary>    -->
+
+```python
+from django.shortcuts import render
+from .models import Post, Category, Author
+```
 
 
 > Nota : 
