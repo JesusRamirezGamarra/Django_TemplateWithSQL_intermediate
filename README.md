@@ -52,15 +52,63 @@ funcionalidades.
    python3 -m pip install --upgrade pip
    ```
 
-2) Generar scaffolding :
+2) Generar scaffolding : Es una técnica utilizada por algunos frameworks Modelo–vista–controlador en los cuales el programador puede especificar cómo se puede usar la base de datos de la aplicación. El framework o compilador utiliza esta especificación, junto con plantillas de código predefinidas, para generar el código final que la aplicación puede usar para crear, leer, actualizar y borrar entradas de la base de datos, tratando así las plantillas como un "andamio" sobre el cual construir una aplicación más fuerte.
    
-   a) django-admin startproject proyecto_final
+    ```bash
+    proyecto_final/   # Carpeta del sitio web
+    manage.py         # Script para ejecutar las herramientas de Django para este proyecto (creadas usando django-admin)
+    proyecto_final/   # Carpeta del Sitio web/Proyecto (creada usando django-admin)
+    blog/             # Carpeta de la Aplicación (creada usando manage.py)
+    ```
+   
+   a)   Generar Proyecto
+    [Ver mas informacion](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/skeleton_website)
 
-   b) cd proyecto_final
+    ```bash
+    django-admin startproject proyecto_final
+    ```
+    se crea directorio : proyecto_final y podemos ver su contenido
 
-   c) python manage.py startapp blog
+    ```bash
+    cd proyecto_final
+    ```
 
-3) Crear models Base datos :
+    Estructura creada : 
+    ```bash
+    proyecto_final/
+        manage.py
+        proyecto_final/
+            settings.py
+            urls.py
+            wsgi.py
+    ```    
+
+   b)   Genenera Aplicacion
+   [Ver mas informacion](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/skeleton_website)
+   ```bash
+   python manage.py startapp blog
+   ```
+    se crea directorio : blog 
+    ```bash
+    cd ..
+    ```
+    Estructura total creada : 
+    ```bash
+    proyecto_final/
+        manage.py
+        proyecto_final/
+        blog/
+            admin.py
+            apps.py
+            models.py
+            tests.py
+            views.py
+            __init__.py
+            migrations/
+    ```
+
+
+3) Crear models - Base datos :
    
    a)
 
