@@ -254,12 +254,12 @@ Ejecutar el comando runserver para visualizar el adminitrador del blog y acceder
 python manage.py runserver
 ```
 <p align="center">    
-    <img src="./public/django_admin_login.png" alt="django Admin" height="250">    
+    <img src="./public/img/django_admin_login.png" alt="django Admin" height="250">    
 </p>
 
 Tras ingresar las credenciales podemos ingresar al modulo de administracion de django el cual es generador por default con ciertas funcionales base que nos ayudaran a configurar el blog.
 <p align="center">    
-    <img src="./public/django_admin.png" alt="django Admin" height="250">    
+    <img src="./public/img/django_admin.png" alt="django Admin" height="250">    
 </p>
 <!-- </details>
 <details><summary> -->
@@ -272,7 +272,7 @@ Tras ingresar las credenciales podemos ingresar al modulo de administracion de d
     mkdir templates
 ```
 <p align="center">    
-    <img src="./public/django_staticfiles_templates.png" alt="django Static Files and Templates" height="350">    
+    <img src="./public/img/django_staticfiles_templates.png" alt="django Static Files and Templates" height="350">    
 </p>
 
    b) Sobre `setting.py` del directorio `proyecto_final` agregamos la direccion de `DIRS` apuntando al directorio `templates` que creamos previamente.
@@ -345,6 +345,7 @@ urlpatterns = [
 
    c) Sobre `templates`  agregamos un template para realizar la prueba del avance el cual llamaremos `base.html` 
 
+!importante :  vamos a utilizar tailwindcss [ver mas](https://tailwindcss.com/) como libreria alternativa a boostrap [ver mas](https://getbootstrap.com/) para realizar la configuracion y conocer mas sobre esta accediendo a [ver mas](https://tailwindcss.com/docs/installation/play-cdn)
 
 ```html
 <!doctype html>
@@ -352,7 +353,7 @@ urlpatterns = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="<https://cdn.tailwindcss.com>"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
   <h1 class="text-3xl font-bold underline">
@@ -367,9 +368,76 @@ python manage.py runserver
 ```
 
 <p align="center">    
-    <img src="./public/BaseHtml.png" alt="django Static Files and Templates" height="350">    
+    <img src="./public/img/BaseHtml.png" alt="django Static Files and Templates" height="150">    
 </p>
 
+<!-- </details>
+<details><summary> -->
+7) Herencia de template
+
+   a) Sobre `urls.py` del directorio `proyecto_final`  agregamos el import a static y el cambio de cadenas utilizando las constantes previamente configuradas en `settings.py`
+
+```python
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+```
+!importante :  vamos a utilizar JS alpino [ver mas](https://alpinejs.dev/start-here) como libreria alternativa a jquery [ver mas](https://jquery.com/) para poder trabajar la parte dinamica.
+
+```python
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            type: 'type 2.7s ease-out .8s infinite alternate both',
+          },
+          keyframes: {
+            type: {
+              '0%': { transform: 'translateX(0ch)' },
+              '5%, 10%': { transform: 'translateX(1ch)' },
+              '15%, 20%': { transform: 'translateX(2ch)' },
+              '25%, 30%': { transform: 'translateX(3ch)' },
+              '35%, 40%': { transform: 'translateX(4ch)' },
+              '45%, 50%': { transform: 'translateX(5ch)' },
+              '55%, 60%': { transform: 'translateX(6ch)' },
+              '65%, 70%': { transform: 'translateX(7ch)' },
+              '75%, 80%': { transform: 'translateX(8ch)' },
+              '85%, 90%': { transform: 'translateX(9ch)' },
+              '95%, 100%': { transform: 'translateX(11ch)' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+  <body>
+
+      <img src='{% static "./img/dummy.png" %}'/>
+  </body>
+  </html>
+  ```
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+  
+<p align="center">    
+    <img src="./public/img/HomePage_withStaticFile.png" alt="django Static Files and Templates" height="350">    
+</p>
+   
 
 > Nota : 
 
