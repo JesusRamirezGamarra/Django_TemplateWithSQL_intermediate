@@ -272,7 +272,7 @@ Tras ingresar las credenciales podemos ingresar al modulo de administracion de d
     mkdir templates
 ```
 <p align="center">    
-    <img src="./public/.django_staticfiles_templates.png" alt="django Static Files and Templates" height="350">    
+    <img src="./public/django_staticfiles_templates.png" alt="django Static Files and Templates" height="350">    
 </p>
 
    b) Sobre `setting.py` del directorio `proyecto_final` agregamos la direccion de `DIRS` apuntando al directorio `templates` que creamos previamente.
@@ -309,7 +309,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/media_cdn/")
 
 <!-- </details>
 <details><summary> -->
-1) creando views
+6) creando views
 
 Una View es un lugar donde ponemos la "lógica" de nuestra aplicación. Pedirá información del modelo que has creado antes y se la pasará a la plantilla . Crearemos una plantilla en el próximo capítulo.
 [ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Generic_views)
@@ -330,7 +330,7 @@ def homepage(request):
     }
     return render(request, 'homepage.html', context)
 ```
-a) Sobre `urls.py` del directorio `proyecto_final` agregamos el importa al view que creamos y la url correspondiente, 
+   b) Sobre `urls.py` del directorio `proyecto_final` agregamos el importa al view que creamos y la url correspondiente, 
 ```python
 from django.contrib import admin
 from django.urls import path
@@ -343,7 +343,7 @@ urlpatterns = [
 ]
 ```
 
-b) Sobre `templates`  agregamos un template para realizar la prueba del avance el cual llamaremos `base.html` 
+   c) Sobre `templates`  agregamos un template para realizar la prueba del avance el cual llamaremos `base.html` 
 
 
 ```html
@@ -361,6 +361,15 @@ b) Sobre `templates`  agregamos un template para realizar la prueba del avance e
 </body>
 </html>
 ```
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+
+<p align="center">    
+    <img src="./public/BaseHtml.png" alt="django Static Files and Templates" height="350">    
+</p>
+
 
 > Nota : 
 
