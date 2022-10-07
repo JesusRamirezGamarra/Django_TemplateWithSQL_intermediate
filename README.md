@@ -151,7 +151,7 @@ python manage.py runserver
 3) Crear models - Base datos
 <!-- </summary> -->
    
-   a) Crear Base de datos
+   a) Configuracion Base de datos
    [ver mas](https://docs.djangoproject.com/en/4.1/topics/migrations/)
 
 La configuracion de la base de datos que utilizaremos la podemos encontrar en el el archivo `setting.py` del directorio `proyecto_final`
@@ -173,6 +173,7 @@ Una vez que confirmamos que no existen problemas podemos proceder a ejecutar el 
 ```bash
 python manage.py migrate
 ```
+   b) Creacion de `Models.py` (modelo) para la Base de datos
 Dentro del archivo `models.py` del directorio `blog`, importaremos de  `get_user_model` que es una función auxiliar de Django que obtiene el modelo de Usuario para el proyecto. [ver mas](https://docs.djangoproject.com/en/4.1/topics/auth/customizing/)
 ```python
 User = get_user_model()
@@ -211,21 +212,51 @@ Instalamos pillow para poder utilizar ImageField .[ver mas](https://www.geeksfor
 ```
 python -m pip install Pillow
 ```
-Popdemos siempre realizar un check com vimos pasos previos para revizar que no existan errores ante de proceder a generar un script de migracion ( generador de models )
+   c) Migracion de `Models.py` (modelo) y generacion de tablas en la Base de datos
+
+Podemos siempre realizar un check com vimos pasos previos para revizar que no existan errores ante de proceder a generar un script de migracion ( generador de models )
+
+El comando makemigrations crea (pero no aplica) las migraciones para todas las aplicaciones instaladas en tu proyecto (también puedes especificar el nombre de una aplicación para ejecutar una migración para un sólo proyecto). Ésto te da la opoortunidad de comprobar el código para estas migraciones antes de que se apliquen — cuando seas un experto en Django ¡podrás elegir modificarlos ligeramente!
+
+
 ```bash
 python manage.py check blog
 python manage.py makemigrations
 ```
+podemos visualiar el script de migracion autogenerado por Django utilizando el comando `sqlmigrate` 
+```bash
+python manage.py sqlmigrate blog  0001
+```
+para migrar el modelo a la base de datos que tenemos configurada volver a recurirr al comando `migrate`.El comando `migrate` aplica realmente las migraciones a tu base de datos (Django lleva la cuenta de cuáles han sido añadidas a la base de datos actual). 
+
+!importante : se puede utilizar pyclean . para eliminar los directorios __pycache__ , este comando es de mucha utilidad cuando se procede a re crear el modelo y ya existen tablas con datos que puede o no contener campos ( columnas ) con datos obligatorios . Como django genera difernciales esto puede generar problemas.
+```
+python manage.py migrate
+```
+
+<!-- </details>
+<details><summary> -->
+4) Configuracion de Administracion
+<!-- </summary> -->
+a) Creamos el admnistrador y configuramos datos base
+```
+python manage.py createsuperuser
+```
+Completamos la informacion para la creacion del usuario administrador en este caso se ingreso :
+```
+Username (leave blank to use 'jesus'): admin
+Email address: luciojesusramirezgamarra@gmail.com
+CoderHouse2022
+```
+Ejecutar el comando runserver para visualizar el adminitrador del blog y acceder utilizando los datos previamente configurados
+```
+python manage.py runserver
+```
+  <p align="center">    
+    <img src="./public/django_admin.png" alt="django Admin" height="250">    
+  </p>
 
 
-
-
-El comando makemigrations crea (pero no aplica) las migraciones para todas las aplicaciones instaladas en tu proyecto (también puedes especificar el nombre de una aplicación para ejecutar una migración para un sólo proyecto). Ésto te da la opoortunidad de comprobar el código para estas migraciones antes de que se apliquen — cuando seas un experto en Django ¡podrás elegir modificarlos ligeramente!
-
-El comando migrate aplica realmente las migraciones a tu base de datos (Django lleva la cuenta de cuáles han sido añadidas a la base de datos actual).
-
-
-<!-- </details> -->
 > Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
