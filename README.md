@@ -264,6 +264,8 @@ Tras ingresar las credenciales podemos ingresar al modulo de administracion de d
 <!-- </details>
 <details><summary> -->
 5) Static Files y Templates
+
+[ver mas](https://docs.djangoproject.com/en/4.0/topics/templates/)
 <!-- </summary>    -->
    a) Creamos directorios directamente desde el IDE de visual code, desde nuestro sistema operativo o a traves del comando mkdir sobre las rutas que sean requeridas hasta obtener 
 ```
@@ -273,7 +275,7 @@ Tras ingresar las credenciales podemos ingresar al modulo de administracion de d
     <img src="./public/.django_staticfiles_templates.png" alt="django Static Files and Templates" height="350">    
 </p>
 
-   b) Sobre `setting.py` del directorio `propyecto_final` agregamos la direccion de `DIRS` apuntando al directorio `templates` que creamos previamente.
+   b) Sobre `setting.py` del directorio `proyecto_final` agregamos la direccion de `DIRS` apuntando al directorio `templates` que creamos previamente.
 ```python
 TEMPLATES = [
     {
@@ -291,7 +293,7 @@ TEMPLATES = [
     },
 ]
 ```
-   c) Sobre `setting.py` del directorio `propyecto_final` agregamos las rutas requeridos para los directorios que contendran los archivos statics del proyecto ( imagenes, css, javascript, etc)
+   c) Sobre `setting.py` del directorio `proyecto_final` agregamos las rutas requeridos para los directorios que contendran los archivos statics del proyecto ( imagenes, css, javascript, etc)
 ```python
 STATICFILES_DIRS = [
     # BASE_DIR  /"statics"
@@ -307,14 +309,58 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/media_cdn/")
 
 <!-- </details>
 <details><summary> -->
-6) creando views
-<!-- </summary>    -->
+1) creando views
 
+Una View es un lugar donde ponemos la "lógica" de nuestra aplicación. Pedirá información del modelo que has creado antes y se la pasará a la plantilla . Crearemos una plantilla en el próximo capítulo.
+[ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Generic_views)
+<!-- </summary>    -->
+   a) Sobre `setting.py` del directorio `proyecto_final` agregamos
 ```python
 from django.shortcuts import render
 from .models import Post, Category, Author
+
+def homepage(request):
+    categories = Category.objects.all()[0:3]
+    featured = Post.objects.filter(featured=True)
+    latest = Post.objects.order_by('-timestamp')[0:3]
+    context= {
+        'object_list': featured,
+        'latest': latest,
+        'categories':categories,
+    }
+    return render(request, 'homepage.html', context)
+```
+a) Sobre `urls.py` del directorio `proyecto_final` agregamos el importa al view que creamos y la url correspondiente, 
+```python
+from django.contrib import admin
+from django.urls import path
+from django.conf import settings
+from blog.views import homepage
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path('', homepage, name = 'homepage'),
+]
 ```
 
+b) Sobre `templates`  agregamos un template para realizar la prueba del avance el cual llamaremos `base.html` 
+
+
+```html
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="<https://cdn.tailwindcss.com>"></script>
+</head>
+<body>
+  <h1 class="text-3xl font-bold underline">
+    Hola coderHouse Python Django ...
+  </h1>
+</body>
+</html>
+```
 
 > Nota : 
 
