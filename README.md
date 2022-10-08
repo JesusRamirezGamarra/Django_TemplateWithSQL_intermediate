@@ -471,16 +471,173 @@ python manage.py runserver
       <!-- <img src='{% static "img/dummy.png" %}'/> -->
   </body>
 ```
-   c) Procedemos a crear los archivos `navbar.html` y `footer.html` en el directorio `templates` por lo pronto no agregamos contenido alguno sobre estos html sin embargo comenzaremos a agregar contenido en ambos archivos y al estar incluidos en `base.html` y todas nuestras paginas a su vez solo se extends de esta pagina procederan a incoporarse en todas 
+   c) re Configurando urls.py
+   Modificamos las urls para agregarlas donde sobre el proyecto dela aplicacion `blog` donde corresponden para este fin :
+   - sobre `url.py` del directorio `proyecto_final`  realmizamos los siguientes cambios :
+```python
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
 
-   
+# from blog.views import homepage
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    #path('', homepage, name = 'homepage'),
+    path("blog/",include("blog.urls")),
+    path("",include("blog.urls"))
+]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+```
+   - creamos `url.py` sobre el directorio `blog`  realmizamos los siguientes cambios :
+```python
+from django.urls import path
+from django.conf import settings
+
+from blog.views import homepage
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path("",homepage, name = 'homepage'),
+]
+
+```
+
+   d) Procedemos a crear los archivos `navbar.html` y `footer.html` en el directorio `templates` por lo pronto no agregamos contenido alguno sobre estos html sin embargo comenzaremos a agregar contenido en ambos archivos y al estar incluidos en `base.html` y todas nuestras paginas a su vez solo se extends de esta pagina procederan a incoporarse en todas 
+
+
 
 9) Creando el navbar
     
  La barra de navegación es un elemento de la interfaz del usuario dentro de una página web que contiene enlaces a otras secciones del sitio web.
 
-   a) Procedemos 
+   a) Procedemos crear el navbar tomando como referencia el estilo de tailwind [ver mas](https://tailwindcomponents.com/component/responsive-tailwind-css-navbar)
 
+sobre el archivo `navbar.html` del directorio `templates` agregamos. incluimos `{% load static %}` para poder referenciar a contenido estatico en este caso el logo.
+```html
+{% load static %}
+<header>
+<div x-data="{ open: false }" class="relative inline-block text-left">
+    <div>
+      <button @click="open = ! open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+        Categories
+        <!-- drop-down -->
+        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+    </div>
+  
+    <div
+      x-show="open"
+      x-transition:enter="transition ease-out duration-100"
+      x-transition:enter-start="transform opacity-0 scale-95"
+      x-transition:enter-end="transform opacity-100 scale-100"
+      x-transition:leave="transition ease-in duration-75"
+      x-transition:leave-start="transform opacity-100 scale-100"
+      x-transition:leave-end="transform opacity-0 scale-95"
+      class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="py-1" role="none">
+<!-- Pendiente Agregar post listados  -->        
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- searchbar -->
+</header>
+```
+Agregamos un logo y una opcion de menu : HOME , 
+```html
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <!-- <svg .... LOGO> -->
+            <a href="{% url 'homepage' %}" class="ml-3 text-xl">My blog</a>
+        </a>
+        <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+            <a href="{% url 'homepage' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center">Home</a>       
+        <!-- Pendiente Agregar mas paginas para el menu  -->                   
+```
+
+```
+
+```
+
+   b) Agregamos un search tomando como base el estilo de tailwind [ver mas](https://tailwindcomponents.com/component/search-bar)
+
+Agregamos un search bar para realizar busquedas de post .
+```html
+<form action ="{% url 'search' %}" class ="search-form"> 
+    <div class="pt-2 relative mx-auto text-gray-600">
+        <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        type="text" name="q" placeholder="Search">
+        <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
+        <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+            viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+            width="512px" height="512px">
+            <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+        </svg>
+        </button>
+    </div>
+</form>  
+```
+Sobre el archivo `views.py` sobre el directorio `blog` agregamos una nueva funcion para implementar la busqueda de post . para este fin procedemos a import Q que nos ayudara a realizar querys complejos de forma sencilla. [ver mas](https://books.agiliq.com/projects/django-orm-cookbook/en/latest/query_relatedtool.html)
+```python
+from django.db.models import Q
+def search(request):
+    queryset = Post.objects.all()
+    query = request.GET.get('q')
+    if query:
+        queryset = queryset.filter(
+            Q(title__icontains=query) |
+            Q(overview__icontains=query)
+        ).distinct()
+    context = {
+        'queryset': queryset
+    }
+    return render(request, 'search_bar.html', context)
+
+```
+Agregamos un nuevo path para poder invocar al search desde el form que agregamos sobre `urls.py` del directorio `blog`
+
+```python
+    path('search/', search, name = 'search'),
+```
+
+Finalmente creamos una nueva pagina llamada : `search_bar.html` , utilizaremos esta pagina para mostrar el resultado de los post encontrados, y procedemos a extends `base.html` para aprovechar el header y footer que iremos perfeccionando.
+
+```python
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="blog text-gray-700 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900"> 
+            Search Results
+            </h1>        
+        </div>
+
+
+
+    </div>
+</section>      
+{% endblock %}
+```
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/Search_post.png" alt="django search post in header" height="200">    
+</p>
+   
 > Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
@@ -509,7 +666,7 @@ python manage.py runserver
 
 * Many-to-many relationships :  https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_many/
 * FreeHosting for django : https://www.pythonanywhere.com/
-
+* Convert .pnt to .svg : https://www.adobe.com/express/feature/image/convert/png-to-svg
 
 https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
 

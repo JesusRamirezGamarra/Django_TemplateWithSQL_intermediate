@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Post, Category, Author
-
+from django.db.models import Q
 # Create your views here.
 
 def homepage(request):
@@ -13,3 +13,16 @@ def homepage(request):
         'categories':categories,
     }
     return render(request, 'homepage.html', context)
+
+def search(request):
+    queryset = Post.objects.all()
+    query = request.GET.get('q')
+    if query:
+        queryset = queryset.filter(
+            Q(title__icontains=query) |
+            Q(overview__icontains=query)
+        ).distinct()
+    context = {
+        'queryset': queryset
+    }
+    return render(request, 'search_bar.html', context)
