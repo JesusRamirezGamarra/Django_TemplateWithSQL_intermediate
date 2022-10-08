@@ -175,6 +175,13 @@ python manage.py migrate
 ```
    b) Creacion de `Models.py` (modelo) para la Base de datos
 Dentro del archivo `models.py` del directorio `blog`, importaremos de  `get_user_model` que es una función auxiliar de Django que obtiene el modelo de Usuario para el proyecto. [ver mas](https://docs.djangoproject.com/en/4.1/topics/auth/customizing/)
+
+Todoel modelo lo creamos en bae a nuestra definicion [ver mas](https://lucid.app/lucidchart/93ae16ca-54d5-4ec0-9ffe-033ef12cd800/edit?viewport_loc=72%2C154%2C1463%2C655%2C0_0&invitationId=inv_d94e917e-f10e-4379-9710-3e60c3786974#)
+
+<p align="center">    
+    <img src="./public/img/EntidadRelacion.png" alt="Modelo entidad relacion" height="350">    
+</p>
+
 ```python
 User = get_user_model()
 
