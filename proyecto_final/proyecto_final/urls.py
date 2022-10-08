@@ -24,7 +24,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     #path('', homepage, name = 'homepage'),
     path("blog/",include("blog.urls")),
-    path("",include("blog.urls"))
+    path("",include("blog.urls")),
+    path("search/",include("blog.urls")),
+    path("posts/",include("blog.urls")),
+    
 ]
 
 

@@ -25,4 +25,13 @@ def search(request):
     context = {
         'queryset': queryset
     }
+    print(context)
     return render(request, 'search_bar.html', context)
+
+def allposts(request):
+    posts = Post.objects.order_by('-timestamp')
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'all_posts.html', context)
+

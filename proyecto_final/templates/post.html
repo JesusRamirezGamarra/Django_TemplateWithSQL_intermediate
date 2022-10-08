@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load markdown_extras %} 
+
+{% block content %}
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal"> 
+    holaaa
+    <!--Container-->
+	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+        <!--Title-->
+        <div class="font-sans">
+            <h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
+            {{ post.title }}</h1>
+            <p class="text-sm md:text-base font-normal text-gray-600">
+            {{ obj.timestamp}}</p>
+            <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+        </div>
+
+        <div class="py-6">
+            {{ post.content | markdown | safe }} 
+
+        </div>
+    </div>
+</body> 
+
+{% endblock content %}

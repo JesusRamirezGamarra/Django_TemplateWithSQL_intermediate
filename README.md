@@ -511,7 +511,8 @@ urlpatterns = [
    d) Procedemos a crear los archivos `navbar.html` y `footer.html` en el directorio `templates` por lo pronto no agregamos contenido alguno sobre estos html sin embargo comenzaremos a agregar contenido en ambos archivos y al estar incluidos en `base.html` y todas nuestras paginas a su vez solo se extends de esta pagina procederan a incoporarse en todas 
 
 
-
+<!-- </details>
+<details><summary> -->
 9) Creando el navbar
     
  La barra de navegación es un elemento de la interfaz del usuario dentro de una página web que contiene enlaces a otras secciones del sitio web.
@@ -638,6 +639,115 @@ python manage.py runserver
     <img src="./public/img/Search_post.png" alt="django search post in header" height="200">    
 </p>
    
+
+
+<!-- </details>
+<details><summary> -->
+10) Configurando Administrador del BLOG
+    
+[ver mas](https://docs.djangoproject.com/en/4.1/ref/contrib/admin/)
+
+   a) configurar `admin.py` del directorio `blog` , procedemos a agregar :
+
+```python
+from django.contrib import admin
+from .models import Author, Category, Post
+
+admin.site.register(Author)
+admin.site.register(Category)
+admin.site.register(Post)
+```
+<p align="center">    
+    <img src="./public/img/Admin_Blog.png" alt="django admin blog" height="200">    
+</p>
+
+   b) Instalamos markdown :  nos ayuda a formatear el texto para darle un estilo similar a sitios como notion.so . Esto será extremadamente útil para los autores/administradores que coloquen contenido en la página de administración y lo muestren en la interfaz de cómo lo han escrito en lugar de tener que usar html en el backend.
+
+[ver mas](https://learndjango.com/tutorials/django-markdown-tutorial)
+
+```bash
+pip install markdown
+```
+Creamos el directorio : `templatetags` sobre el directorio `blog` y procedemos a crear el archivo `markdown_extras.py`
+
+```python
+from django import template
+from django.template.defaultfilters import stringfilter
+import markdown as md
+
+register = template.Library()
+
+@register.filter()
+@stringfilter
+
+
+def markdown(value):
+    return md.markdown(value, extensions=['markdown.extensions.fenced_code'])
+```
+Creamos un nuevo template llamado `post.html` sobre el diretorio `templates` con la estructura :
+```python
+{% extends 'base.html' %}
+{% load markdown_extras %} #<----here
+
+{% block content %}
+
+<div class="py-6">
+    {{ post.content | markdown | safe }} #<----here
+</div>
+
+{% endblock content %}
+```
+
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/Search_post.png" alt="django search post in header" height="200">    
+</p>
+   
+<!-- </details>
+<details><summary> -->
+10) Utilizando markdown_extras para primer Litado de Categorias
+
+   a) sobre el archivo `markdown_extras.py` del directorio `templatetags` del proyecto `blog` vamos a agregar una funciona que nos retorne el lista de categorias [ver mas](https://docs.djangoproject.com/en/4.1/howto/custom-template-tags/)
+
+```python
+from blog.models import Category
+@register.simple_tag
+def get_categories():
+    return Category.objects.all()[0:4]
+```
+
+   b) sobre el archivo `navbar.html` del directorio `templates` agregamos. incluimos las referencias al markdown_extras para poder invocar a la funcion `get_categories()` y de esta forma acceder al contenido existente en la Base de datos.
+
+```python
+{% load markdown_extras %}
+{% get_categories as category_list %}
+```
+Procemos a agregar un Html en un bucle for para poder mostrar un listado en el dropbown de categorias y agregamos item adicional para hacer referencia al `see all post` para mostrar todos los post sin filtrar por categoria.
+
+```html
+{% for category in category_list %}
+    <a href="" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-gray-200 " role="menuitem" tabindex="-1" id="menu-item-0">
+    {{ category.title }}
+    </a>
+{% endfor %}
+    <a href="" type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm rounded-lg hover:bg-gray-200" role="menuitem" tabindex="-1" id="menu-item-3">
+    See all post</a> 
+```
+
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/DrownList-Categories.png" alt="django DrownList Categories" height="200">    
+</p>
+
+
+
+
 > Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
