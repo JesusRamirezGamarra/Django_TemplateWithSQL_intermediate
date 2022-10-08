@@ -9,6 +9,7 @@
 </p>
 
 # CH - Django with SQL - Intermediate Python
+[Url del Proyecto](https://jesusramirez.pythonanywhere.com/)
 
 >Objetivos Generales:
 Desarrollar una WEB Django con patrón MVT subida a Github.
@@ -392,6 +393,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 ```
+
+   b) Configurcion de Template previa a usar extends e include
 !importante :  vamos a utilizar JS alpino [ver mas](https://alpinejs.dev/start-here) como libreria alternativa a jquery [ver mas](https://jquery.com/) para poder trabajar la parte dinamica.
 
 ```python
@@ -445,6 +448,38 @@ python manage.py runserver
     <img src="./public/img/HomePage_withStaticFile.png" alt="django Static Files and Templates" height="350">    
 </p>
    
+<!-- </details>
+<details><summary> -->
+8) extends e Include
+[ver mas](https://docs.djangoproject.com/en/4.1/ref/templates/language/)
+
+   a) extends : Significa que puedes reutilizar partes del HTML para diferentes páginas del sitio web. Las plantillas son útiles cuando quieres utilizar la misma información o el mismo diseño en más de un lugar. para `homepage.html` agregamos al incio del archivo : 
+
+```html
+{% extends 'base.html' %}
+
+{% block content %}
+```
+   b) include : elimina todo el fragmento de la URL que ya ha coincidido hasta ese momento y envía la cadena restante a la URLconf incluida para su procesamiento subsecuente. sobre base.html realizamos el cambio :
+
+```html
+  <body>
+    {% include "navbar.html" %}
+    {% block content %}
+    {% endblock content %}
+    {% include "footer.html" %}
+      <!-- <img src='{% static "img/dummy.png" %}'/> -->
+  </body>
+```
+   c) Procedemos a crear los archivos `navbar.html` y `footer.html` en el directorio `templates` por lo pronto no agregamos contenido alguno sobre estos html sin embargo comenzaremos a agregar contenido en ambos archivos y al estar incluidos en `base.html` y todas nuestras paginas a su vez solo se extends de esta pagina procederan a incoporarse en todas 
+
+   
+
+9) Creando el navbar
+    
+ La barra de navegación es un elemento de la interfaz del usuario dentro de una página web que contiene enlaces a otras secciones del sitio web.
+
+   a) Procedemos 
 
 > Nota : 
 
@@ -473,6 +508,7 @@ python manage.py runserver
     - [x] c (ontinue): Continue execution, only stop when a breakpoint is encountered
 
 * Many-to-many relationships :  https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_many/
+* FreeHosting for django : https://www.pythonanywhere.com/
 
 
 https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
