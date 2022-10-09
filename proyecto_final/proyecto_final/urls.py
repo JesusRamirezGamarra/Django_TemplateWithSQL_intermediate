@@ -28,6 +28,9 @@ urlpatterns = [
     path("search/",include("blog.urls")),
     path("posts/",include("blog.urls")),
     path("post/<slug>/",include("blog.urls")),
+    path('postlist/<slug>/',include("blog.urls")),
+    path('dona/',include("blog.urls")),
+    path("send_donation/",include("blog.urls")),
 
     
 ]

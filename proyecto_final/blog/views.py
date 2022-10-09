@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from .models import Post, Category, Author
+from .models import Post, Category, Author,Donation,Collaboration,Job
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from datetime import date
 # Create your views here.
 
 def homepage(request):
@@ -44,24 +46,79 @@ def post(request,slug):
     }
     return render(request, 'post.html', context)
 
+def postlist (request,slug):
+    context = {
+        'posts': '',
+        'category': '',
+    }
+    return render(request, 'post_list.html', context)
+
+def dona(request):
+    context = {
+        'posts': '',
+        'category': '',
+    }
+    return render(request, 'dona.html', context)
 
 
-# def category_post_list (request, slug):
-#     category = Category.objects.get(slug = slug)
-#     posts = Post.objects.filter(categories__in=[category])
-#     context = {
-#         'posts': posts,
-#     }
-#     return render(request, 'post_list.html', context)
+@csrf_exempt
+def send_donation(request):
+
+    print(request.POST)
+    if request.method == "POST":
+        firtsname = request.POST["floating_first_name"]
+        lastname = request.POST["floating_last_name"]
+        telephone = request.POST["floating_phone"]
+        company = request.POST["floating_company"]
+        email = request.POST["floating_email"]
+        dateofbirht = request.POST["floating_date"]
+        jobrol = request.POST["floating_job"]   
+        payment = request.POST["floating_range"]        
+        
+        print("firtsname", firtsname)
+        print("lastname", lastname)
+        print("telephone", telephone)
+        print("company", company)
+        print("email", email)
+        print("dateofbirht", dateofbirht)
+        print("jobrol", jobrol)
+        print("payment", payment)
+
+        # donation = Donation.objects.filter(email=f"{email}")
+        # if len(donation) == 0:
+        #     donation = Donation(
+        #         firtsname=firtsname,
+        #         lastname=lastname,
+        #         telephone=telephone,
+        #         company=company,
+        #         email=email,
+        #         dateofbirht=dateofbirht,
+        #         createdate=date.today(),
+        #     )
+        #     donation.save()
+        # else:
+        #     donation = donation.first()
+
+        # collaboration = Collaboration(
+        #     payment=payment,jobrol=jobrol , createdate=date.today(), donation=donation
+        # )
+        # collaboration.save()
 
 
-# def postlist (request,slug):
-#     category = Category.objects.get(slug = slug)
-#     posts = Post.objects.filter(categories__in=[category])
+        # # # # # # # # donation = Donation.objects.all().order_by("-id")
+        # # # # # # # # collaboration = Collaboration.objects.all()
+        # # # # # # # # job = Job.objects.all()
 
-#     context = {
-#         'posts': posts,
-#         'category': category,
-#     }
-#     return render(request, 'post_list.html', context)
+        # print(collaboration)
 
+    # # #     diccionario = {"donation": donation, "collaboration": collaboration, "job": job}
+    # # #     template = loader.get_template("gracias.html")
+
+    # # # res = template.render(diccionario)
+    # # # return HttpResponse(res)
+
+    context = {
+        'posts': '',
+        'category': '',
+    }
+    return render(request, 'thanks.html', context)

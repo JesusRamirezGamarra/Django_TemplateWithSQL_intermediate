@@ -7,10 +7,15 @@
   <link rel="icon" href="{% static 'icon/favicon.ico' %}" />
   <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          extend: {
+          colors: {
+            clifford: '#da373d',
+          },
           animation: {
             type: 'type 2.7s ease-out .8s infinite alternate both',
           },
@@ -32,6 +37,7 @@
         }
       }
     }
+  }
   </script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>

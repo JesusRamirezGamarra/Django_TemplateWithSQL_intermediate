@@ -1099,13 +1099,137 @@ footer p {
     margin-right: auto !important;   
 }
 ```
-Ejecutar el servidor y confirmamosque podamos ver el pagina de incio con el footer incorporado
+Ejecutar el servidor y confirmamos que podamos ver el pagina de incio con el footer incorporado
 ```bash
 python manage.py runserver
 ```
 <p align="center">    
     <img src="./public/img/footer.png" alt="django footer" height="70">    
 </p>
+
+<!-- </details>
+<details><summary> -->
+13) utilizando Administrador : Donation_Goal, JobGroup, Job
+
+Importante es abordar la importancia del uso de la funcion `__str__` sobre la cual se puede establer consultas complejas para visualizarse en el admninistrador por default [ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Admin_site)
+```python
+    def __str__(self):
+        job = Job.objects.filter(jobgroup=f"{self.id}")
+        return "[    %s  Jobs ]: %s" % (len(job),self.jobgroup)
+```
+
+
+   a)  Creamos sobre `models.py` del directorio `blog`
+```python    
+class Donation_Goal(models.Model):
+    """Objetivo monto total de la donacion con parametros de vigencia"""
+    goal = models.IntegerField() 
+    description = models.CharField(max_length=500)
+    startdate = models.DateField()
+    enddate = models.DateField()
+    active = models.BooleanField()
+    createdate = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return "%s [    Inicio: %s  - Fin:  %s  ]" % (self.description, self.startdate , self.enddate)
+    
+    
+class Donation(models.Model):
+    """Info : del Donante"""
+    firtsname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    telephone = models.CharField(max_length=15)
+    company = models.CharField(max_length=50)
+    email = models.EmailField()
+    dateofbirht = models.DateField()
+    jobrol = models.CharField(max_length=40)
+    
+    createdate = models.DateTimeField(auto_now_add=True)
+    donation = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.email)
+
+class JobGroup(models.Model):
+    """Monto : JobGroup para Jobs listado  """    
+    jobgroup = models.CharField(max_length=40)
+    createdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        # breakpoint()
+        # job = Job.objects.filter(jobgroup=f"{self.jobgroup}")
+        job = Job.objects.filter(jobgroup=f"{self.id}")
+        return "[    %s  Jobs ]: %s" % (len(job),self.jobgroup)
+        #return self.jobgroup    
+    
+class Job(models.Model):
+    """Monto : Jobs listado  """    
+    jobrol = models.CharField(max_length=40)
+    createdate = models.DateTimeField(auto_now_add=True)
+    jobgroup = models.ForeignKey(JobGroup, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return "[    %s  ]: %s" % (self.jobgroup.jobgroup,self.jobrol)    
+        #return self.jobrol
+        
+class Collaboration(models.Model):
+    """Monto : donado """    
+    donation = models.IntegerField()
+    # jobrol = models.CharField(max_length=40)
+    createdate = models.DateTimeField(auto_now_add=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    donation = models.ForeignKey(Donation, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s" % (self.payment, self.createdate)  
+    
+```
+   b)  Creamos sobre `admin.py` del directorio `blog`
+
+```python
+from .models import Author, Category, Post,Donation_Goal,JobGroup,Job
+admin.site.register(Donation_Goal)
+admin.site.register(JobGroup)
+admin.site.register(Job)
+```
+
+realizamos la migracion del modelo creado para actualizar la base de datos.
+
+```bash
+python manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
+```
+
+Ejecutar el servidor y confirmamos que podamos ver el pagina de incio con el footer incorporado
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/Admin_jobPost.png" alt="django footer" height="250">    
+</p>
+
+
+
+<!-- </details>
+<details><summary> -->
+14) Formulario : Dona ( donaciones )
+    
+Permite registra una donacion que corresponde a una Meta registrada desde el administrador.
+
+
+<!-- </details>
+<details><summary> -->
+15)  Formulario : Contact ( contactanos )
+
+Permite ingresar consultas y/o sugerencias de parte de cualquier usuarios del blog.
+
+<!-- </details>
+<details><summary> -->
+16)  Formulario : Embrace ( adopta )
+
+Permite inscribirte en el proceso de adopcion de un PetAmigo (mascota)
+
 
 
 > Nota : 
@@ -1137,6 +1261,7 @@ python manage.py runserver
 * Many-to-many relationships :  https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_many/
 * FreeHosting for django : https://www.pythonanywhere.com/
 * Convert .pnt to .svg : https://www.adobe.com/express/feature/image/convert/png-to-svg
+* python manage.py shell : ejecutar comandos python sobre la base de datos
 
 https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
 

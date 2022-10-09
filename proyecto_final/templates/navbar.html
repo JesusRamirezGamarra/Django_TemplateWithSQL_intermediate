@@ -461,7 +461,9 @@
             <a href="{% url 'homepage' %}" class="ml-3 text-xl">My blog - CODERHOUSE</a>
         </a>
         <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-            <a href="{% url 'homepage' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center">Home</a>
+            <a href="{% url 'homepage' %}" class="mr-5 hover:text-gray-900 rounded-lg 
+            hover:bg-sky-100 inline-flex items-center">Home</a>
+            <a href="{% url 'dona' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center">Dona</a>            
 <!-- Pendiente Agregar mas paginas para el menu  -->                
 
             <div x-data="{ open: false }" class="relative inline-block text-left">
@@ -486,8 +488,7 @@
                     <div class="py-1" role="none">
 <!-- Pendiente Agregar post listados  -->
                         {% for category in category_list %}
-
-                            <a href="{% url 'postlist' %" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-gray-200 " role="menuitem" tabindex="-1" id="menu-item-0">
+                            <a href="{% url 'postlist' category.slug %}" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-pink-200 " role="menuitem" tabindex="-1" id="menu-item-0">
                             {{ category.title }}
                             </a>
                         {% endfor %}
