@@ -61,37 +61,44 @@ class Donation_Goal(models.Model):
     createdate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "%s [    Inicio: %s  - Fin:  %s  ]" % (
-            self.description,
+        activo =  "Activo" if self.active else "Inactivo"
+        return "%s : [    Inicio: %s  - Fin:  %s  ] %s " % (
+            activo,
             self.startdate,
             self.enddate,
+            self.description,
         )
 
 
 class JobGroup(models.Model):
     """Monto : JobGroup para Jobs listado  """
 
-    jobgroup = models.CharField(max_length=40)
+    name = models.CharField(max_length=40)
     createdate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        # breakpoint()
-        # job = Job.objects.filter(jobgroup=f"{self.jobgroup}")
         job = Job.objects.filter(jobgroup=f"{self.id}")
-        return "[    %s  Jobs ]: %s" % (len(job), self.jobgroup)
+        return "[    %s  Jobs ]: %s" % (
+            len(job), 
+            self.name
+        )
         # return self.jobgroup
 
 
 class Job(models.Model):
     """Monto : Jobs listado  """
 
-    jobrol = models.CharField(max_length=40)
+    name = models.CharField(max_length=40)
     createdate = models.DateTimeField(auto_now_add=True)
     jobgroup = models.ForeignKey(JobGroup, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "[    %s  ]: %s" % (self.jobgroup.jobgroup, self.jobrol)
-        # return self.jobrol
+        return "[   ID-%s  ]-[    %s  ]: %s" % (
+            self.id,
+            self.jobgroup.name, 
+            self.name
+        )
+        # return self.job
 
 class Donation(models.Model):
     """Info : del Donante"""
@@ -102,23 +109,27 @@ class Donation(models.Model):
     company = models.CharField(max_length=50)
     email = models.EmailField()
     dateofbirht = models.DateField()
-    # jobrol = models.CharField(max_length=40)
+    # job = models.CharField(max_length=40)
 
     createdate = models.DateTimeField(auto_now_add=True)
-    jobrol = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
     donation_Goal = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.name, self.email)
+        return "%s %s  : [ %s ]" % (
+            self.firtsname,
+            self.firtsname, 
+            self.email
+        )
     
 class Collaboration(models.Model):
     """Monto : donado """
 
-    donation = models.IntegerField()
-    # jobrol = models.CharField(max_length=40)
+    amount  = models.IntegerField()
+    # job = models.CharField(max_length=40)
     createdate = models.DateTimeField(auto_now_add=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     donation = models.ForeignKey(Donation, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.payment, self.createdate)
+        return "%s %s" % (self.amount, self.createdate)

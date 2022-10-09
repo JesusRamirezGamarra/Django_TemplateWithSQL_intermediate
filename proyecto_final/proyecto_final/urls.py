@@ -24,13 +24,13 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("blog.urls")),
 
-    path("homepage", include("blog.urls")),
-    path("search/", include("blog.urls")),
-    path("posts/", include("blog.urls")),
-    path("post/<slug>/", include("blog.urls")),
-    path("postlist/<slug>/", include("blog.urls")),
-    path("dona/", include("blog.urls",namespace=None)),
-    path("blog/", include("blog.urls")),
+    # path("homepage", include("blog.urls")),
+    # path("search/", include("blog.urls")),
+    # path("posts/", include("blog.urls")),
+    # path("post/<slug>/", include("blog.urls")),
+    # path("postlist/<slug>/", include("blog.urls")),
+    # path("dona/", include("blog.urls",namespace=None)),
+    # path("blog/", include("blog.urls")),
 
 ]
 

@@ -3,6 +3,7 @@ from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_G
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
+from django.db.models import Sum,Count
 # Create your views here.
 
 def homepage(request):
@@ -65,8 +66,6 @@ def dona(request):
         }
         return render(request, 'dona.html', context)
     
-
-    
     if(request.method == 'POST'):
         firtsname = request.POST["floating_first_name"]
         lastname = request.POST["floating_last_name"]
@@ -74,8 +73,8 @@ def dona(request):
         company = request.POST["floating_company"]
         email = request.POST["floating_email"]
         dateofbirht = request.POST["floating_date"]
-        jobrol = request.POST["floating_job"]   
-        payment = request.POST["floating_range"]        
+        job_id = request.POST["floating_job"]   
+        amount  = request.POST["floating_range"]        
         
         print("firtsname", firtsname)
         print("lastname", lastname)
@@ -83,59 +82,58 @@ def dona(request):
         print("company", company)
         print("email", email)
         print("dateofbirht", dateofbirht)
-        print("jobrol", jobrol)
-        print("payment", payment)
-        breakpoint()
+        print("jobrol_id", job_id)
+        print("payment", amount )
+
         
-        jobrol = Job.objects.filter(jobrol=f"{jobrol}").first()
+        job = Job.objects.filter(id=f"{job_id}").first()
         donation_Goal = Donation_Goal.objects.filter(active=f"{1}").first()
+        donation = Donation.objects.filter(email=f"{email}")
 
         if len(donation) == 0:
-            print("payment", payment)
+            print("payment", donation)
             
-            # donation = Donation(
-            #     firtsname=firtsname,
-            #     lastname=lastname,
-            #     telephone=telephone,
-            #     company=company,
-            #     email=email,
-            #     dateofbirht=dateofbirht,
-            #     createdate=date.today(),
-            #     jobrol = jobrol,
-            #     donation = 
-            # )
-            # donation.save()
+            donation = Donation(
+                firtsname=firtsname,
+                lastname=lastname,
+                telephone=telephone,
+                company=company,
+                email=email,
+                dateofbirht=dateofbirht,
+                createdate=date.today(),
+                job = job,
+                donation_Goal =  donation_Goal
+            )
+            donation.save()
         else:
             donation = donation.first()
 
-        # collaboration = Collaboration(
-        #     payment=payment,jobrol=jobrol , createdate=date.today(), donation=donation
-        # )
-        # collaboration.save()
+        collaboration = Collaboration(
+            amount =amount ,
+            createdate=date.today(), 
+            job=job , 
+            donation=donation
+        )
+        collaboration.save()
 
 
-        # # # # # # # # donation = Donation.objects.all().order_by("-id")
-        # # # # # # # # collaboration = Collaboration.objects.all()
-        # # # # # # # # job = Job.objects.all()
-
-        # print(collaboration)
-
-    # # #     diccionario = {"donation": donation, "collaboration": collaboration, "job": job}
-    # # #     template = loader.get_template("gracias.html")
-
-    # # # res = template.render(diccionario)
-    # # # return HttpResponse(res)
-
-    context = {
-        'posts': '',
-        'category': '',
-    }
-    return render(request, 'thanks.html', context)
-
-
-# def dona(request):
-#     context = {
-#         'posts': '',
-#         'category': '',
-#     }
-#     return render(request, 'dona.html', context)
+        donationAll = Donation.objects.all().order_by("-id")
+        collaboration = Collaboration.objects.all()
+        job = Job.objects.all()
+        result_net = Collaboration.objects.aggregate(total_amount=Sum('amount'))
+        result = Collaboration.objects.values('donation').annotate(total_amount=Sum('amount'))
+        print(result_net)
+        print(result)
+        
+        # breakpoint()
+        context = {"donation": donationAll, 
+                    "collaboration": collaboration, 
+                    "job": job,
+                    "donation_Goal":donation_Goal,
+                    "donationLast": donation,
+                    "amount": amount,
+                    "result_net":result_net,
+                    "result":result,
+                    'need_to_donate': donation_Goal.goal - result_net['total_amount']
+                    }
+        return render(request, 'thanks.html', context)

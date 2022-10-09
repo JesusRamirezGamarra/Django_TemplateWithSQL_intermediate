@@ -1,0 +1,24 @@
+.containerBody{
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    /* width: 100%; */
+}
+
+.jumbotron{
+    background-color: darkslateblue;
+    min-width : 400px;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+}
+
+.jumboGoal{
+    background-color: black;
+    min-width : 400px;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+}

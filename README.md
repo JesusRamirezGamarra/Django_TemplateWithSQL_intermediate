@@ -1161,7 +1161,7 @@ class Job(models.Model):
     jobgroup = models.ForeignKey(JobGroup, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "[    %s  ]: %s" % (self.jobgroup.jobgroup, self.jobrol)
+        return "[   ID-%s  ]-[    %s  ]: %s" % (self.id,self.jobgroup.jobgroup, self.jobrol)
         # return self.jobrol
 
 class Donation(models.Model):
@@ -1227,7 +1227,338 @@ python manage.py runserver
 <details><summary> -->
 14) Formulario : Dona ( donaciones )
     
-Permite registra una donacion que corresponde a una Meta registrada desde el administrador.
+Permite registra una donacion que corresponde a una Meta registrada desde el administrador. 
+
+Para este fin realizamos muchas adecuaciones y algunas correciones sobre el modelo, aunque pense en actualizar todo hacia atras para que quede impecable considere que es mejor agregarlos directamente para que se note la secuencia de pasos e incluso algunos tips que son buenos que queden hasta que encuentre una mejor forma de hacer cambios.
+
+   a)  Modificar `urls.py` del proyecto `proyecto_final` . En este caso es mas una correccion por error comenzamos a agregar las paginas que afectaban el root final porque quisimos tener url como modulos pero no es necesario tal division inicial cuando podriamos tener a lo sumo 1 debajo de `blog` por lo pronto se opto dejar todo sobre el root.
+
+```python
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("blog.urls")),
+
+```
+
+   b)  Modificar `models.py` del proyecto `blog` para tener una estructura mas adecuada a fin a las entidades que de alguna forma se ven afectadas en el proceso del formulario de donacion, los cambios de forma , nomenclatura y tambien de FK se puede visualizar.
+
+```python
+class Donation_Goal(models.Model):
+    """Objetivo monto total de la donacion con parametros de vigencia"""
+
+    class Meta:
+        verbose_name_plural = "Donations Goal"
+
+    goal = models.IntegerField()
+    description = models.CharField(max_length=500)
+    startdate = models.DateField()
+    enddate = models.DateField()
+    active = models.BooleanField()
+    createdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        activo =  "Activo" if self.active else "Inactivo"
+        return "%s : [    Inicio: %s  - Fin:  %s  ] %s " % (
+            activo,
+            self.startdate,
+            self.enddate,
+            self.description,
+        )
+
+
+class JobGroup(models.Model):
+    """Monto : JobGroup para Jobs listado  """
+
+    name = models.CharField(max_length=40)
+    createdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        job = Job.objects.filter(jobgroup=f"{self.id}")
+        return "[    %s  Jobs ]: %s" % (
+            len(job), 
+            self.name
+        )
+        # return self.jobgroup
+
+
+class Job(models.Model):
+    """Monto : Jobs listado  """
+
+    name = models.CharField(max_length=40)
+    createdate = models.DateTimeField(auto_now_add=True)
+    jobgroup = models.ForeignKey(JobGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "[   ID-%s  ]-[    %s  ]: %s" % (
+            self.id,
+            self.jobgroup.name, 
+            self.name
+        )
+        # return self.job
+
+class Donation(models.Model):
+    """Info : del Donante"""
+
+    firtsname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    telephone = models.CharField(max_length=15)
+    company = models.CharField(max_length=50)
+    email = models.EmailField()
+    dateofbirht = models.DateField()
+    # job = models.CharField(max_length=40)
+
+    createdate = models.DateTimeField(auto_now_add=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    donation_Goal = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s  : [ %s ]" % (
+            self.firtsname,
+            self.firtsname, 
+            self.email
+        )
+    
+class Collaboration(models.Model):
+    """Monto : donado """
+
+    amount  = models.IntegerField()
+    # job = models.CharField(max_length=40)
+    createdate = models.DateTimeField(auto_now_add=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    donation = models.ForeignKey(Donation, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s" % (self.amount, self.createdate)
+
+```
+   c)  Agregar sobre `admin.py` del proyecto `blog` la administracion automatica de Django para estas clases de `models.py`
+
+```python
+from .models import Author, Category, Post, Donation_Goal, JobGroup, Job
+
+admin.site.register(Donation_Goal)
+admin.site.register(JobGroup)
+admin.site.register(Job)
+
+```
+   c)  Agregar `dona.html` sobre `templates` el cual permitira enviar informacion via method `POST` para grabar sobre base de datos lo recolectado en el formulario.
+
+```html
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'css/dona.css' %}" rel="stylesheet" type="text/css"/>
+<script src="{% static 'js/donar.js' %}"></script>
+<div class="bg-gray-100 font-sans leading-normal tracking-normal pb-20"> 
+    <!--Container-->
+	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+        <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+    
+            <form action='/dona/' method='POST' accept-charset="utf-8">{% csrf_token %}
+                <fieldset>
+                    <legend class="pb-8"><span class="number">1</span>Basic Info</legend>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                            <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                        </div>
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                            <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="tel" pattern="[+/]{1}[0-9]{2}-[0-9]{3}-[0-9]{3}-[0-9]{3}" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                            <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (e.g: +51-123-456-789)</label>
+                        </div>
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="text" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                            <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend class="pb-8"><span class="number">2</span>Complementary Info</legend>
+                    <div class="relative z-0 mb-6 w-full group">
+                        <input type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                        <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
+                    </div> 
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="date" name="floating_date" id="floating_date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required="">
+                            <label for="floating_date" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
+                        </div>
+                        <div class="relative z-0 mb-6 w-full group flex items-end ">
+                            <!-- <label for="job">Job Role:</label> -->
+                            <!-- <label for="floating_job" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select Job Role:</label> -->
+                            <select id="job" name="floating_job" class="block py-1.5 px-0 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <optgroup label="Web">
+                                <option value="1">Front-End Developer</option>
+                                <option value="2">PHP Developer</option>
+                                <option value="3">Python Developer</option>
+                                <option value="4">Rails Developer</option>
+                                <option value="5">Web Designer</option>
+                                <option value="6">Wordpress Developer</option>
+                            </optgroup>
+                            <optgroup label="Mobile">
+                                <option value="7">Android Developer</option>
+                                <option value="8">IOS Developer</option>
+                                <option value="9">Mobile Designer</option>
+                            </optgroup>
+                            <optgroup label="Business">
+                                <option value="10">Business Owner</option>
+                                <option value="11">Freelancer</option>
+                            </optgroup>
+                            <optgroup label="Other">
+                                <option value="12">Other</option>
+                                <option value="13">Freelancer</option>
+                                </optgroup>                        
+                            </select>
+
+                            <label for="floating_job" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Select Job Role:</label>
+
+                            <!-- <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select your country</label>
+                            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                              <option>United States</option>
+                              <option>Canada</option>
+                              <option>France</option>
+                              <option>Germany</option>
+                            </select>                             -->
+                        </div>
+                    </div>                         
+                </fieldset>
+                <fieldset>
+                    <legend class="pb-8"><span class="number">3</span>Donation PEN S/ ( nuevos Soles )</legend>
+                        <label for="small-floating_range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> <span id="valBox"> Donation : 20 PEN</span></label>
+                        <input id="floating_range" type="range" name="floating_range" id="floating_range" class="mb-6 w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm dark:bg-gray-700" min="10" max="200" value="20" step="10" oninput="showVal(this.value)" placeholder=" " required="">                      
+                    </div> 
+                </fieldset>
+  
+                        
+
+                <div class="relative z-0 mb-6 w-full group flex justify-center">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Donar</button>
+                </div>
+                </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+```
+
+   e)  Agregar `thanks.html` sobre `templates` el cual permitira enviar informacion via method `GET` un resumen de como avanza las donaciones a la fecha.
+
+```html
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'css/card.css' %}" rel="stylesheet" type="text/css"/>
+<script src="{% static 'js/contador.js' %}"></script>
+<main>
+    <section>
+        <div >
+            <p class="text-right pt-6 pr-6"> Continuar donando en : <a id="counter-label">Loading ...</a> </p>
+        </div>    
+    </section>
+    <section>
+        <div class="containerBody pb-8 ">
+            <div class="jumboGoal">
+                <h2>¡ DONATE GOAL : !</h2>
+                <p class="text-6xl"><b>{{ donation_Goal.goal }} PEN</b></p>
+                <h2>need to donate :</h2>
+                <p class="text-3xl"><b>{{ need_to_donate }} PEN</b></p>
+            </div>
+            <div class="jumbotron">
+                <h1>¡ Donación Exitosa!</h1>
+                <p class="text-3xl"><b>{{ amount }} PEN</b></p>
+                <p><i>Bienvenido {{ donationLast.firtsname }}  {{ donationLast.lastname }}</i></p>
+                <p>{{ donationLast.email}}</p>
+                <p>{{ donationLast.job.name }}</p>
+                <br>
+                <button onclick="location.href='/dona'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Regresar</button>
+            </div>
+      
+        </div>        
+
+    </section>
+    <Section>
+        <div class="grid grid-cols-4 gap-2 mb-20 ">
+            {% for item in donation %} 
+            <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 leading-3">
+                <svg class="mb-2 w-10 h-10 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
+                <a href="#">
+                    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Collaboration  N°: {{item.id}}</h5>
+
+                    {% with item.id as id %}
+                        {% for item_result in result %} 
+                            {% if id == item_result.donation %}    
+                                <h6 class="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white "> {{item_result.total_amount}} PEN</h6>                    
+                            {% endif %}   
+                        {% endfor %}    
+                    {% endwith %}   
+
+
+                </a>
+
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{{ item.firtsname}} {{item.lastname}}</p>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{{ item.email}}</p>                
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{{ item.job.name}}</p>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"><b>Amount:</b></p>
+
+                <ol>
+                {% with item.id as id %}
+                    {% for itemC in collaboration %} 
+                        {% if id == itemC.donation.id %}                 
+                            <li><p class="mb-3 font-normal text-gray-500 dark:text-gray-400">   
+                                [ {{itemC.createdate}} ] : {{itemC.amount}} PEN </p>
+                            </li>
+                        {% endif %}      
+                    {% endfor %}      
+                {% endwith %}      
+                </ol>                      
+                <!-- <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                    continua
+                    <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
+                </a> -->
+            </div>        
+            {% endfor %} 
+        </div>             
+
+    </Section>
+</main>
+{% endblock content %}
+```
+
+
+realizamos la migracion del modelo creado para actualizar la base de datos.
+
+```bash
+python manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
+```
+
+Ejecutar el servidor y confirmamos que podamos ver el pagina de incio con el footer incorporado
+```bash
+python manage.py runserver
+```
+
+<p align="center">
+    Formulario Dona.html
+</p>
+<p align="center">    
+    <img src="./public/img/Formulario_dona.png" alt="django Formulario Dona" height="250">    
+</p>
+<p align="center">
+    Formulario thanks.html
+</p>
+<p align="center">    
+    <img src="./public/img/Formulario_thanks.png" alt="django Formulario Dona" height="300">    
+</p>
+
 
 
 <!-- </details>
@@ -1273,7 +1604,13 @@ Permite inscribirte en el proceso de adopcion de un PetAmigo (mascota)
 * Many-to-many relationships :  https://docs.djangoproject.com/en/4.0/topics/db/examples/many_to_many/
 * FreeHosting for django : https://www.pythonanywhere.com/
 * Convert .pnt to .svg : https://www.adobe.com/express/feature/image/convert/png-to-svg
-* python manage.py shell : ejecutar comandos python sobre la base de datos
+* python manage.py shell : ejecutar comandos python sobre la base de datos 
+
+```python
+from blog.models import Collaboration
+Collaboration.objects.filter(amount=20)
+Collaboration.objects.filter(amount=20).delete()
+```
 
 https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
 
