@@ -835,7 +835,7 @@ python manage.py runserver
 <body class="bg-gray-100 font-sans leading-normal tracking-normal"> 
     
     <!--Container-->
-	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+	<div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
         <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
 
             <!--Title-->
@@ -1123,35 +1123,25 @@ Importante es abordar la importancia del uso de la funcion `__str__` sobre la cu
 ```python    
 class Donation_Goal(models.Model):
     """Objetivo monto total de la donacion con parametros de vigencia"""
-    goal = models.IntegerField() 
+
+    goal = models.IntegerField()
     description = models.CharField(max_length=500)
     startdate = models.DateField()
     enddate = models.DateField()
     active = models.BooleanField()
     createdate = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return "%s [    Inicio: %s  - Fin:  %s  ]" % (self.description, self.startdate , self.enddate)
-    
-    
-class Donation(models.Model):
-    """Info : del Donante"""
-    firtsname = models.CharField(max_length=50)
-    lastname = models.CharField(max_length=50)
-    telephone = models.CharField(max_length=15)
-    company = models.CharField(max_length=50)
-    email = models.EmailField()
-    dateofbirht = models.DateField()
-    jobrol = models.CharField(max_length=40)
-    
-    createdate = models.DateTimeField(auto_now_add=True)
-    donation = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.name, self.email)
+        return "%s [    Inicio: %s  - Fin:  %s  ]" % (
+            self.description,
+            self.startdate,
+            self.enddate,
+        )
+
 
 class JobGroup(models.Model):
-    """Monto : JobGroup para Jobs listado  """    
+    """Monto : JobGroup para Jobs listado  """
+
     jobgroup = models.CharField(max_length=40)
     createdate = models.DateTimeField(auto_now_add=True)
 
@@ -1159,21 +1149,42 @@ class JobGroup(models.Model):
         # breakpoint()
         # job = Job.objects.filter(jobgroup=f"{self.jobgroup}")
         job = Job.objects.filter(jobgroup=f"{self.id}")
-        return "[    %s  Jobs ]: %s" % (len(job),self.jobgroup)
-        #return self.jobgroup    
-    
+        return "[    %s  Jobs ]: %s" % (len(job), self.jobgroup)
+        # return self.jobgroup
+
+
 class Job(models.Model):
-    """Monto : Jobs listado  """    
+    """Monto : Jobs listado  """
+
     jobrol = models.CharField(max_length=40)
     createdate = models.DateTimeField(auto_now_add=True)
     jobgroup = models.ForeignKey(JobGroup, on_delete=models.CASCADE)
-    
+
     def __str__(self):
-        return "[    %s  ]: %s" % (self.jobgroup.jobgroup,self.jobrol)    
-        #return self.jobrol
-        
+        return "[    %s  ]: %s" % (self.jobgroup.jobgroup, self.jobrol)
+        # return self.jobrol
+
+class Donation(models.Model):
+    """Info : del Donante"""
+
+    firtsname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    telephone = models.CharField(max_length=15)
+    company = models.CharField(max_length=50)
+    email = models.EmailField()
+    dateofbirht = models.DateField()
+    # jobrol = models.CharField(max_length=40)
+
+    createdate = models.DateTimeField(auto_now_add=True)
+    jobrol = models.ForeignKey(Job, on_delete=models.CASCADE)
+    donation = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.email)
+    
 class Collaboration(models.Model):
-    """Monto : donado """    
+    """Monto : donado """
+
     donation = models.IntegerField()
     # jobrol = models.CharField(max_length=40)
     createdate = models.DateTimeField(auto_now_add=True)
@@ -1181,7 +1192,8 @@ class Collaboration(models.Model):
     donation = models.ForeignKey(Donation, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.payment, self.createdate)  
+        return "%s %s" % (self.payment, self.createdate)
+
     
 ```
    b)  Creamos sobre `admin.py` del directorio `blog`

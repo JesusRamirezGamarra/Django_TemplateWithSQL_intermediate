@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Category, Author,Donation,Collaboration,Job
+from .models import Post, Category, Author,Job,Donation,Collaboration
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
@@ -53,19 +53,22 @@ def postlist (request,slug):
     }
     return render(request, 'post_list.html', context)
 
-def dona(request):
-    context = {
-        'posts': '',
-        'category': '',
-    }
-    return render(request, 'dona.html', context)
 
 
 @csrf_exempt
-def send_donation(request):
+def dona(request):
+    
+    if(request.method == 'GET'):
+        context = {
+            'posts': '',
+            'category': '',
+        }
+        return render(request, 'dona.html', context)
+    
+    breakpoint()
+    
+    if(request.method == 'POST'):
 
-    print(request.POST)
-    if request.method == "POST":
         firtsname = request.POST["floating_first_name"]
         lastname = request.POST["floating_last_name"]
         telephone = request.POST["floating_phone"]
@@ -122,3 +125,11 @@ def send_donation(request):
         'category': '',
     }
     return render(request, 'thanks.html', context)
+
+
+# def dona(request):
+#     context = {
+#         'posts': '',
+#         'category': '',
+#     }
+#     return render(request, 'dona.html', context)

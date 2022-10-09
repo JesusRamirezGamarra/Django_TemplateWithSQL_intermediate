@@ -16,16 +16,19 @@ Including another URLconf
 from django.urls import path
 from django.conf import settings
 
-from blog.views import homepage,search,allposts,post,postlist,dona,send_donation
+from blog.views import homepage, search, allposts, post, postlist, dona
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("",homepage, name = 'homepage'),
-    path("homepage/",homepage, name = 'homepage'),
-    path('search/', search, name = 'search'),
-    path('posts/', allposts, name = 'allposts'),
-    path('post/<slug>/', post, name = 'post'),
-    path('postlist/<slug>/', postlist, name = 'postlist'),
-    path('dona/', dona, name = 'dona'),
-    path("send_donation/",  send_donation, name = 'send_donation'),
+    path("", homepage, name="homepage"),
+    path("homepage/", homepage, name="homepage"),
+    path("post/<slug>/", post, name="post"),
+    path("postlist/<slug>/", postlist, name="postlist"),
+    path("posts/", allposts, name="allposts"),
+    path("search/", search, name="search"),
+    path("dona/", dona, name="dona"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

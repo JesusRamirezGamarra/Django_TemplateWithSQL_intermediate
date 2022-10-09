@@ -22,17 +22,16 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("blog/",include("blog.urls")),
-    path("homepage",include("blog.urls")),
-    path("",include("blog.urls")),
-    path("search/",include("blog.urls")),
-    path("posts/",include("blog.urls")),
-    path("post/<slug>/",include("blog.urls")),
-    path('postlist/<slug>/',include("blog.urls")),
-    path('dona/',include("blog.urls")),
-    path("send_donation/",include("blog.urls")),
+    path("", include("blog.urls")),
 
-    
+    path("homepage", include("blog.urls")),
+    path("search/", include("blog.urls")),
+    path("posts/", include("blog.urls")),
+    path("post/<slug>/", include("blog.urls")),
+    path("postlist/<slug>/", include("blog.urls")),
+    path("dona/", include("blog.urls",namespace=None)),
+    path("blog/", include("blog.urls")),
+
 ]
 
 
