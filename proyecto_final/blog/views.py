@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Category, Author,Job,Donation,Collaboration
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
@@ -65,10 +65,9 @@ def dona(request):
         }
         return render(request, 'dona.html', context)
     
-    breakpoint()
+
     
     if(request.method == 'POST'):
-
         firtsname = request.POST["floating_first_name"]
         lastname = request.POST["floating_last_name"]
         telephone = request.POST["floating_phone"]
@@ -86,21 +85,28 @@ def dona(request):
         print("dateofbirht", dateofbirht)
         print("jobrol", jobrol)
         print("payment", payment)
+        breakpoint()
+        
+        jobrol = Job.objects.filter(jobrol=f"{jobrol}").first()
+        donation_Goal = Donation_Goal.objects.filter(active=f"{1}").first()
 
-        # donation = Donation.objects.filter(email=f"{email}")
-        # if len(donation) == 0:
-        #     donation = Donation(
-        #         firtsname=firtsname,
-        #         lastname=lastname,
-        #         telephone=telephone,
-        #         company=company,
-        #         email=email,
-        #         dateofbirht=dateofbirht,
-        #         createdate=date.today(),
-        #     )
-        #     donation.save()
-        # else:
-        #     donation = donation.first()
+        if len(donation) == 0:
+            print("payment", payment)
+            
+            # donation = Donation(
+            #     firtsname=firtsname,
+            #     lastname=lastname,
+            #     telephone=telephone,
+            #     company=company,
+            #     email=email,
+            #     dateofbirht=dateofbirht,
+            #     createdate=date.today(),
+            #     jobrol = jobrol,
+            #     donation = 
+            # )
+            # donation.save()
+        else:
+            donation = donation.first()
 
         # collaboration = Collaboration(
         #     payment=payment,jobrol=jobrol , createdate=date.today(), donation=donation

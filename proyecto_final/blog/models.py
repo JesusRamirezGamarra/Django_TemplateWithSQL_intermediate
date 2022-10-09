@@ -106,7 +106,7 @@ class Donation(models.Model):
 
     createdate = models.DateTimeField(auto_now_add=True)
     jobrol = models.ForeignKey(Job, on_delete=models.CASCADE)
-    donation = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
+    donation_Goal = models.ForeignKey(Donation_Goal, on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s %s" % (self.name, self.email)
