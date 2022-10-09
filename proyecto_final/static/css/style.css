@@ -1,0 +1,36 @@
+footer{
+    width: 100%;
+    height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-color: black;
+    position: absolute;
+    margin:auto;
+    position: absolute;
+    text-align: center;     
+}
+
+#centrado{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding-bottom: 120px;
+    height: 100px;
+    width: 100px;
+    bottom: 0px;
+}   
+
+footer p {
+    font-size:8px;
+}
+
+
+#img{
+    position: absolute;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;   
+}

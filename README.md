@@ -921,7 +921,7 @@ python manage.py runserver
 
 ```html
 <section class="blog text-gray-700 body-font">
-<div class="container px-5 py-24 mx-auto">
+<div class="container px-5 py-5 mx-auto">
     <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
     <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 underline underline-offset-4"> 
         Recent Posts</h1>
@@ -1035,6 +1035,77 @@ python manage.py runserver
     <img src="./public/img/Search_Post.png" alt="django Search Post Result" height="300">    
 </p>
 
+<!-- </details>
+<details><summary> -->
+11) Creando footer
+
+
+   a)  Creamos el archivo `footer.html` sobre el directorio `templates` para agregar un `<footer></footer>` que podamos visualizar en todo el `blog` para este fin ya habiamos previamente cuando creamos el archivo `base.html` la consideracion de : `{% include "footer.html" %}`
+
+```html
+{% load static %}
+
+<footer id="footer">
+    <div >
+        <div >
+            <h6><a href="https://github.com/JesusRamirezGamarra" target="_blank">Developed by: {{author}} </a></h6>
+            <p>Copyright (c) https://github.com/JesusRamirezGamarra  2022  All rights reserved</p>
+        </div>
+    </div>
+    <div  id="centrado">
+        <a href="https://github.com/JesusRamirezGamarra" target="_blank" >
+            <img id="img" src="{% static 'img/GitHub.png' %}" width="100" >
+        </a>
+    </div>         
+</footer>
+```
+   b)  Aprovechamos este comportamiento para incluir el llamo a un archivo ubicado en `static` que correponda a `css` el cual ubicaremos en : `static/css` y una imagen con el logo de github ubicado en `static/img`
+
+```css
+footer{
+    width: 100%;
+    height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-color: black;
+    position: absolute;
+    margin:auto;
+    position: absolute;
+    text-align: center;     
+}
+
+#centrado{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding-bottom: 120px;
+    height: 100px;
+    width: 100px;
+    bottom: 0px;
+}   
+
+footer p {
+    font-size:8px;
+}
+
+
+#img{
+    position: absolute;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;   
+}
+```
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio con el footer incorporado
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/footer.png" alt="django footer" height="70">    
+</p>
 
 
 > Nota : 
