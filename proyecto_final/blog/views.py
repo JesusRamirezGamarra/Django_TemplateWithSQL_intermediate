@@ -4,7 +4,7 @@ from django.db.models import Q
 # Create your views here.
 
 def homepage(request):
-    categories = Category.objects.all()[0:3]
+    categories = Category.objects.all()[0:4]
     featured = Post.objects.filter(featured=True)
     latest = Post.objects.order_by('-timestamp')[0:3]
     context= {
@@ -25,7 +25,8 @@ def search(request):
     context = {
         'queryset': queryset
     }
-    print(context)
+    # breakpoint()
+    # print(context)
     return render(request, 'search_bar.html', context)
 
 def allposts(request):
@@ -33,5 +34,34 @@ def allposts(request):
     context = {
         'posts': posts,
     }
+    # print(context)
     return render(request, 'all_posts.html', context)
+
+def post(request,slug):
+    post = Post.objects.get(slug=slug)
+    context = {
+        'post': post,
+    }
+    return render(request, 'post.html', context)
+
+
+
+# def category_post_list (request, slug):
+#     category = Category.objects.get(slug = slug)
+#     posts = Post.objects.filter(categories__in=[category])
+#     context = {
+#         'posts': posts,
+#     }
+#     return render(request, 'post_list.html', context)
+
+
+# def postlist (request,slug):
+#     category = Category.objects.get(slug = slug)
+#     posts = Post.objects.filter(categories__in=[category])
+
+#     context = {
+#         'posts': posts,
+#         'category': category,
+#     }
+#     return render(request, 'post_list.html', context)
 

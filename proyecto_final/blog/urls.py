@@ -16,11 +16,14 @@ Including another URLconf
 from django.urls import path
 from django.conf import settings
 
-from blog.views import homepage,search,allposts
+from blog.views import homepage,search,allposts,post
 from django.conf.urls.static import static
 
 urlpatterns = [
     path("",homepage, name = 'homepage'),
+    path("homepage/",homepage, name = 'homepage'),
     path('search/', search, name = 'search'),
     path('posts/', allposts, name = 'allposts'),
+    path('post/<slug>/', post, name = 'post'),
+    
 ]

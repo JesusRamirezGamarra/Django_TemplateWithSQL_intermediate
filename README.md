@@ -736,6 +736,17 @@ Procemos a agregar un Html en un bucle for para poder mostrar un listado en el d
     <a href="" type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm rounded-lg hover:bg-gray-200" role="menuitem" tabindex="-1" id="menu-item-3">
     See all post</a> 
 ```
+Un paso que es super repetitivo conforme vamos agregando funcionalides resulta el agregar las paginas nuevas sobre `urls.py` tando del directorio `blog` y `proyecto_final`
+
+- `urls.py` en `proyecto_final`
+```python
+    path("search/",include("blog.urls")),
+```
+- `urls.py` en `blog`
+```python
+    from blog.views import homepage,search
+    path('search/', search, name = 'search'),
+```
 
 Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
 ```bash
@@ -745,6 +756,284 @@ python manage.py runserver
     <img src="./public/img/DrownList-Categories.png" alt="django DrownList Categories" height="200">    
 </p>
 
+   
+<!-- </details>
+<details><summary> -->
+11) Creando post 
+
+   a) Comenzamos agregando las url para las secciones que corresponden sobre el archivo `navbar.html` del directorio `templates` agregamos.
+
+```html
+      {% for category in category_list %}
+          <a href="{% url 'postlist' category.slug %}" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-pink-200 " role="menuitem" tabindex="-1" id="menu-item-0">
+          {{ category.title }}
+          </a>
+      {% endfor %}
+        <a href="{% url 'allposts' %}" type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm rounded-lg hover:bg-pink-200" role="menuitem" tabindex="-1" id="menu-item-3">
+        See all posts</a> 
+```
+   b) Creamos `all_posts.html` sobre el directorio `templates` y agregamos como como en otras paginas un extends de `base.html` y hacemos un for para mostrar el `subtitle` , `title` y `overview` de `post`
+
+```html
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+    
+    <div class="flex flex-wrap w-full mb-20">
+    <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+        All posts </h1>
+        <div class="h-1 w-20 bg-pink-500 rounded"></div>
+    </div>
+    </div>
+    
+    <div class="flex flex-wrap -m-4">
+    {% for post in posts %}  
+    <div class="xl:w-1/4 md:w-1/2 p-4">
+        <div class="bg-gray-100 p-6 rounded-lg">
+        <img class="h-50 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+        <h3 class="tracking-widest text-pink-500 text-xs font-medium title-font">
+            {{ post.subtitle }}</h3>
+        <a href="{% url 'post' post.slug %}" h2 class="text-lg text-gray-900 font-medium title-font mb-4">
+            {{ post.title }}</a>
+        <p class="leading-relaxed text-base">
+            {{ post.overview }}</p>
+        </div>
+    </div>
+    {% endfor %}
+    
+    </div>
+    </div>
+</section>
+{% endblock content %}
+```
+
+   c) para no perder la costumbre no debemos olvidar de agregar la pagina sobre `urls.py` de ambos directorios
+
+- `urls.py` en `proyecto_final`
+```python
+    path("posts/",include("blog.urls")),
+```
+- `urls.py` en `blog`
+```python
+    from blog.views import homepage,search,allposts,post
+    path('posts/', allposts, name = 'allposts'),
+    path('post/<slug>/', post, name = 'post'),
+```
+
+   d)  aprovechamos para agregamos en el post ( claro autores ) en este caso al autor del post , para este fin aprovechamos que en el archivo `post.html` tenemos mucho espacio asi q agregamos ssobre el container un segundo grupo en un `div` para este bloque debajo del post.
+
+```html
+{% extends 'base.html' %}
+{% load markdown_extras %} 
+
+{% block content %}
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal"> 
+    
+    <!--Container-->
+	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+        <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+
+            <!--Title-->
+            <div class="font-sans">
+                <h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
+                {{ post.title }}</h1>
+                <p class="text-sm md:text-base font-normal text-gray-600">
+                {{ obj.timestamp}}</p>
+                <img class="h-50 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+            </div>
+            <!--INICIO Post Content-->
+            <div class="py-6">
+                {{ post.content | markdown | safe }} 
+            </div>
+            <!--FIN Post Content-->
+        </div>     
+        
+		<!-- INICIO Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+		<!--Author-->
+        <h4>Coder post realizado por : </h4>
+		<div class="flex w-full items-center font-sans px-4 py-12">
+
+			<img class="w-10 h-10 rounded-full mr-4" src="{{ post.author.profile_picture.url }}">
+			<div class="flex-1 px-2">
+				<p class="text-base font-bold text-base md:text-xl leading-none mb-2">
+				{{ post.author }}</p>
+		
+			</div>
+			
+		</div>
+		<!--/Author-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">        
+        <!--FIN Divider-->
+    </div>
+</body> 
+
+{% endblock content %}
+```
+
+   e)  Agregamos lo que mostrara al buscar un blog , esta seccion quedo pendiente porque aun habiamos implementado el `post.html` y tambien porque no habia ingresado utilizando el `back office` de django gracias a la configuracion que realizamos con el administrador la posibilidad de agregar autores,categorias y post.
+
+```html
+<!-- inicio : Resultado de busqueda de post -->
+<div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+    {% for obj in object_list %}
+    <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col justify-center items-center max-w-sm mx-auto">
+        <div class="bg-gray-300 h-56 w-full rounded-lg shadow-md bg-cover bg-center" style="background-image: url(https://images.unsplash.com/photo-1521185496955-15097b20c5fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80)"></div>
+
+        <div class=" w-70 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden p-5">
+        
+        <div class="header-content inline-flex ">
+            <div class="category-badge flex-1  h-4 w-4 m rounded-full m-1 bg-purple-100">
+            <div class="h-2 w-2 rounded-full m-1 bg-purple-500 " ></div>
+            </div>
+            {% for category in obj.categories.all %}
+            <div class="category-title flex-1 text-sm"> 
+            {{ category.title }}
+            </div>
+            {% endfor %}
+        </div>
+            <div class="title-post font-medium">
+            {{ obj.title }}
+            </div>
+
+            <div class="summary-post text-base text-justify">
+            {{ obj.overview }}
+            </div>
+            
+            <div class="mt-3">
+            <a href="{% url 'post' obj.slug %}" class="bg-blue-100 text-blue-500 rounded p-2 text-sm ">
+            Read more
+            </a>
+        </div>
+
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+<!-- fin : Resultado de busqueda de post -->
+```
+   f)  Agrega sobre `homepage.html` un for para mostrar un listado de post para que no queda totalmente vacio.
+
+```html
+<section class="blog text-gray-700 body-font">
+<div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 underline underline-offset-4"> 
+        Recent Posts</h1>
+    <p class="lg:w-1/2 w-full leading-relaxed text-base">
+        These are the most recently added posts</p>
+    </div>
+    <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+    {% for obj in object_list %}
+    <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col justify-center items-center max-w-sm mx-auto">
+        <div class="bg-gray-300 h-56 w-full rounded-lg shadow-md bg-cover bg-center" 
+        style="background-image: url('{{ obj.thumbnail.url }}')">
+    </div>
+
+        <div class=" w-70 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden p-5">
+        
+        <div class="header-content inline-flex ">
+            <div class="category-badge flex-1  h-4 w-4 m rounded-full m-1 bg-purple-100">
+            <div class="h-2 w-2 rounded-full m-1 bg-pink-500 " ></div>
+            </div>
+            {% for category in obj.categories.all %}
+            <div class="category-title flex-1 text-sm"> 
+                <p class="w-70">{{ category.title }}</p>
+            </div>
+            {% endfor %}
+        </div>
+            <div class="title-post font-medium">
+            {{ obj.title }}
+            </div>
+
+            <div class="summary-post text-base text-justify">
+            {{ obj.overview }}
+            </div>
+            
+            <div class="mt-3">
+            <a href="{% url 'post' obj.slug %}" class="bg-blue-100 text-black hover:bg-gray-200 rounded p-2 text-sm ">
+            Read more
+            </a>
+        </div>
+
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+</section>
+```
+
+- `urls.py` en `proyecto_final`
+```python
+    path("homepage",include("blog.urls")),
+```
+- `urls.py` en `blog`
+```python
+    path("homepage/",homepage, name = 'homepage'),
+```
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/HomePage_RecentPost.png" alt="django HomePage height="300">    
+</p>
+
+
+   g)  Agregamos en `search_bar.html` sobre el directorio `blog` un bucle similar la existente en `homepage.html` pero utilizando el contexto filtrado
+
+```html
+<!-- inicio : Resultado de busqueda de post -->
+<div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+{% for obj in queryset %}
+<div class="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col justify-center items-center max-w-sm mx-auto">
+
+    <div class=" w-70 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden p-5">
+        <img class="h-50 rounded w-full object-cover object-center mb-6" src="{{ obj.thumbnail.url }}" alt="content">
+        <div class="header-content inline-flex ">
+            <div class="category-badge flex-1  h-4 w-4 m rounded-full m-1 bg-purple-100">
+            <div class="h-2 w-2 rounded-full m-1 bg-purple-500 " ></div>
+            </div>
+            {% for category in obj.categories.all %}
+            <div class="category-title flex-1 text-sm w-48"> 
+                {{ category.title }} 
+            </div>
+            {% endfor %}
+        </div>
+        <div class="title-post font-medium">
+        {{ obj.title }}
+        </div>
+
+        <div class="summary-post text-base text-justify">
+        {{ obj.overview }}
+        </div>
+        
+        <div class="mt-3">
+        <a href="{% url 'post' obj.slug %}" class="bg-blue-100 text-blue-500 rounded p-2 text-sm ">
+        Read more
+        </a>
+    </div>
+
+    </div>
+</div>
+{% endfor %}
+</div>
+<!-- fin : Resultado de busqueda de post -->
+```
+
+Ejecutar el servidor y confirmamosque podamos ver el pagina de incio .
+```bash
+python manage.py runserver
+```
+<p align="center">    
+    <img src="./public/img/Search_Post.png" alt="django Search Post Result" height="300">    
+</p>
 
 
 
@@ -782,3 +1071,7 @@ https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-f
 
 
 https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
+
+
+lsof -i tcp:8080
+kill -9 <PID>
