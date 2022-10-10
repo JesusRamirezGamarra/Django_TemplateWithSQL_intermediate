@@ -28,9 +28,9 @@ funcionalidades.
 
 Ubicarse sobre Root del proyecto : 
 
-<!-- <details><summary> -->
+<details><summary>
 1) Intalacion Pre requisitos
-<!-- </summary> -->
+</summary>
    
    a)   Creando virtual environment : Un entorno virtual es un entorno Python en el que el intérprete Python, las bibliotecas y los scripts instalados en él están aislados de los instalados en otros entornos virtuales, y (por defecto) cualquier biblioteca instalada en un «sistema» Python, es decir, uno que esté instalado como parte de tu sistema operativo.
 
@@ -54,10 +54,10 @@ pip install Django
 ```bash
 python3 -m pip install --upgrade pip
 ```
-<!-- </details>
-<details><summary> -->
-1) Generar scaffolding
-<!-- </summary>    -->
+</details>
+<details><summary>
+2) Generar scaffolding
+</summary>   
 Es una técnica utilizada por algunos frameworks Modelo–vista–controlador en los cuales el programador puede especificar cómo se puede usar la base de datos de la aplicación. El framework o compilador utiliza esta especificación, junto con plantillas de código predefinidas, para generar el código final que la aplicación puede usar para crear, leer, actualizar y borrar entradas de la base de datos, tratando así las plantillas como un "andamio" sobre el cual construir una aplicación más fuerte.
 
     ```bash
@@ -147,10 +147,10 @@ pip freeze retorna una lista de paquetes instalados similar, pero el formato de 
 python manage.py runserver
 ```
 
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 3) Crear models - Base datos
-<!-- </summary> -->
+</summary>
    
    a) Configuracion Base de datos
    [ver mas](https://docs.djangoproject.com/en/4.1/topics/migrations/)
@@ -242,10 +242,10 @@ para migrar el modelo a la base de datos que tenemos configurada volver a recuri
 python manage.py migrate
 ```
 
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 4) Configuracion de Administracion
-<!-- </summary> -->
+</summary>
    a) Creamos el admnistrador y configuramos datos base
 ```bash
 python manage.py createsuperuser
@@ -269,12 +269,12 @@ Tras ingresar las credenciales podemos ingresar al modulo de administracion de d
 <p align="center">    
     <img src="./public/img/django_admin.png" alt="django Admin" height="250">    
 </p>
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 5) Static Files y Templates
-
+</summary>   
 [ver mas](https://docs.djangoproject.com/en/4.0/topics/templates/)
-<!-- </summary>    -->
+
    a) Creamos directorios directamente desde el IDE de visual code, desde nuestro sistema operativo o a traves del comando mkdir sobre las rutas que sean requeridas hasta obtener 
 ```
     mkdir templates
@@ -315,10 +315,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/media_cdn/")
 
 
 
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 6) creando views
-
+</summary>
 Una View es un lugar donde ponemos la "lógica" de nuestra aplicación. Pedirá información del modelo que has creado antes y se la pasará a la plantilla . Crearemos una plantilla en el próximo capítulo.
 [ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Generic_views)
 <!-- </summary>    -->
@@ -379,10 +379,10 @@ python manage.py runserver
     <img src="./public/img/BaseHtml.png" alt="django Static Files and Templates" height="150">    
 </p>
 
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 7) Herencia de template
-
+</summary>
    a) Sobre `urls.py` del directorio `proyecto_final`  agregamos el import a static y el cambio de cadenas utilizando las constantes previamente configuradas en `settings.py`
 
 ```python
@@ -448,9 +448,10 @@ python manage.py runserver
     <img src="./public/img/HomePage_withStaticFile.png" alt="django Static Files and Templates" height="350">    
 </p>
    
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 8) extends e Include
+</summary>
 [ver mas](https://docs.djangoproject.com/en/4.1/ref/templates/language/)
 
    a) extends : Significa que puedes reutilizar partes del HTML para diferentes páginas del sitio web. Las plantillas son útiles cuando quieres utilizar la misma información o el mismo diseño en más de un lugar. para `homepage.html` agregamos al incio del archivo : 
@@ -511,10 +512,11 @@ urlpatterns = [
    d) Procedemos a crear los archivos `navbar.html` y `footer.html` en el directorio `templates` por lo pronto no agregamos contenido alguno sobre estos html sin embargo comenzaremos a agregar contenido en ambos archivos y al estar incluidos en `base.html` y todas nuestras paginas a su vez solo se extends de esta pagina procederan a incoporarse en todas 
 
 
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 9) Creando el navbar
-    
+</summary>
+
  La barra de navegación es un elemento de la interfaz del usuario dentro de una página web que contiene enlaces a otras secciones del sitio web.
 
    a) Procedemos crear el navbar tomando como referencia el estilo de tailwind [ver mas](https://tailwindcomponents.com/component/responsive-tailwind-css-navbar)
@@ -641,10 +643,11 @@ python manage.py runserver
    
 
 
-<!-- </details>
-<details><summary> -->
+</details>
+<details><summary>
 10) Configurando Administrador del BLOG
-    
+</summary>
+
 [ver mas](https://docs.djangoproject.com/en/4.1/ref/contrib/admin/)
 
    a) configurar `admin.py` del directorio `blog` , procedemos a agregar :
@@ -706,9 +709,10 @@ python manage.py runserver
     <img src="./public/img/Search_post.png" alt="django search post in header" height="200">    
 </p>
    
-<!-- </details>
-<details><summary> -->
-10) Utilizando markdown_extras para primer Litado de Categorias
+</details>
+<details><summary>
+11) Utilizando markdown_extras para primer Litado de Categorias
+</summary>
 
    a) sobre el archivo `markdown_extras.py` del directorio `templatetags` del proyecto `blog` vamos a agregar una funciona que nos retorne el lista de categorias [ver mas](https://docs.djangoproject.com/en/4.1/howto/custom-template-tags/)
 
@@ -757,10 +761,10 @@ python manage.py runserver
 </p>
 
    
-<!-- </details>
-<details><summary> -->
-11) Creando post 
-
+</details>
+<details><summary>
+12) Creando post 
+</summary>
    a) Comenzamos agregando las url para las secciones que corresponden sobre el archivo `navbar.html` del directorio `templates` agregamos.
 
 ```html
@@ -1035,10 +1039,10 @@ python manage.py runserver
     <img src="./public/img/Search_Post.png" alt="django Search Post Result" height="300">    
 </p>
 
-<!-- </details>
-<details><summary> -->
-11) Creando footer
-
+</details>
+<details><summary>
+13) Creando footer
+</summary>
 
    a)  Creamos el archivo `footer.html` sobre el directorio `templates` para agregar un `<footer></footer>` que podamos visualizar en todo el `blog` para este fin ya habiamos previamente cuando creamos el archivo `base.html` la consideracion de : `{% include "footer.html" %}`
 
@@ -1107,9 +1111,10 @@ python manage.py runserver
     <img src="./public/img/footer.png" alt="django footer" height="70">    
 </p>
 
-<!-- </details>
-<details><summary> -->
-13) utilizando Administrador : Donation_Goal, JobGroup, Job
+</details>
+<details><summary>
+14) utilizando Administrador : Donation_Goal, JobGroup, Job
+</summary>
 
 Importante es abordar la importancia del uso de la funcion `__str__` sobre la cual se puede establer consultas complejas para visualizarse en el admninistrador por default [ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Admin_site)
 ```python
@@ -1223,9 +1228,10 @@ python manage.py runserver
 
 
 
-<!-- </details>
-<details><summary> -->
-14) Formulario : Dona ( donaciones )
+</details>
+<details><summary>
+15) Formulario : Dona ( donaciones )
+</summary>
     
 Permite registra una donacion que corresponde a una Meta registrada desde el administrador. 
 
@@ -1561,9 +1567,11 @@ python manage.py runserver
 
 
 
-<!-- </details>
-<details><summary> -->
-15)  Formulario : Contact ( contactanos )
+</details>
+<details><summary>
+16)  Formulario : Contact ( contactanos )
+</summary>
+
 Permite ingresar consultas y/o sugerencias de parte de cualquier usuarios del blog.
 
    a)  Agregamos sobre `urls.py` del directorio `blog`
@@ -1688,9 +1696,11 @@ def contact(request):
     <img src="./public/img/BlogCoderHouse-Mensaje.png" alt="django Formulario Contact" height="250">    
 </p>
 
-<!-- </details>
-<details><summary> -->
-16)  Formulario : Embrace ( adopta )
+</details>
+<details><summary>
+17)   Formulario : Embrace ( adopta )
+</summary>   
+
 Permite inscribirte en el proceso de adopcion de un PetAmigo (mascota)
 
    a)  Agregamos sobre `urls.py` el del directorio `blog`
@@ -1988,6 +1998,8 @@ python manage.py migrate
     <img src="./public/img/Embrace-Mensaje.png" alt="django Formulario Embrace" height="250">    
 </p>
 
+
+</details>
 
 > Nota : 
 
