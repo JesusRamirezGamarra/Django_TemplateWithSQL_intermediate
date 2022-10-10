@@ -4,6 +4,8 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from django.db.models import Sum,Count
+from .forms import CreateFormEmbrace    
+
 # Create your views here.
 
 def homepage(request):
@@ -60,10 +62,17 @@ def postlist (request,slug):
 def dona(request):
     
     if(request.method == 'GET'):
+        donation_Goal = Donation_Goal.objects.filter(active=f"{1}").first()
+        result_net = Collaboration.objects.aggregate(total_amount=Sum('amount'))
+        result = Collaboration.objects.values('donation').annotate(total_amount=Sum('amount'))
+        print(result_net)
+        print(result)
+
         context = {
-            'posts': '',
-            'category': '',
-        }
+                    "donation_Goal":donation_Goal,
+                    "total_amount":result_net['total_amount'],
+                    'need_to_donate': donation_Goal.goal - result_net['total_amount']
+                    }
         return render(request, 'dona.html', context)
     
     if(request.method == 'POST'):
@@ -76,14 +85,14 @@ def dona(request):
         job_id = request.POST["floating_job"]   
         amount  = request.POST["floating_range"]        
         
-        print("firtsname", firtsname)
-        print("lastname", lastname)
-        print("telephone", telephone)
-        print("company", company)
-        print("email", email)
-        print("dateofbirht", dateofbirht)
-        print("jobrol_id", job_id)
-        print("payment", amount )
+        # print("firtsname", firtsname)
+        # print("lastname", lastname)
+        # print("telephone", telephone)
+        # print("company", company)
+        # print("email", email)
+        # print("dateofbirht", dateofbirht)
+        # print("jobrol_id", job_id)
+        # print("payment", amount )
 
         
         job = Job.objects.filter(id=f"{job_id}").first()
@@ -137,3 +146,38 @@ def dona(request):
                     'need_to_donate': donation_Goal.goal - result_net['total_amount']
                     }
         return render(request, 'thanks.html', context)
+
+@csrf_exempt
+def contact(request):
+    context = {
+        'posts': '',
+        'category': '',
+    }
+    return render(request, 'contact.html', context)
+
+@csrf_exempt
+def embrace(request):
+    if(request.method == 'GET'):
+        return render(request, 
+                    'embrace.html', 
+                    {
+                        'form': CreateFormEmbrace(),
+                    }
+        )
+        
+    if(request.method == 'POST'):
+        name = request.POST["name"]
+        email = request.POST["email"]
+        description = request.POST["description"]
+        print(request.POST)        
+        context = {
+            'posts': 'posts',
+            'category': '',
+        }
+        return render(request, 
+                    'embrace.html', 
+                    {
+                        'form': CreateFormEmbrace(),
+                        'posts': 'posts',
+                    }
+        )

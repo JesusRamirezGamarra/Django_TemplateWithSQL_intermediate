@@ -2,12 +2,13 @@
 {% load static %}
 
 {% block content %}
-<link href="{% static 'css/dona.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css"/>
 <script src="{% static 'js/donar.js' %}"></script>
-<div class="bg-gray-100 font-sans leading-normal tracking-normal pb-20"> 
+<main>
+<div class="flex bg-gray-100 font-sans leading-normal tracking-normal pb-20"> 
     <!--Container-->
-	<div class="container w-full md:max-w-3xl mx-auto pt-20">
-        <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+	<div class="container w-4/6 md:max-w-3xl mx-auto pt-20 ">
+        <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal pt-10" style="font-family:Georgia,serif;">
     
             <form action='/dona/' method='POST' accept-charset="utf-8">{% csrf_token %}
                 <fieldset>
@@ -85,6 +86,7 @@
                 </fieldset>
                 <fieldset>
                     <legend class="pb-8"><span class="number">3</span>Donation PEN S/ ( nuevos Soles )</legend>
+                    <div>
                         <label for="small-floating_range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> <span id="valBox"> Donation : 20 PEN</span></label>
                         <input id="floating_range" type="range" name="floating_range" id="floating_range" class="mb-6 w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm dark:bg-gray-700" min="10" max="200" value="20" step="10" oninput="showVal(this.value)" placeholder=" " required="">                      
                     </div> 
@@ -95,8 +97,28 @@
                 <div class="relative z-0 mb-6 w-full group flex justify-center">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Donar</button>
                 </div>
-                </form>
+            </form>
         </div>
     </div>
+    <div class="container w-2/6 md:max-w-3xl mx-auto pt-10 " >
+        <div class="flex justify-center ">
+            <img src="{% static 'img/PerritoDonar01.png' %}" >
+        </div>
+        <div class="containerBody pb-8 text-center">
+            <div class="jumboGoal">
+                <h2>¡ DONATE GOAL : !</h2>
+                <p class="text-6xl"><b>{{ donation_Goal.goal }} PEN</b></p>
+                <h2>need to donate :</h2>
+                <p class="text-3xl"><b>{{ need_to_donate }} PEN</b></p>
+            </div>
+            <div class="jumbotron">
+                <h1>¡ let's go together !</h1>
+                <p class="text-3xl"><b>{{ total_amount }} PEN</b></p>
+                <p class="text-2xl"><i>!No compres uno de raza, adopta uno sin casa!</i></p>                
+            </div>
+      
+        </div>    
+    </div>    
 </div>
+</main>
 {% endblock content %}

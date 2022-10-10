@@ -18,15 +18,15 @@ Desarrollar una WEB Django con patrón MVT subida a Github.
 Link de GitHub con el proyecto totalmente subido a la plataforma.
 Proyecto Web Django con patrón MVT que incluya:
 
-- Herencia de HTML.
-- Por lo menos 3 clases en models.
-- Un formulario para insertar datos a todas las clases de tu models.
-- Un formulario para buscar algo en la BD
-- Readme que indique el orden en el que se prueban las cosas y/o donde están las
+1. Herencia de HTML. (detallado en el punto 8)
+2. Por lo menos 3 clases en models.  (detallado en el punto 3)
+3. Un formulario para insertar datos a todas las clases de tu models.  (detallado en el punto 14 ,15 y 16)
+4. Un formulario para buscar algo en la BD  (detallado en el punto 9 y 10)
+5. Readme que indique el orden en el que se prueban las cosas y/o donde están las  (detallado en el punto 1 al 16)
 funcionalidades.
 
 
-> Ubicarse sobre Root del proyecto : 
+Ubicarse sobre Root del proyecto : 
 
 <!-- <details><summary> -->
 1) Intalacion Pre requisitos
@@ -1611,12 +1611,14 @@ from blog.models import Collaboration
 Collaboration.objects.filter(amount=20)
 Collaboration.objects.filter(amount=20).delete()
 ```
-
-https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
-
-
-https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
-
-
+* Para poder detener el proceos de django de ser requerido ( en caso este ocupado el puerto)
+```bash
 lsof -i tcp:8080
 kill -9 <PID>
+```
+* tutorial para aprender a usar markdown :
+
+  - https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
+  - https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
+
+* Documentacion y explicacion para python beginners https://jinja.palletsprojects.com/en/3.1.x/
