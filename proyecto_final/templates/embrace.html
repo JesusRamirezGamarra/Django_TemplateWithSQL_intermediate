@@ -93,9 +93,14 @@
         </div>
         <div class="container w-2/6 md:max-w-3xl mx-auto pt-20 " >
 
-            <!-- {% if form.errors %}
-            <p style="color:red;">Error: Completa el formulario antes de continuar</p>
-            {% endif %} -->
+            {%if result %}            
+            <div>
+                <p class="mb-8 lg:mb-16 font-light text-center text-white dark:text-white sm:text-xl bg-black">
+                    {{result.name}} muy pronto te contacaremos a <br>
+                    {{result.email}}
+                </p>
+            </div>      
+            {% endif %}   
 
             {% if form.subject.errors %}
             <ol>

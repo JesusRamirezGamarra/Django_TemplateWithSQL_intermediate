@@ -193,16 +193,17 @@ def embrace(request):
             name = info["name"]
             email = info["email"]
             description = info["description"]            
-            print(info)               
+            print(info)
+            Embrace.objects.create(
+                                name = name,
+                                email = email,
+                                description = description
+                            )
 
-            #cmodel
-            context = {
-                'posts': 'posts',
-                'category': '',
-            }
             return render(request, 
                         'embrace.html', 
                         {
                             'form': formEmbrace,
+                            'result': {'name': name,'email': email},
                         }
             )

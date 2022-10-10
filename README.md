@@ -1208,7 +1208,7 @@ admin.site.register(Job)
 realizamos la migracion del modelo creado para actualizar la base de datos.
 
 ```bash
-python manage.py migrate
+python manage.py check blog
 python manage.py makemigrations
 python manage.py migrate
 ```
@@ -1536,7 +1536,7 @@ admin.site.register(Job)
 realizamos la migracion del modelo creado para actualizar la base de datos.
 
 ```bash
-python manage.py migrate
+python manage.py check blog
 python manage.py makemigrations
 python manage.py migrate
 ```
@@ -1564,15 +1564,429 @@ python manage.py runserver
 <!-- </details>
 <details><summary> -->
 15)  Formulario : Contact ( contactanos )
-
 Permite ingresar consultas y/o sugerencias de parte de cualquier usuarios del blog.
+
+   a)  Agregamos sobre `urls.py` del directorio `blog`
+
+```python
+from blog.views import homepage, search, allposts, post, postlist, dona , contact
+path("contact/", contact, name="contact"),
+```
+
+   b)  Agregar `contact.html` sobre `templates` el cual permitira enviar informacion via method `POST` para grabar sobre base de datos lo recolectado en el formulario.
+
+```html
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section class="bg-white dark:bg-gray-900 pb-20" >    
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            {%if result %}            
+            <div>
+                <p class="mb-8 lg:mb-16 font-light text-center text-white dark:text-white sm:text-xl bg-black">
+                    {{result.name}} muy pronto te contacaremos a <br>
+                    {{result.email}}
+                </p>
+            </div>      
+            {% endif %}         
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Contact Us</h2>
+            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
+                Do you have a technical problem or maybe you are a CoderHouse tutor? Want to submit feedback on a beta feature of the django Python ? let us know</p>
+            <form action="/contact/" method='POST' class="space-y-8" accept-charset="utf-8">{% csrf_token %}
+                <div>
+                    <label for="name"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">your name</label>
+                    <input type="text" name="name" id="name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="john Smith / john Snow" 
+                    required>
+                </div>                
+                <div>
+                    <label for="email"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
+                    <input type="email" name="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="tuEmail@correo.com" 
+                    required>
+                </div>
+                <div>
+                    <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Subject</label>
+                    <input type="text" id="subject" name="subject" class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Let us know how we can help you" required>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your message</label>
+                    <textarea id="message" name="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Leave a comment of My-Blog CoderHouse ..." required></textarea>
+                </div>
+                <!-- <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Send message</button> -->
+                <div class="relative z-0 mb-6 w-full group flex justify-center">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send message</button>
+                </div>   
+            </form>
+
+        </div>
+    </section>
+
+</main>
+
+{% endblock content %}
+```
+
+   c)  Agregar sobre `models.py` del directorio `blog` 
+
+```python
+
+class Contact(models.Model):
+    """Formulario de Conactanos"""
+    
+    name = models.CharField(max_length=50)    
+    email = models.EmailField()
+    subject = models.CharField(max_length=50)
+    message = models.TextField()
+```
+
+   d)  Agregar sobre `views.py` del directorio `blog` 
+
+
+```bash
+python manage.py check blog
+python manage.py makemigrations
+python manage.py migrate
+```
+
+```python
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact
+
+@csrf_exempt
+def contact(request):
+    
+    if request.method == 'GET':
+        return render(request, 'contact.html')
+    
+    if request.method == 'POST':
+        name = request.POST["name"]
+        email = request.POST["email"]
+        subject = request.POST["subject"]        
+        message = request.POST["message"]    
+        print(request.POST)        
+        Contact.objects.create(
+            email= email,
+            subject= subject,
+            message= message
+        )        
+        context = {
+            'result': {'name': name,'email': email},
+        }
+        return render(request, 'contact.html',context)
+```   
+
+<p align="center">
+    Formulario Contact.html
+</p>
+<p align="center">    
+    <img src="./public/img/BlogCoderHouse.png" alt="django Formulario Contact" height="250">    
+</p>
+<p align="center">
+    Formulario envio de Formulario method POST :  Contact.html
+</p>
+<p align="center">    
+    <img src="./public/img/BlogCoderHouse-Mensaje.png" alt="django Formulario Contact" height="250">    
+</p>
 
 <!-- </details>
 <details><summary> -->
 16)  Formulario : Embrace ( adopta )
-
 Permite inscribirte en el proceso de adopcion de un PetAmigo (mascota)
 
+   a)  Agregamos sobre `urls.py` el del directorio `blog`
+
+```python
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace
+path("embrace/", embrace, name="embrace"),
+```   
+
+   b)  Agregar `embrace.html` sobre `templates` el cual permitira enviar informacion via method `POST` para grabar sobre base de datos lo recolectado en el formulario. En este utilizaremos `<script></script>` directamente sobre la pagina para analizar su funcionamiento. 
+
+```html
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css"/>
+<main>
+
+
+    <div class="flex bg-gray-100 font-sans leading-normal tracking-normal pb-20"> 
+        <!--Container-->
+        <div class="container w-4/6 md:max-w-3xl mx-auto pt-10 ">    
+            <div class=" pt-20 pb-20">
+                <!-- Implement the carousel -->
+                <div class="relative w-[700px] mx-auto">
+                    <div class="slide relative">
+                        <img class="w-full h-[500px] object-cover"
+                            src="{% static 'img/Adoptame01.jpg' %}">
+                        <div class="absolute bottom-0 w-full px-5 py-3 bg-black/40 text-center text-white">
+                            ¡Hola, mi nombre es Tini! 
+
+                            Soy un poquito tímida pero muy cariñosa, ando en busca de mi familia por siempre  Además, si me adoptas, vengo con un kit de regalos ¡Anímate!
+                            Sexo: Hembra
+                            Tamaño: Mediano
+                            Nivel de Actividad: Medio
+                            Fecha aprox de nacimiento: Agosto 2020
+
+                        </div>
+                    </div>
+
+                    <div class="slide relative">
+                        <div class="absolute bottom-500 w-full px-5 py-3 bg-black/100 text-center text-white">
+                            ¡Adoptada ... No podria ser mas Feliz!              
+                        </div>               
+                        <img class="w-full h-[500px] object-cover"
+                        src="{% static 'img/Adoptame02.jpg' %}">
+                        <div class="absolute bottom-0 w-full px-5 py-3 bg-black/40 text-center text-white">
+                            ¡Hola, mi nombre es Winston! 
+
+                            Soy muy sociable, me encanta conocer a nuevas personas que me visitan en mi albergue. Deseo encontrar mi familia por siempre. Además, si me adoptas, vengo con un kit de regalos ¡Anímate!
+                            Sexo: Macho
+                            Tamaño: Mediano
+                            Nivel de Actividad: Medio
+                            Fecha aprox de nacimiento: Enero 2020                
+                        </div>
+                    </div>
+
+                    <div class="slide relative">       
+                        <img class="w-full h-[500px] object-cover"
+                        src="{% static 'img/Adoptame03.jpg' %}">
+                        <div class="absolute bottom-0 w-full px-5 py-3 bg-black/40 text-center text-white">
+                            ¡Hola, mi nombre es Candy! 
+
+                            Me rescataron de las calles junto a mis 3 cachorros. Soy muy cariñosa y es por eso que estoy en busca de una familia que me ame por siempre. Además, si me adoptas, vengo con un kit de regalos ¡Anímate!
+                            Sexo: Hembra
+                            Tamaño: Mediano
+                            Nivel de Actividad: Medio
+                            Fecha aprox de nacimiento: Febrero 2019                
+                        </div>
+                    </div>     
+
+                    <div class="slide relative">
+                        <img class="w-full h-[500px] object-cover"
+                        src="{% static 'img/Adoptame04.jpg' %}">
+                        <div class="absolute bottom-0 w-full px-5 py-3 bg-black/40 text-center text-white">
+                            ¡Hola, mi nombre es Tokio! 
+
+                            Soy muy juguetona, me encanta correr y dar largos paseos por el parque. También soy muy cariñosa, y es por eso que estoy en busca de una familia que me ame por siempre. Además, si me adoptas, vengo con un kit de regalos ¡Anímate!
+                            Sexo: Hembra
+                            Tamaño: Mediano
+                            Nivel de Actividad: Medio
+                            Fecha aprox de nacimiento: Enero 2021                
+                        </div>
+                    </div>  
+
+                    <!-- The previous button -->
+                    <a class="absolute left-0 top-1/2 p-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white hover:text-amber-500 cursor-pointer"
+                        onclick="moveSlide(-1)">❮</a>
+
+                    <!-- The next button -->
+                    <a class="absolute right-0 top-1/2 p-4 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white hover:text-amber-500 cursor-pointer"
+                        onclick="moveSlide(1)">❯</a>
+
+                </div>
+                <br>
+                <!-- The dots -->
+                <div class="flex justify-center items-center space-x-5">
+                    <div class="dot w-4 h-4 rounded-full cursor-pointer" onclick="currentSlide(1)"></div>
+                    <div class="dot w-4 h-4 rounded-full cursor-pointer" onclick="currentSlide(2)"></div>
+                    <div class="dot w-4 h-4 rounded-full cursor-pointer" onclick="currentSlide(3)"></div>
+                    <div class="dot w-4 h-4 rounded-full cursor-pointer" onclick="currentSlide(4)"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container w-2/6 md:max-w-3xl mx-auto pt-20 " >
+
+            {%if result %}            
+            <div>
+                <p class="mb-8 lg:mb-16 font-light text-center text-white dark:text-white sm:text-xl bg-black">
+                    {{result.name}} muy pronto te contacaremos a <br>
+                    {{result.email}}
+                </p>
+            </div>      
+            {% endif %}   
+
+            {% if form.subject.errors %}
+            <ol>
+                {% for error in form.subject.errors %}
+                    <li><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+            {% endif %}            
+
+            <form action='/embrace/' method='POST' accept-charset="utf-8">{% csrf_token %}
+                <fieldset>
+                    <legend class="pb-8"><span class="number">1</span>Basic Info</legend>
+                    {{form.as_div}}
+                </fieldset>
+                <div class="relative z-0 mb-6 w-full group flex justify-center pt-10">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Adoptar</button>
+                </div>                
+            </form>
+        </div>
+    </div>                        
+
+<!-- Javascript code -->
+<!-- Probado script incrustado -->
+<script>
+
+    window.onload = function() {
+        setInterval(moveSlide, 5000);
+    }
+    // set the default active slide to the first one
+    let slideIndex = 1;
+    showSlide(slideIndex);
+
+    // change slide with the prev/next button
+    function moveSlide(moveStep=1) {
+        showSlide(slideIndex += moveStep);
+    }
+
+    // change slide with the dots
+    function currentSlide(n) {
+        showSlide(slideIndex = n);
+    }
+
+    function showSlide(n) {
+        let i;
+        const slides = document.getElementsByClassName("slide");
+        const dots = document.getElementsByClassName('dot');
+        
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+
+        // hide all slides
+        for (i = 0; i < slides.length; i++) {
+            slides[i].classList.add('hidden');
+        }
+
+        // remove active status from all dots
+        for (i = 0; i < dots.length; i++) {
+            dots[i].classList.remove('bg-yellow-500');
+            dots[i].classList.add('bg-green-600');
+        }
+
+        // show the active slide
+        slides[slideIndex - 1].classList.remove('hidden');
+
+        // highlight the active dot
+        dots[slideIndex - 1].classList.remove('bg-green-600');
+        dots[slideIndex - 1].classList.add('bg-yellow-500');
+    }
+</script>
+</main>
+
+{% endblock content %}
+
+```
+   c)  Agregar sobre `forms.py` del directorio `blog` sobre el cual utilizaremos la tecnica de creacion de formulario basada en la creacion de la clase que hereda de `forms`
+
+```python
+from django import forms
+
+class CreateFormEmbrace(forms.Form):
+    required_css_class = 'xst'
+    name = forms.CharField(label="Nombre del adoptante",
+                        max_length=50,
+                        required=True,
+                        widget=forms.TextInput(attrs={
+        'class':'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'})
+        
+    )
+    email = forms.EmailField(label="email del adoptante",
+                        required=False,
+                        widget=forms.TextInput(attrs={
+        'class':'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'})
+                        )
+    description = forms.CharField(label="Descripcion de la motivacion del  adoptante",
+                        required=False,
+                        widget=forms.Textarea(attrs={
+        'class':'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'}),
+                        )
+    
+```
+
+
+   d)  Agregar sobre `models.py` del directorio `blog` 
+
+```python
+    
+class Embrace(models.Model):
+    """Formulario Solitud de Adopcion"""
+    
+    name = models.CharField(max_length=50)
+    email = models.EmailField()
+    description = models.TextField()
+    
+```
+
+   e)  Agregar sobre `views.py` del directorio `blog` 
+
+```python
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace
+@csrf_exempt
+def embrace(request):
+    if request.method == 'GET':
+        formEmbrace = CreateFormEmbrace(auto_id=False)    
+        return render(request, 
+                    'embrace.html', 
+                    {
+                        'form': formEmbrace,
+                    }
+        )
+        
+    if request.method == 'POST':
+        # name = request.POST["name"]
+        # email = request.POST["email"]
+        # description = request.POST["description"]
+        # print(request.POST)        
+        formEmbrace = CreateFormEmbrace(request.POST)   
+        
+        if formEmbrace.is_valid() :
+
+            info = formEmbrace.cleaned_data
+            name = info["name"]
+            email = info["email"]
+            description = info["description"]            
+            print(info)
+            Embrace.objects.create(
+                                name = name,
+                                email = email,
+                                description = description
+                            )
+
+            return render(request, 
+                        'embrace.html', 
+                        {
+                            'form': formEmbrace,
+                            'result': {'name': name,'email': email},
+                        }
+            )
+
+
+```
+
+
+```bash
+python manage.py check blog
+python manage.py makemigrations
+python manage.py migrate
+```
+
+
+<p align="center">
+    Formulario Embrace.html
+</p>
+<p align="center">    
+    <img src="./public/img/Embrace.png" alt="django Formulario Embrace" height="250">    
+</p>
+<p align="center">
+    Formulario envio de Formulario method POST :  Embrace.html
+</p>
+<p align="center">    
+    <img src="./public/img/Embrace-Mensaje.png" alt="django Formulario Embrace" height="250">    
+</p>
 
 
 > Nota : 
