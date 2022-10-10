@@ -1617,6 +1617,11 @@ lsof -i tcp:8080
 kill -9 <PID>
 ```
 * tutorial para aprender a usar markdown :
+* cursos :
+    - Curso Basico : https://www.youtube.com/watch?v=T1intZyhXDU&t=4281s
+    - Curso Step by Step ( pildora Informatica ) : https://www.youtube.com/playlist?list=PLU8oAlHdN5BmfvwxFO7HdPciOCmmYneAB
+    - Curso Intermedio (Ingles) :https://www.youtube.com/playlist?list=PLEsfXFp6DpzRMby_cSoWTFw8zaMdTEXgL
+
 
   - https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks
   - https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams

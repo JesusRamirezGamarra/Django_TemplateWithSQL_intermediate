@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
@@ -149,35 +149,60 @@ def dona(request):
 
 @csrf_exempt
 def contact(request):
-    context = {
-        'posts': '',
-        'category': '',
-    }
-    return render(request, 'contact.html', context)
+    
+    if request.method == 'GET':
+        return render(request, 'contact.html')
+    
+    if request.method == 'POST':
+        name = request.POST["name"]
+        email = request.POST["email"]
+        subject = request.POST["subject"]        
+        message = request.POST["message"]    
+        print(request.POST)        
+        Contact.objects.create(
+            email= email,
+            subject= subject,
+            message= message
+        )        
+        context = {
+            'result': {'name': name,'email': email},
+        }
+        return render(request, 'contact.html',context)
 
 @csrf_exempt
 def embrace(request):
-    if(request.method == 'GET'):
+    if request.method == 'GET':
+        formEmbrace = CreateFormEmbrace(auto_id=False)    
         return render(request, 
                     'embrace.html', 
                     {
-                        'form': CreateFormEmbrace(),
+                        'form': formEmbrace,
                     }
         )
         
-    if(request.method == 'POST'):
-        name = request.POST["name"]
-        email = request.POST["email"]
-        description = request.POST["description"]
-        print(request.POST)        
-        context = {
-            'posts': 'posts',
-            'category': '',
-        }
-        return render(request, 
-                    'embrace.html', 
-                    {
-                        'form': CreateFormEmbrace(),
-                        'posts': 'posts',
-                    }
-        )
+    if request.method == 'POST':
+        # name = request.POST["name"]
+        # email = request.POST["email"]
+        # description = request.POST["description"]
+        # print(request.POST)        
+        formEmbrace = CreateFormEmbrace(request.POST)   
+        
+        if formEmbrace.is_valid() :
+
+            info = formEmbrace.cleaned_data
+            name = info["name"]
+            email = info["email"]
+            description = info["description"]            
+            print(info)               
+
+            #cmodel
+            context = {
+                'posts': 'posts',
+                'category': '',
+            }
+            return render(request, 
+                        'embrace.html', 
+                        {
+                            'form': formEmbrace,
+                        }
+            )

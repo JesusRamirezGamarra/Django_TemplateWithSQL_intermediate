@@ -8,7 +8,7 @@
 
     <div class="flex bg-gray-100 font-sans leading-normal tracking-normal pb-20"> 
         <!--Container-->
-        <div class="container w-4/6 md:max-w-3xl mx-auto pt-20 ">    
+        <div class="container w-4/6 md:max-w-3xl mx-auto pt-10 ">    
             <div class=" pt-20 pb-20">
                 <!-- Implement the carousel -->
                 <div class="relative w-[700px] mx-auto">
@@ -91,13 +91,26 @@
                 </div>
             </div>
         </div>
-        <div class="container w-2/6 md:max-w-3xl mx-auto pt-10 " >
+        <div class="container w-2/6 md:max-w-3xl mx-auto pt-20 " >
+
+            <!-- {% if form.errors %}
+            <p style="color:red;">Error: Completa el formulario antes de continuar</p>
+            {% endif %} -->
+
+            {% if form.subject.errors %}
+            <ol>
+                {% for error in form.subject.errors %}
+                    <li><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+            {% endif %}            
+
             <form action='/embrace/' method='POST' accept-charset="utf-8">{% csrf_token %}
                 <fieldset>
                     <legend class="pb-8"><span class="number">1</span>Basic Info</legend>
-                    {{form.as_p}}
+                    {{form.as_div}}
                 </fieldset>
-                <div class="relative z-0 mb-6 w-full group flex justify-center">
+                <div class="relative z-0 mb-6 w-full group flex justify-center pt-10">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Adoptar</button>
                 </div>                
             </form>

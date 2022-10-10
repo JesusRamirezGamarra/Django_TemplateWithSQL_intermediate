@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils import timezone
-from datetime import datetime
+# from django.utils import timezone
+# from datetime import datetime
 
 
 # Create your models here.
@@ -133,3 +133,20 @@ class Collaboration(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.amount, self.createdate)
+    
+    
+class Embrace(models.Model):
+    """Formulario Solitud de Adopcion"""
+    
+    name = models.CharField(max_length=50)
+    email = models.EmailField()
+    description = models.TextField()
+    
+    
+class Contact(models.Model):
+    """Formulario de Conactanos"""
+    
+    name = models.CharField(max_length=50)    
+    email = models.EmailField()
+    subject = models.CharField(max_length=50)
+    message = models.TextField()
