@@ -9,7 +9,7 @@
 </p>
 
 # CH - Django with SQL - Intermediate Python
-Para ingresara  la URL en vivo del proyecto hasta el 02/01/2023 : [Ingresa aqui](https://jesusramirez.pythonanywhere.com/){:target="_blank" rel="noopener"}
+Para ingresara  la URL en vivo del proyecto hasta el 02/01/2023 : [Ingresa aqui](https://jesusramirez.pythonanywhere.com/)
 
 >Objetivos Generales:
 Desarrollar una WEB Django con patrón MVT subida a Github.
