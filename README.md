@@ -25,6 +25,18 @@ Proyecto Web Django con patrón MVT que incluya:
 5. Readme que indique el orden en el que se prueban las cosas y/o donde están las  (detallado en el punto 1 al 16)
 funcionalidades.
 
+- Requerimientos :
+    - asgiref==3.5.2
+    - Django==4.1.2
+    - importlib-metadata==5.0.0
+    - Markdown==3.2.1
+    - Pillow==9.2.0
+    - pyclean==2.2.0
+    - sqlparse==0.4.3
+    - zipp==3.8.1
+
+
+
 
 Ubicarse sobre Root del proyecto : 
 
@@ -712,7 +724,7 @@ python manage.py runserver
 </details>
 <details><summary>
 11) Utilizando markdown_extras para primer Litado de Categorias
-</summary>
+<summary>
 
    a) sobre el archivo `markdown_extras.py` del directorio `templatetags` del proyecto `blog` vamos a agregar una funciona que nos retorne el lista de categorias [ver mas](https://docs.djangoproject.com/en/4.1/howto/custom-template-tags/)
 
