@@ -2065,3 +2065,4 @@ kill -9 <PID>
   - https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams
 
 * Documentacion y explicacion para python beginners https://jinja.palletsprojects.com/en/3.1.x/
+* Readme.md : https://readme.so/es
