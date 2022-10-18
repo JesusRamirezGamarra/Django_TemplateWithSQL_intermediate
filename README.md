@@ -2013,7 +2013,7 @@ python manage.py migrate
 
 </details>
 
-> Nota : 
+> ### Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
 * Comando para re ordenar codigo : black .
