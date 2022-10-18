@@ -11,10 +11,10 @@
 # CH - Django with SQL - Intermediate Python
 Para ingresara  la URL en vivo del proyecto hasta el 02/01/2023 : [Ingresa aqui](https://jesusramirez.pythonanywhere.com/)
 
->## Objetivos Generales:
+>### Objetivos Generales:
 Desarrollar una WEB Django con patrón MVT subida a Github.
 
->## Se debe entregar:
+>### Se debe entregar:
 Link de GitHub con el proyecto totalmente subido a la plataforma.
 Proyecto Web Django con patrón MVT que incluya:
 
