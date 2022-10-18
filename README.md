@@ -724,7 +724,7 @@ python manage.py runserver
 </details>
 <details><summary>
 11) Utilizando markdown_extras para primer Litado de Categorias
-<summary>
+</summary>
 
    a) sobre el archivo `markdown_extras.py` del directorio `templatetags` del proyecto `blog` vamos a agregar una funciona que nos retorne el lista de categorias [ver mas](https://docs.djangoproject.com/en/4.1/howto/custom-template-tags/)
 
@@ -2066,3 +2066,5 @@ kill -9 <PID>
 
 * Documentacion y explicacion para python beginners https://jinja.palletsprojects.com/en/3.1.x/
 * Readme.md : https://readme.so/es
+* Editar administrador ( backOffice ): https://www.youtube.com/watch?v=thKO66FsBZI
+* 
