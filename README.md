@@ -2118,9 +2118,10 @@ git fetch origin
 #else has been working on. ... This makes fetching a safe way to review
 #commits before integrating them with your local repository.
 ```
-
+</details>
+<details><summary>
 19 ) Pagina de about 
-
+</summary>
 procedemos a crear `about.html` sobre el directorio `templates` 
 
 ```python
@@ -2212,6 +2213,73 @@ def about (request):
 
 ```
 
+</details>
+<details><summary>
+20 ) Pagina por `post` filtarada por `categoria` 
+</summary>
+
+Editamos `post_list.html` para mostrar algunos datos del post como el overview (subtitulo) y thumbnail ( imagen )
+
+```python
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
+        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+            {{ category.title }}</h1>
+            <div class="h-1 w-20 bg-pink-500 rounded"></div>
+        </div>
+        </div>
+        <div class="flex flex-wrap -m-4">
+        {% for post in posts %}  
+        
+            <div class="xl:w-1/4 md:w-1/2 p-4">
+                <div class="bg-gray-100 p-6 rounded-lg">
+                <a href="{% url 'post' post.slug %}">                    
+                    <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+                </a>                    
+                <h3 class="tracking-widest text-pink-500 text-xs font-medium title-font">
+                    {{ post.subtitle }}</h3>
+                <a href="{% url 'post' post.slug %}" class="rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-green-300 duration-300 text-lg text-gray-700 font-medium title-font mb-4">
+                    {{ post.title }}</a>
+                <p class="leading-relaxed text-base">
+                    {{ post.overview }}</p>
+                </div>
+            </div>
+        
+        {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endblock content %}
+```
+
+como en pasos previos ya habiamos implementado el `<slug>` para poder implementar la pagina `all_posts.html` unicamente nos quedaria implementar el filtro sobre la funcion. por ese motivo sobre `views.py` implementamos : 
+
+```python
+def postlist (request,slug):
+    category = Category.objects.get(slug = slug)
+    posts = Post.objects.filter(categories__in=[category])
+
+    context = {
+        'posts': posts,
+        'category': category,
+    }
+    return render(request, 'post_list.html', context)
+
+def category_post_list (request, slug):
+    category = Category.objects.get(slug = slug)
+    posts = Post.objects.filter(categories__in=[category])
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'post_list.html', context)
+``
 
 </details>
 
