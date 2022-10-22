@@ -2302,6 +2302,62 @@ aprovechamos para realizar un cambio sobre `modelpy` para poder mostrar como dat
         return f"""{self.user.first_name} {self.user.last_name} """
 ```
 
+</details>
+<details><summary>
+22 ) Pull Request - Merge branch    
+</summary>
+Crea una solicitud de incorporación de cambios para proponer cambios en un repositorio y colaborar con ellos. Estos cambios se proponen en una rama, lo cual garantiza que la rama predeterminada contenga únicamente trabajo finalizado y aprobado. [ver mas](https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+
+Con la finalidad de poder hacer `merge` de todos los `commits` realizados sobre el branch `DEV` sobre el branch principal `main` ingresamos desde `github` al menu `pull requests`.Ingresamos un detalle de la contribucion realizada y procedemos a realizar un `pull request` para que `github` nos ayuda visualizando si existen colisiones al realizar el `merge` . En este caso se realizo sin problema alguno.
+
+<p align="center">    
+<img src="./public/img/Github_PullRequest.png" alt="Pull Request" >    
+</p>
+<p align="center">
+    CoderHouse - Python
+</p>
+
+Para poder situarnos nuevamente sobre el branch principal `main` es importante ejecutar :
+
+```bash
+git fetch origin
+git checkout main
+git pull origin main
+git branch
+```
+con lo que visualiremos como se descargan los cambios sobre nuestra version local del branh `main`.
+
+```bash
+(base) jesus@DESKTOP-MKLUFCF:~/Proyecto/App/Python/django/CH-TemplateWithSQL-Intermediate$ git branch
+  DEV
+* main
+(base) jesus@DESKTOP-MKLUFCF:~/Proyecto/App/Python/django/CH-TemplateWithSQL-Intermediate$ git pull origin main
+Enter passphrase for key '/home/jesus/.ssh/id_rsa':
+From github.com:JesusRamirezGamarra/Django_TemplateWithSQL_intermediate
+ * branch            main       -> FETCH_HEAD
+Updating 3fdd682..52cf626
+Fast-forward
+ README.md                                          | 298 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ proyecto_final/blog/models.py                      |   4 +-
+ proyecto_final/blog/urls.py                        |   3 +-
+ proyecto_final/blog/views.py                       |  17 +++-
+ proyecto_final/static/img/JesusRamirez.jpg         | Bin 0 -> 212117 bytes
+ proyecto_final/static/img/LucianoFrancesconi.png   | Bin 0 -> 234092 bytes
+ proyecto_final/static/img/ME.JPG:com.dropbox.attrs | Bin 0 -> 26 bytes
+ proyecto_final/static/img/MarioReina.jpeg          | Bin 0 -> 47798 bytes
+ proyecto_final/templates/about.html                |  68 ++++++++++++++
+ proyecto_final/templates/homepage.html             |   2 +
+ proyecto_final/templates/navbar.html               |   1 +
+ proyecto_final/templates/post.html                 |   5 +-
+ proyecto_final/templates/post_list.html            |  34 +++++--
+ 13 files changed, 421 insertions(+), 11 deletions(-)
+ create mode 100644 proyecto_final/static/img/JesusRamirez.jpg
+ create mode 100644 proyecto_final/static/img/LucianoFrancesconi.png
+ create mode 100644 proyecto_final/static/img/ME.JPG:com.dropbox.attrs
+ create mode 100644 proyecto_final/static/img/MarioReina.jpeg
+ create mode 100644 proyecto_final/templates/about.html
+```
+
 
 
 </details>
