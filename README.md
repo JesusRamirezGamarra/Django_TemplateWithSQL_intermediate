@@ -2314,7 +2314,7 @@ Con la finalidad de poder hacer `merge` de todos los `commits` realizados sobre 
 <img src="./public/img/Github_PullRequest.png" alt="Pull Request" >    
 </p>
 <p align="center">
-    CoderHouse - Python
+    CoderHouse - Pull Request
 </p>
 
 Para poder situarnos nuevamente sobre el branch principal `main` es importante ejecutar :
