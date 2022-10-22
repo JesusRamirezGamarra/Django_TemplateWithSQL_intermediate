@@ -207,3 +207,6 @@ def embrace(request):
                             'result': {'name': name,'email': email},
                         }
             )
+            
+def about (request):
+    return render(request, 'about.html')
