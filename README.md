@@ -9,6 +9,10 @@
 </p>
 
 # CH - Django with SQL - Intermediate Python
+
+<details><summary>
+Challenge 01 - django MVT
+</summary>
 Para ingresara  la URL en vivo del proyecto hasta el 02/01/2023 : [Ingresa aqui](https://jesusramirez.pythonanywhere.com/)
 
 >### Objetivos Generales:
@@ -25,6 +29,7 @@ Proyecto Web Django con patrón MVT que incluya:
 5. Readme que indique el orden en el que se prueban las cosas y/o donde están las  (detallado en el punto 1 al 16)
 funcionalidades.
 
+
 - Requerimientos :
     - asgiref==3.5.2
     - Django==4.1.2
@@ -35,6 +40,73 @@ funcionalidades.
     - sqlparse==0.4.3
     - zipp==3.8.1
 
+Nota : este desafio se cumplio con los pasos del 1 al 17 .
+</details>
+
+<details><summary>
+Challenge 02 - django Entrega Final
+</summary>
+Para ingresara  la URL en vivo del proyecto hasta el xx/xx/xxx : [Ingresa aqui]()
+
+>### Objetivos Generales:
+Crear web similar a un blog
+
+>### Se debe entregar:
+Link de GitHub con el proyecto totalmente subido a la plataforma.
+Proyecto Web Django con patrón MVT que incluya:
+
+1. Se deberá realizar en  duplas o tríos, crearás una aplicación web estilo blog programada en Python en Django. Esta web tendrá admin, perfiles, registró, páginas y formularios.
+2. La entrega se realizará enviando el link a GitHub, en el readme de Github deberá estar el nombre completo de los tres/dos participantes y una descripción de dos o tres renglones contando qué hizo cada uno.
+3. En el github debe haber un video o link a vídeo donde nos muestran su web funcionando en no más de diez minutos. 
+4. Dentro del Github deberá existir una carpeta con por lo menos 3 casos de pruebas debidamente documentados.
+5. Contar con algún acceso visible a la vista de "Acerca de mí" donde se contará acerca de los dueños de la página manejado en el route about/.  (En castellano un “acerca de mí” que hable un poco de los creadores de la web y del proyecto).
+6. Contar con algún acceso visible a la vista de blogs que debe alojarse en el route pages/. (Es decir un html que permite listar todos los blogs de la BD, con una información mínima de dicho blog).
+7. Acceder a una pantalla que contendrá las páginas. Al clickear en “Leer más” debe navegar al detalle de la page mediante un route pages/<pageId>. (O sea al hacer click se ve más detalle de lo que se veía en el apartado anterior).
+8. Si no existe ninguna página mostrar un "No hay páginas aún". (Aclarando, si en la página hacemos clic en algún lugar que no existe que diga eso, o que lleve a un html con esos mensaje, no dejar botones que no responden).
+9. Para crear, editar o borrar las fotos debes estar registrado como Administrador.
+10. Cada blog, es decir cada model Blog debe tener como mínimo, un título, subtítulo, cuerpo, autor, fecha y una imagen (mínimo y obligatorio, puede tener más).
+11. Piezas sugeridas, no hace falta que estén todas, pero tiene que haber por lo menos un CRUD completo y el módulo de Login debe ser sólido:
+    
+| Basic      | Profile          | CRUD           | Extra        | Auth          |
+| :---:      | :---:            | :---:          | :---:        | :---:         |
+| NavBar     | Profile          | Create page    | Messages     | Login         |
+| Home       | Update profile   | Read Page      |              | Signup        |
+| About      | Get profile      | Update page    |              | Logout        |
+| Pages      | Get pages        | Delete page    |
+|            | Get page         |                |
+
+12. Inicio: Al momento de ingresar a la app en la ruta base ‘/’.
+13. Visualizar el home del blog.
+14. Poder listar todas las páginas del blog, poder ver en detalle cada una, poder crear, editar o borrar páginas del blog.
+15. Las páginas están formadas por un título, un contenido en editor de texto avanzado (ckeditor por ejemplo), una imagen, fecha de posteo de la imagen.
+16. Tener una app de registro donde se puedan registrar usuarios en el route accounts/signup, un usuario está compuesto por: email - contraseña - nombre de usuario.
+17. Tener una app de login en el route accounts/login/ la cual permite loguearse con los datos de administrador o de usuario normal.
+18. Tener una app de perfiles en el route accounts/profile/ la cual muestra la info de nuestro usuario y permite poder modificar y/o borrar: imagen - nombre - descripción -  un link a una página web - email y contraseña.
+19. Tener una app de registro donde se puedan registrar usuarios en el route accounts/signup, un usuario está compuesto por: email - contraseña - nombre de usuario.
+20. Tener una app de login en el route accounts/login/ la cual permite loguearse con los datos de administrador o de usuario normal.
+21. Tener una app de perfiles en el route accounts/profile/ la cual muestra la info de nuestro usuario y permite poder modificar y/o borrar: imagen - nombre - descripción -  un link a una página web - email y contraseña.
+22. Contar con un admin en route admin/ donde se puedan manejar las apps y los datos en las apps.
+23. Tener una app de mensajería en el route messages/ para que los perfiles se puedan contactar entre sí.
+
+Los requisitos extra son funcionalidades opcionales que no se incluyen en los criterios de evaluación, pero si te falta diversión y quieres agregar valor a tu proyecto... ¡bajo la única condición de que lo que incluyas debe funcionar!
+
+Messenger y like - integración otra db
+
+En caso que no quieran hacer una Web simil Blog, pueden, pero deberá tener la misma estructura el modelo básico, título, subtítulo, texto, imagen/es, autor, fecha. Y la web debe tener un funcionamiento similar. 
+
+
+- Requerimientos :
+    - asgiref==3.5.2
+    - Django==4.1.2
+    - importlib-metadata==5.0.0
+    - Markdown==3.2.1
+    - Pillow==9.2.0
+    - pyclean==2.2.0
+    - sqlparse==0.4.3
+    - zipp==3.8.1
+
+Nota : este desafio se cumplio con los pasos posteriores al 18 .
+</details>
 
 
 
@@ -2022,7 +2094,32 @@ git checkout -b DEV
 git branch
 ```
 
+consideramos que segun la documentacion de `github` [ver mas](https://github.com/git-guides/git-pull) tenemos : 
+```bash
+# Open/checkout a previous branch
+git checkout ＜existing-branch＞
+# Open/checkout a previous commit
+git checkout <commit> [when commit is not a branch name
+# Create a new branch from current branch
+git checkout -b ＜new-branch＞
+# Create a new branch from existing-branch
+git checkout -b ＜new-branch＞ ＜existing-branch＞
+# Go/Checkout to last commit or branch reset
+git checkout .
+```
 
+Luego nos aseguramos que tenemos la version final ( verificar si existen cambios disponibles / recuperacion de ultima version de metadatos) [ver mas](https://www.freecodecamp.org/espanol/news/git-fetch-vs-pull-cual-es-la-diferencia-entre-los-comandos-git-fetch-y-git-pull/)
+
+```bash
+git fetch origin
+#The git fetch command downloads commits, files,
+#and refs from a remote repository into your local repo. 
+#Fetching is what you do when you want to see what everybody 
+#else has been working on. ... This makes fetching a safe way to review
+#commits before integrating them with your local repository.
+```
+
+19 ) 
 
 
 </details>
@@ -2081,3 +2178,4 @@ kill -9 <PID>
 * Documentacion y explicacion para python beginners https://jinja.palletsprojects.com/en/3.1.x/
 * Readme.md : https://readme.so/es
 * Editar administrador ( backOffice ): https://www.youtube.com/watch?v=thKO66FsBZI
+* Markdown - Tablas : https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables
