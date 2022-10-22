@@ -2010,6 +2010,20 @@ python manage.py migrate
     <img src="./public/img/Embrace-Mensaje.png" alt="django Formulario Embrace" height="250">    
 </p>
 
+</details>
+<details><summary>
+18)   Creaciond de Branch DEV 
+</summary>   
+Para realizar cambios en modo Colaboraivo se creo una branch `DEV` para lo cual se ejecuto lo siguientes comandos.
+
+```bash
+git branch
+git checkout -b DEV
+git branch
+```
+
+
+
 
 </details>
 
