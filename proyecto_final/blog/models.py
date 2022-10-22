@@ -15,7 +15,9 @@ class Author(models.Model):
     profile_picture = models.ImageField()
 
     def __str__(self):
-        return self.user.username
+        # print(self.user)
+        # breakpoint()
+        return f"""{self.user.first_name} {self.user.last_name} """
 
 
 class Category(models.Model):

@@ -50,12 +50,22 @@ def post(request,slug):
     return render(request, 'post.html', context)
 
 def postlist (request,slug):
+    category = Category.objects.get(slug = slug)
+    posts = Post.objects.filter(categories__in=[category])
+
     context = {
-        'posts': '',
-        'category': '',
+        'posts': posts,
+        'category': category,
     }
     return render(request, 'post_list.html', context)
 
+def category_post_list (request, slug):
+    category = Category.objects.get(slug = slug)
+    posts = Post.objects.filter(categories__in=[category])
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'post_list.html', context)
 
 
 @csrf_exempt
@@ -207,3 +217,6 @@ def embrace(request):
                             'result': {'name': name,'email': email},
                         }
             )
+            
+def about (request):
+    return render(request, 'about.html')

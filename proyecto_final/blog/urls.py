@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path
 from django.conf import settings
 
-from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace,about
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     path("dona/", dona, name="dona"),
     path("contact/", contact, name="contact"),
     path("embrace/", embrace, name="embrace"),
+    path('about/', about,name = 'about' ),
 ]
 
 if settings.DEBUG:

@@ -9,6 +9,10 @@
 </p>
 
 # CH - Django with SQL - Intermediate Python
+
+<details><summary>
+Challenge 01 - django MVT
+</summary>
 Para ingresara  la URL en vivo del proyecto hasta el 02/01/2023 : [Ingresa aqui](https://jesusramirez.pythonanywhere.com/)
 
 >### Objetivos Generales:
@@ -25,6 +29,7 @@ Proyecto Web Django con patrón MVT que incluya:
 5. Readme que indique el orden en el que se prueban las cosas y/o donde están las  (detallado en el punto 1 al 16)
 funcionalidades.
 
+
 - Requerimientos :
     - asgiref==3.5.2
     - Django==4.1.2
@@ -35,6 +40,73 @@ funcionalidades.
     - sqlparse==0.4.3
     - zipp==3.8.1
 
+Nota : este desafio se cumplio con los pasos del 1 al 17 .
+</details>
+
+<details><summary>
+Challenge 02 - django Entrega Final
+</summary>
+Para ingresara  la URL en vivo del proyecto hasta el xx/xx/xxx : [Ingresa aqui]()
+
+>### Objetivos Generales:
+Crear web similar a un blog
+
+>### Se debe entregar:
+Link de GitHub con el proyecto totalmente subido a la plataforma.
+Proyecto Web Django con patrón MVT que incluya:
+
+1. Se deberá realizar en  duplas o tríos, crearás una aplicación web estilo blog programada en Python en Django. Esta web tendrá admin, perfiles, registró, páginas y formularios.
+2. La entrega se realizará enviando el link a GitHub, en el readme de Github deberá estar el nombre completo de los tres/dos participantes y una descripción de dos o tres renglones contando qué hizo cada uno.
+3. En el github debe haber un video o link a vídeo donde nos muestran su web funcionando en no más de diez minutos. 
+4. Dentro del Github deberá existir una carpeta con por lo menos 3 casos de pruebas debidamente documentados.
+5. Contar con algún acceso visible a la vista de "Acerca de mí" donde se contará acerca de los dueños de la página manejado en el route about/.  (En castellano un “acerca de mí” que hable un poco de los creadores de la web y del proyecto).
+6. Contar con algún acceso visible a la vista de blogs que debe alojarse en el route pages/. (Es decir un html que permite listar todos los blogs de la BD, con una información mínima de dicho blog).
+7. Acceder a una pantalla que contendrá las páginas. Al clickear en “Leer más” debe navegar al detalle de la page mediante un route pages/<pageId>. (O sea al hacer click se ve más detalle de lo que se veía en el apartado anterior).
+8. Si no existe ninguna página mostrar un "No hay páginas aún". (Aclarando, si en la página hacemos clic en algún lugar que no existe que diga eso, o que lleve a un html con esos mensaje, no dejar botones que no responden).
+9. Para crear, editar o borrar las fotos debes estar registrado como Administrador.
+10. Cada blog, es decir cada model Blog debe tener como mínimo, un título, subtítulo, cuerpo, autor, fecha y una imagen (mínimo y obligatorio, puede tener más).
+11. Piezas sugeridas, no hace falta que estén todas, pero tiene que haber por lo menos un CRUD completo y el módulo de Login debe ser sólido:
+    
+| Basic      | Profile          | CRUD           | Extra        | Auth          |
+| :---:      | :---:            | :---:          | :---:        | :---:         |
+| NavBar     | Profile          | Create page    | Messages     | Login         |
+| Home       | Update profile   | Read Page      |              | Signup        |
+| About      | Get profile      | Update page    |              | Logout        |
+| Pages      | Get pages        | Delete page    |
+|            | Get page         |                |
+
+12. Inicio: Al momento de ingresar a la app en la ruta base ‘/’.
+13. Visualizar el home del blog.
+14. Poder listar todas las páginas del blog, poder ver en detalle cada una, poder crear, editar o borrar páginas del blog.
+15. Las páginas están formadas por un título, un contenido en editor de texto avanzado (ckeditor por ejemplo), una imagen, fecha de posteo de la imagen.
+16. Tener una app de registro donde se puedan registrar usuarios en el route accounts/signup, un usuario está compuesto por: email - contraseña - nombre de usuario.
+17. Tener una app de login en el route accounts/login/ la cual permite loguearse con los datos de administrador o de usuario normal.
+18. Tener una app de perfiles en el route accounts/profile/ la cual muestra la info de nuestro usuario y permite poder modificar y/o borrar: imagen - nombre - descripción -  un link a una página web - email y contraseña.
+19. Tener una app de registro donde se puedan registrar usuarios en el route accounts/signup, un usuario está compuesto por: email - contraseña - nombre de usuario.
+20. Tener una app de login en el route accounts/login/ la cual permite loguearse con los datos de administrador o de usuario normal.
+21. Tener una app de perfiles en el route accounts/profile/ la cual muestra la info de nuestro usuario y permite poder modificar y/o borrar: imagen - nombre - descripción -  un link a una página web - email y contraseña.
+22. Contar con un admin en route admin/ donde se puedan manejar las apps y los datos en las apps.
+23. Tener una app de mensajería en el route messages/ para que los perfiles se puedan contactar entre sí.
+
+Los requisitos extra son funcionalidades opcionales que no se incluyen en los criterios de evaluación, pero si te falta diversión y quieres agregar valor a tu proyecto... ¡bajo la única condición de que lo que incluyas debe funcionar!
+
+Messenger y like - integración otra db
+
+En caso que no quieran hacer una Web simil Blog, pueden, pero deberá tener la misma estructura el modelo básico, título, subtítulo, texto, imagen/es, autor, fecha. Y la web debe tener un funcionamiento similar. 
+
+
+- Requerimientos :
+    - asgiref==3.5.2
+    - Django==4.1.2
+    - importlib-metadata==5.0.0
+    - Markdown==3.2.1
+    - Pillow==9.2.0
+    - pyclean==2.2.0
+    - sqlparse==0.4.3
+    - zipp==3.8.1
+
+Nota : este desafio se cumplio con los pasos posteriores al 18 .
+</details>
 
 
 
@@ -2010,8 +2082,233 @@ python manage.py migrate
     <img src="./public/img/Embrace-Mensaje.png" alt="django Formulario Embrace" height="250">    
 </p>
 
+</details>
+<details><summary>
+18)   Creaciond de Branch DEV 
+</summary>   
+Para realizar cambios en modo Colaboraivo se creo una branch `DEV` para lo cual se ejecuto lo siguientes comandos.
+
+```bash
+git branch
+git checkout -b DEV
+git branch
+```
+
+consideramos que segun la documentacion de `github` [ver mas](https://github.com/git-guides/git-pull) tenemos : 
+```bash
+# Open/checkout a previous branch
+git checkout ＜existing-branch＞
+# Open/checkout a previous commit
+git checkout <commit> [when commit is not a branch name
+# Create a new branch from current branch
+git checkout -b ＜new-branch＞
+# Create a new branch from existing-branch
+git checkout -b ＜new-branch＞ ＜existing-branch＞
+# Go/Checkout to last commit or branch reset
+git checkout .
+```
+
+Luego nos aseguramos que tenemos la version final ( verificar si existen cambios disponibles / recuperacion de ultima version de metadatos) [ver mas](https://www.freecodecamp.org/espanol/news/git-fetch-vs-pull-cual-es-la-diferencia-entre-los-comandos-git-fetch-y-git-pull/)
+
+```bash
+git fetch origin
+#The git fetch command downloads commits, files,
+#and refs from a remote repository into your local repo. 
+#Fetching is what you do when you want to see what everybody 
+#else has been working on. ... This makes fetching a safe way to review
+#commits before integrating them with your local repository.
+```
+</details>
+<details><summary>
+19 ) Pagina de about 
+</summary>
+procedemos a crear `about.html` sobre el directorio `templates` 
+
+```python
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<main>
+  
+
+
+    <section class="text-gray-600 body-font">
+        <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+            <img class="w-24 h-24 rounded-full mx-auto" src="{% static 'img/JesusRamirez.jpg' %}" alt="Jesus Ramirez Arquitecto IT" >            
+            <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                <blockquote>
+                <p class="text-lg font-medium w-4/5 mx-auto">
+                    “IT & Digital Manager, especialista en implementación de estrategias de transformación digital con 17 años de experiencia diseñando e implementando exitosamente estrategias de marketing, comercialización y ventas a nivel regional y local. Master in Business Administration (MBA) del AB Freeman School of Business at Tulane University ( EEUU) y de la Escuela de Negocios de la Pontificia Universidad Católica(Perú) enfocado en la gestión de proyectos ,estrategias e innovación Digital en los sectores de consumo masivo, venta directa, reparto/distribución , seguridad y gestión del riesgo.”
+                </p>
+                </blockquote>
+                <figcaption class="font-medium">
+                <div class="text-sky-500 dark:text-sky-400 w-4/5 mx-auto">
+                    Jesus Ramirez
+                </div>
+                <div class="text-slate-700 dark:text-slate-500 w-4/5 mx-auto">
+                    New Django Developer
+                </div>
+                </figcaption>
+            </div>
+        </figure>    
+    </section>
+    <section class="text-gray-600 body-font">
+        <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+            <img class="w-24 h-24 rounded-full mx-auto" src="{% static '' %}" alt="Luciano Francesconi" >            
+            <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                <blockquote>
+                <p class="text-lg font-medium w-4/5 mx-auto">
+                    “...”
+                </p>
+                </blockquote>
+                <figcaption class="font-medium">
+                <div class="text-sky-500 dark:text-sky-400 w-4/5 mx-auto">
+                    Luciano Francesconi
+                </div>
+                <div class="text-slate-700 dark:text-slate-500 w-4/5 mx-auto">
+                    New Django Developer
+                </div>
+                </figcaption>
+            </div>
+        </figure>    
+    </section>
+    <section class="text-gray-600 body-font">
+        <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+            <img class="w-24 h-24 rounded-full mx-auto" src="{% static '' %}" alt="Mario Reina" >            
+            <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                <blockquote>
+                <p class="text-lg font-medium w-4/5 mx-auto">
+                    “...”
+                </p>
+                </blockquote>
+                <figcaption class="font-medium">
+                <div class="text-sky-500 dark:text-sky-400 w-4/5 mx-auto">
+                    Mario Reina
+                </div>
+                <div class="text-slate-700 dark:text-slate-500 w-4/5 mx-auto">
+                    New Django Developer
+                </div>
+                </figcaption>
+            </div>
+        </figure>    
+    </section>        
+    
+</main>
+{% endblock content %}
+```
+
+Agregamos sobre `urls.py` dentro de `urlpatterns = []`
+
+```python
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace,about
+
+    path('about/', about,name = 'about' ),
+```
+
+creamos la funcion `about` sobre `views.py`
+
+```python
+def about (request):
+    return render(request, 'about.html')
+
+```
 
 </details>
+<details><summary>
+20 ) Pagina por `post` filtarada por `categoria` 
+</summary>
+
+Editamos `post_list.html` para mostrar algunos datos del post como el overview (subtitulo) y thumbnail ( imagen )
+
+```python
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-wrap w-full mb-20">
+        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+            {{ category.title }}</h1>
+            <div class="h-1 w-20 bg-pink-500 rounded"></div>
+        </div>
+        </div>
+        <div class="flex flex-wrap -m-4">
+        {% for post in posts %}  
+        
+            <div class="xl:w-1/4 md:w-1/2 p-4">
+                <div class="bg-gray-100 p-6 rounded-lg">
+                <a href="{% url 'post' post.slug %}">                    
+                    <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+                </a>                    
+                <h3 class="tracking-widest text-pink-500 text-xs font-medium title-font">
+                    {{ post.subtitle }}</h3>
+                <a href="{% url 'post' post.slug %}" class="rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-green-300 duration-300 text-lg text-gray-700 font-medium title-font mb-4">
+                    {{ post.title }}</a>
+                <p class="leading-relaxed text-base">
+                    {{ post.overview }}</p>
+                </div>
+            </div>
+        
+        {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endblock content %}
+```
+
+como en pasos previos ya habiamos implementado el `<slug>` para poder implementar la pagina `all_posts.html` unicamente nos quedaria implementar el filtro sobre la funcion. por ese motivo sobre `views.py` implementamos : 
+
+```python
+def postlist (request,slug):
+    category = Category.objects.get(slug = slug)
+    posts = Post.objects.filter(categories__in=[category])
+
+    context = {
+        'posts': posts,
+        'category': category,
+    }
+    return render(request, 'post_list.html', context)
+
+def category_post_list (request, slug):
+    category = Category.objects.get(slug = slug)
+    posts = Post.objects.filter(categories__in=[category])
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'post_list.html', context)
+```
+
+
+</details>
+<details><summary>
+21 ) Agregar Fecha al POST 
+</summary>
+
+En `post.html` agregamos `{{{post.timestamp}}}` para mostrar la fecha en la que se creo el post 
+
+```python
+<p class="text-base text-base md:text-sl leading-none mb-2">
+    {{ post.timestamp }}</p>	
+```
+aprovechamos para realizar un cambio sobre `modelpy` para poder mostrar como datos del creador del post el nombre completo. Para este fin en la funcion `Author`
+
+```python
+    def __str__(self):
+        # print(self.user)
+        # breakpoint()
+        return f"""{self.user.first_name} {self.user.last_name} """
+```
+
+
+
+</details>
+
+
+
+
 
 > ### Nota : 
 
@@ -2067,3 +2364,4 @@ kill -9 <PID>
 * Documentacion y explicacion para python beginners https://jinja.palletsprojects.com/en/3.1.x/
 * Readme.md : https://readme.so/es
 * Editar administrador ( backOffice ): https://www.youtube.com/watch?v=thKO66FsBZI
+* Markdown - Tablas : https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables
