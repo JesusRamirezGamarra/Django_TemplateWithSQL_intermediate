@@ -2279,9 +2279,36 @@ def category_post_list (request, slug):
         'posts': posts,
     }
     return render(request, 'post_list.html', context)
-``
+```
+
 
 </details>
+<details><summary>
+21 ) Agregar Fecha al POST 
+</summary>
+
+En `post.html` agregamos `{{{post.timestamp}}}` para mostrar la fecha en la que se creo el post 
+
+```python
+<p class="text-base text-base md:text-sl leading-none mb-2">
+    {{ post.timestamp }}</p>	
+```
+aprovechamos para realizar un cambio sobre `modelpy` para poder mostrar como datos del creador del post el nombre completo. Para este fin en la funcion `Author`
+
+```python
+    def __str__(self):
+        # print(self.user)
+        # breakpoint()
+        return f"""{self.user.first_name} {self.user.last_name} """
+```
+
+
+
+</details>
+
+
+
+
 
 > ### Nota : 
 

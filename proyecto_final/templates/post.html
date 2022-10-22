@@ -27,14 +27,15 @@
 		<!-- INICIO Divider-->
 		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
 		<!--Author-->
-        <h4>Coder post realizado por : </h4>
+        <h4>Coder post publicado por : </h4>
 		<div class="flex w-full items-center font-sans px-4 py-12">
 
 			<img class="w-10 h-10 rounded-full mr-4" src="{{ post.author.profile_picture.url }}">
 			<div class="flex-1 px-2">
 				<p class="text-base font-bold text-base md:text-xl leading-none mb-2">
 				{{ post.author }}</p>
-		
+				<p class="text-base text-base md:text-sl leading-none mb-2">
+                    {{ post.timestamp }}</p>		
 			</div>
 			
 		</div>
