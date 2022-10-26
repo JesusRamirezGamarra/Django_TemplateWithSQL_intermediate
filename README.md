@@ -2358,17 +2358,76 @@ Fast-forward
  create mode 100644 proyecto_final/templates/about.html
 ```
 
+</details>
+<details><summary>
+22 ) Setting Config
+</summary>
 
+Al ingresar al archivo `setting.py` de nuestro directorio `proyecto_final` podremos realizar una serie de configuracion adicioales como la de poder colocar el GMT-5 el cual corresponde a la ciudad de Lima/Bogota/Quito. [ver mas](https://docs.djangoproject.com/en/4.1/topics/i18n/timezones/) el listado de `Time_ZONE` que podemos utilizar disponible en [ver mas](https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568)
 
+```python
+TIME_ZONE = "America/Lima"
+USE_TZ = False
+```
 </details>
 
+Para poder cumplir con la funcionalidad de redireccionar y mostar una pagina `404.html` que indique el clasico page not found cuando se ingrese una URL invalidatenemos que considerar configurar [ver mas](https://bestprogrammingblogs.blogspot.com/2021/03/django-static-files-not-working-when-debug-is-false.html) 
 
+```python
+DEBUG = False
+ALLOWED_HOSTS = ['localhost','127.0.0.1', 'http://jesusramirez.pythonanywhere.com/']
+```
+aunque podriamos continuar utilizando este comando luego veremos que es mejor realizar los cambios finales a fin de tener el aplicativo con la configuracion que nos permita desplegar sin tener que hacer mas cambios .
+
+```bash
+python manage.py runserver --insecure
+```
+
+debido a nuestra configuracion previamente trabajada el cual solo considero un flujo de accion para `DEBUG=True` tendremos que adicionalmente hacer unos cambios sobre los directorios y/o url que utilizaremos parar mostrar el contenido estatico y media. de igual forma sobre `setting.py` buscamos y reemplazamos la configuracion.
+
+```python
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
+```
+posteriormente en el archivo `urls.py` agregaremos las siguientes lineas de codigo considerar la version de python que se tiene ya que el method `url` fue deprecado a partir de python 3.1 y el equivalente mas proximo es `re_path` [ver mas](https://stackoverflow.com/questions/63367594/the-url-function-in-django-has-been-deprecated-do-i-have-to-change-my-source)
+
+```python
+from django.urls import path,re_path
+from django.conf import settings
+from django.views.static import serve
+urlpatterns = [
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),    
+...
+```
+Finalmente al acabar esta configuracion podremos visualizar nuestra pagina `404.html`  existente en `templates` cuando se ingrese una url inexistente.
+
+<p align="center">
+  <p align="center">    
+    <img src="./public/img/404PageNoFound.png" alt="404 Page No Found" >    
+  </p>
+  <p align="center">
+      HTTP​ 404 Not Found o HTTP 404 No Encontrado es un código de estado HTTP que indica que el host ha sido capaz de comunicarse con el servidor, pero no existe el recurso que ha sido pedido. [ver mas](https://www.ionos.es/digitalguide/paginas-web/creacion-de-paginas-web/que-significa-el-error-404-not-found/)
+  </p>
+</p>
 
 
 
 > ### Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
+```bash
+python3 -m venv .venv
+cd .\.venv\
+scripts\activate
+```
 * Comando para re ordenar codigo : black .
 * Comando para instalar libreria que permite eliminar archivo __Pycache__ : pip install pyclean
 * comando para visualizar estructura de directorios : tree -L 2

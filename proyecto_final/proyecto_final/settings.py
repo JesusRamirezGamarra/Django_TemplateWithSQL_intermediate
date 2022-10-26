@@ -27,10 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-mha2g&e%5#oi*m%pzmuw323hmxmnif#t+5xqb*!g3l(0$&32@m"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*','localhost','127.0.0.1', 'http://jesusramirez.pythonanywhere.com/']
 
 # Application definition
 
@@ -104,26 +103,29 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+# TIME_ZONE = "UTC"
+TIME_ZONE = "America/Lima"
+USE_TZ = False
 
 USE_I18N = True
 
-USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
 
-STATICFILES_DIRS = [
-    # BASE_DIR  /"statics"
-    os.path.join(BASE_DIR, "static"),
-]
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-MEDIA_URL = os.path.join(BASE_DIR, "static/media/")
-STATIC_ROOT = os.path.join(BASE_DIR, "static/static_cdn/")
-MEDIA_ROOT = os.path.join(BASE_DIR, "static/media_cdn/")
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
+
 
 
 # Default primary key field type

@@ -490,7 +490,7 @@
                     <div class="py-1" role="none">
 <!-- Pendiente Agregar post listados  -->
                         {% for category in category_list %}
-                            <a href="{% url 'postlist' category.slug %}" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-pink-200 " role="menuitem" tabindex="-1" id="menu-item-0">
+                            <a href="{% url 'postlist' category.slug %}" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-gray-200 " role="menuitem" tabindex="-1" id="menu-item-0">
                             {{ category.title }}
                             </a>
                         {% endfor %}
