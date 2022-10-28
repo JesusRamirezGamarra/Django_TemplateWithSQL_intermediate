@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from ckeditor.fields import RichTextField
 # from django.utils import timezone
 # from datetime import datetime
 
@@ -142,7 +143,8 @@ class Embrace(models.Model):
     
     name = models.CharField(max_length=50)
     email = models.EmailField()
-    description = models.TextField()
+    # description = models.TextField()
+    description =RichTextField()
     
     
 class Contact(models.Model):
@@ -152,3 +154,4 @@ class Contact(models.Model):
     email = models.EmailField()
     subject = models.CharField(max_length=50)
     message = models.TextField()
+    # message = RichTextField()

@@ -75,8 +75,8 @@ def dona(request):
         donation_Goal = Donation_Goal.objects.filter(active=f"{1}").first()
         result_net = Collaboration.objects.aggregate(total_amount=Sum('amount'))
         result = Collaboration.objects.values('donation').annotate(total_amount=Sum('amount'))
-        print(result_net)
-        print(result)
+        # print(result_net)
+        # print(result)
 
         context = {
                     "donation_Goal":donation_Goal,

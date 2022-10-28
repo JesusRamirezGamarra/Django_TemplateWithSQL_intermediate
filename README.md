@@ -2480,3 +2480,24 @@ kill -9 <PID>
 * Readme.md : https://readme.so/es
 * Editar administrador ( backOffice ): https://www.youtube.com/watch?v=thKO66FsBZI
 * Markdown - Tablas : https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables
+* Obtener version de Django : 
+```bash
+import django
+django.VERSION
+django.get_version()
+```
+
+```bash
+python -m django --version
+python -c "import django; print(django.get_version())"
+django-admin --version
+```
+
+```bash
+pip freeze | grep Django
+pip show django
+```
+
+
+https://www.youtube.com/watch?v=a37BL0stIuM
+https://django-ckeditor.readthedocs.io/en/latest/
