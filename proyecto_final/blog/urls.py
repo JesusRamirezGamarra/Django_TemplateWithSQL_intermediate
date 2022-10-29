@@ -17,7 +17,7 @@ from django.urls import path,re_path
 from django.conf import settings
 from django.views.static import serve
 
-from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace,about
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,AllPostView
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -27,14 +27,17 @@ urlpatterns = [
     # path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     path("", homepage, name="homepage"),
     path("homepage/", homepage, name="homepage"),
-    path("post/<slug>/", post, name="post"),
-    path("postlist/<slug>/", postlist, name="postlist"),
+    path("post/<str:slug>/", post, name="post"),
+    path("postlist/<str:slug>/", postlist, name="postlist"),
     path("posts/", allposts, name="allposts"),
     path("search/", search, name="search"),
     path("dona/", dona, name="dona"),
     path("contact/", contact, name="contact"),
     path("embrace/", embrace, name="embrace"),
     path('about/', about,name = 'about' ),
+    path('add_post_colaborator/', AddPostView.as_view(), name='add_post_colaborator'),
+    path('all_post_colaborator/', AllPostView_list.as_view(), name='all_post_colaborator'),    
+    path('all_post_percolaborator/<str:slug>', AllPostView, name='all_post_percolaborator'),    
 ]
 
 if settings.DEBUG:

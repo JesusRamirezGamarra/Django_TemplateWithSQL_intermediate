@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace, PostUserColaborator, UserColaborator
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from django.db.models import Sum,Count
-from .forms import CreateFormEmbrace    
+from .forms import CreateFormEmbrace,PostUserColaboratorForm
+from django.views.generic.list import ListView
+
 
 # Create your views here.
 
@@ -203,7 +205,7 @@ def embrace(request):
             name = info["name"]
             email = info["email"]
             description = info["description"]            
-            print(info)
+            # print(info)
             Embrace.objects.create(
                                 name = name,
                                 email = email,
@@ -220,3 +222,52 @@ def embrace(request):
             
 def about (request):
     return render(request, 'about.html')
+
+
+
+class AddPostView(ListView):
+    model = PostUserColaborator
+
+    print ('AddPostView')
+    
+    def get(self, request):
+        form = PostUserColaboratorForm()
+        return render(request, 'add_post_colaborator.html', {'form':form})
+    def post(self, request):
+        form = PostUserColaboratorForm(request.POST)
+        if form.is_valid():
+            userName = form.cleaned_data['userName']
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+
+            user_obj = UserColaborator.objects.get(user_name=userName)
+            add_post = PostUserColaborator.objects.create(user=user_obj, title=title, content=content)
+            add_post.save()
+            form = PostUserColaboratorForm()
+            return render(request,'add_post_colaborator.html',{'form':form})
+
+class AllPostView_list(AddPostView):
+    model = PostUserColaborator
+    
+    def get(self,request):
+        all_post = self.model.objects.all().order_by('-createdate')
+        print(all_post)
+        return render(request, 'all_post_colaborator.html', {'posts':all_post})
+
+def AllPostView(request, slug):
+    userColaborator = UserColaborator.objects.get(username = slug)
+    # print('userColaborator',userColaborator)
+    # breakpoint()
+    postUserColaborator = PostUserColaborator.objects.filter(user= userColaborator).order_by('-createdate')
+    context = {
+        'posts': postUserColaborator,
+    }
+    return render(request, 'all_post_colaborator.html', context)    
+    
+    # model = PostUserColaborator
+    
+    # def get(self,request):
+    #     all_post = self.model.objects.all().order_by('-id')
+    #     print(all_post)
+    #     print(all_post.user.profile_picture.url)
+    #     return render(request, 'all_post_percolaborator.html', {'posts':all_post})

@@ -40,7 +40,7 @@ class Post(models.Model):
     slug = models.SlugField()
     overview = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    content = models.TextField()
+    content = models.TextField()   
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     thumbnail = models.ImageField()
     categories = models.ManyToManyField(Category)
@@ -143,8 +143,8 @@ class Embrace(models.Model):
     
     name = models.CharField(max_length=50)
     email = models.EmailField()
-    # description = models.TextField()
-    description =RichTextField()
+    description = models.TextField()
+    # description =RichTextField()
     
     
 class Contact(models.Model):
@@ -155,3 +155,32 @@ class Contact(models.Model):
     subject = models.CharField(max_length=50)
     message = models.TextField()
     # message = RichTextField()
+    
+    
+    
+
+class UserColaborator(models.Model):
+    username = models.CharField(max_length=70)
+    pwd = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    profile_picture = models.ImageField(max_length=None, blank=True)
+
+    def __str__(self):
+        return self.name
+        # return f"""{self.user.first_name} {self.user.last_name} """
+
+    
+    class  Meta:   #new
+        verbose_name_plural  =  "User colaborators"        
+
+class PostUserColaborator(models.Model):
+    user = models.ForeignKey(UserColaborator, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = RichTextField(blank=True,null=True)
+    createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    
+    def __str__(self):
+        return self.title
+    
+    class  Meta:   #new
+        verbose_name_plural  =  "Post user colaborators"    

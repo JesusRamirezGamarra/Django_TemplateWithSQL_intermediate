@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}    
+{% block content %}
+    
+    <h1>ckEditor</h1>
+    <p><a href="{% url 'all_post_colaborator'%}">See Post</a></p>
+    <hr>
+    <form action="" method="post" >
+        {% csrf_token %} 
+        {{form.media}}
+        {{form.as_p}} 
+        <input type="submit" value="Upload">
+    </form>
+
+
+{% endblock content %}    

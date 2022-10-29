@@ -3,6 +3,7 @@
 
 {% block content %}
 <link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css"/>
+
 <main>
 
 
@@ -113,7 +114,6 @@
             <form action='/embrace/' method='POST' accept-charset="utf-8">{% csrf_token %}
                 <fieldset>
                     <legend class="pb-8"><span class="number">1</span>Basic Info</legend>
-                    <!-- {{form.media}} -->
                     {{form.as_div}}
                 </fieldset>
                 <div class="relative z-0 mb-6 w-full group flex justify-center pt-10">
