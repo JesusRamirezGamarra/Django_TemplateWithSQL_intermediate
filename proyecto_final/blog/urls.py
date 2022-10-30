@@ -17,7 +17,7 @@ from django.urls import path,re_path
 from django.conf import settings
 from django.views.static import serve
 
-from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,allPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,Detail_UserPostColaborator,login,registrar
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,allPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,Detail_UserPostColaborator,login,registrar,perfil,perfil_editar,Password_editar
 
 
 from django.conf.urls.static import static
@@ -52,8 +52,13 @@ urlpatterns = [
     path("login/", login, name="login"),
     path("registrar/", registrar, name="registrar"),
     path("logout",LogoutView.as_view(template_name="private/logout.html"), name="logout"),
-    # path("logout/",LogoutView.as_view(template_name="AppCoder24/logout.html"),name="Logout",),
+    path("perfil/", perfil, name="perfil"),
+    path("perfil/editar/", perfil_editar, name="perfil_editar"),
+    path("password/editar/", Password_editar.as_view(), name="password_editar"),
+    
+    
 ]
+
 
 # if settings.DEBUG:
 #     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

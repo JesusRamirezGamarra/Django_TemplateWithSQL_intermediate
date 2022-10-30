@@ -556,7 +556,7 @@
        {% if not request.user.is_authenticated %}
             <div class="pl-5" ><a href="{% url 'login' %}">LOGIN</a></div>
         {% else %}                
-            <div class="pl-5" ><a href="#">{{request.user.username}}</a></div>        
+            <div class="pl-5" ><a href="{% url 'perfil' %}">{{request.user.username}}</a></div>        
             <div class="pl-5" ><a href="{% url 'logout' %}">LOGOUT</a></div>       
         {% endif %}
         

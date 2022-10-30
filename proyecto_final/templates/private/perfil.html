@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block title_pagina %}
+<title>Perfil</title>
+{% endblock title_pagina %}
+
+{% block content %}
+<h2>Informacion de Usuario</h2>
+<hr>
+<p>
+    <li>First Name : {{request.user.first_name}}</li>
+    <li>Last Name : {{request.user.last_name}}</li>
+    <li>Email : {{request.user.email}}</li>
+</p>
+<p>
+    <a href={% url 'perfil_editar' %} >Editar Datos</a> 
+</p>
+<hr>
+<p>
+    <a href={% url 'password_editar' %}>Cambiar Password</a> 
+</p>
+{% endblock content %}

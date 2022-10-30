@@ -7,8 +7,6 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 User = get_user_model()
-
-
 class Author(models.Model):
     """Author utilizando el listado de Users del sistema"""
 
@@ -173,7 +171,10 @@ class Perfil(models.Model):
     def __str__(self):
         return self.name
     class  Meta:   #new
-        verbose_name_plural  =  "User Colaborator Perfils"                
+        verbose_name_plural  =  "User Colaborator Perfils"               
+        
+        
+from django.contrib.auth.models import User 
 
 class UserColaborator(models.Model):
     email = models.EmailField(max_length=200)
@@ -181,10 +182,12 @@ class UserColaborator(models.Model):
     pwd = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     description = models.TextField()
-    profile_picture = models.ImageField(max_length=None, blank=True)
+    profile_picture = models.ImageField(upload_to ='avatar',max_length=None, blank=True)
     perfil= models.ForeignKey(Perfil, on_delete=models.CASCADE)
     suscripcion = models.ForeignKey(Suscripcion, on_delete=models.CASCADE)
     createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    # user = models.Foreignkey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

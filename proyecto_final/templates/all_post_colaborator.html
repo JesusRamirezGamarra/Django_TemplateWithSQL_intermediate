@@ -3,43 +3,61 @@
 {% block content %}
 {% load static %}
 <main>    
-    {% for post in posts %}
+
+
+
+    {% if posts %}        
+        {% for post in posts %}
+        <hr>
+        <section class="text-gray-600 body-font ">
+            
+            <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+                <div class="h-26 grid grid-cols-1 content-start ...">
+                    
+                    <div class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800 flex justify-between ">
+                        <div >
+                            <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
+                            {{ post.title }}</h2>
+                            <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-start ">
+                                {{ post.createdate }}</p>	                        
+                        </div>
+                        <div >
+                            <figcaption class="font-medium">
+                                <img class="w-24 h-24 rounded-full mx-auto" src="{{ post.user.profile_picture.url }}"  alt="colaborator" >                       
+                                <div class="text-slate-700 dark:text-slate-500 mx-auto flex justify-center">
+                                    {{ post.user.name }}
+                                </div>
+                                <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
+                                    {{ post.user.perfil.name }}</p>	
+                                {% comment %} <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-center">
+                                    {{ post.createdate }}</p>		                     {% endcomment %}
+                            </figcaption>
+                        </div>                    
+                    </div>
+                </div>           
+                <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                    <blockquote>
+                    <p class="text-lg font-medium w-4/5 mx-auto">
+                        {{ post.content|safe }}
+                    </p>
+                    </blockquote>
+                </div>
+            </figure>   
+        </section>
+        {% endfor %}
+    {% else %}
     <hr>
     <section class="text-gray-600 body-font ">
-        
         <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
-            <div class="h-26 grid grid-cols-1 content-start ...">
-                
-                <div class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800 flex justify-between ">
-                    <div >
-                        <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
-                        {{ post.title }}</h2>
-                        <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-start ">
-                            {{ post.createdate }}</p>	                        
-                    </div>
-                    <div >
-                        <figcaption class="font-medium">
-                            <img class="w-24 h-24 rounded-full mx-auto" src="{{ post.user.profile_picture.url }}"  alt="colaborator" >                       
-                            <div class="text-slate-700 dark:text-slate-500 mx-auto flex justify-center">
-                                {{ post.user.name }}
-                            </div>
-                            <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
-                                {{ post.user.perfil.name }}</p>	
-                            {% comment %} <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-center">
-                                {{ post.createdate }}</p>		                     {% endcomment %}
-                        </figcaption>
-                    </div>                    
-                </div>
-            </div>           
-            <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+            <div class="pt-6 md:p-8 text-center md:text-left space-y-4 ">
                 <blockquote>
-                <p class="text-lg font-medium w-4/5 mx-auto">
-                    {{ post.content|safe }}
+                <p class="text-lg font-medium mx-auto  flex justify-center">
+                    No se han encontado Resultados ... 
                 </p>
                 </blockquote>
             </div>
         </figure>   
-    </section>
-    {% endfor %}
+    </section>        
+    {% endif %}        
 </main>
 {% endblock content %}

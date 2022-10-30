@@ -128,7 +128,8 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     print('STATIC_ROOT : ', STATIC_ROOT) 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
 CKEDITOR_UPLOAD_PATH= 'uploads/'
 
 

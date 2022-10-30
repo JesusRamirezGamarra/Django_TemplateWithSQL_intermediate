@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from django.db.models import Sum,Count
-from .forms import CreateFormEmbrace,PostUserColaboratorForm
+from .forms import CreateFormEmbrace,PostUserColaboratorForm,EditarPerfilFormulario
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 
@@ -346,3 +346,50 @@ def registrar(request):
         formulario = UserRegisterForm()
     return render(request, 'private/registrar.html',{'formulario':formulario})
 
+@login_required(login_url='/login')
+def perfil(request):
+    # formulario = UserRegisterForm(request.POST)
+    userColaborator, es_NuevoUserColaborator = UserColaborator.objects.get_or_create(user = request.user) #crea el objeto  UserColaborator si no existe
+    return render(request, 'private/perfil.html',{'formulario':{}})
+
+@login_required(login_url='/login')
+def perfil_editar(request):
+    # user = request.user # se podria realizar con la referencia a user en lugar de request.
+    # user = request.user
+     
+    
+    if request.method == 'POST':
+        formulario = EditarPerfilFormulario(request.POST)
+        
+        if formulario.is_valid():
+            datanueva = formulario.cleaned_data
+            request.user.first_name = datanueva['first_name']
+            request.user.last_name = datanueva['last_name']
+            request.user.email = datanueva['email']
+            request.user.save()
+            
+            return redirect('perfil')
+        
+    else:
+        formulario = EditarPerfilFormulario(
+            initial={   'first_name': request.user.first_name, 
+                        'last_name': request.user.last_name,
+                        'email': request.user.email,
+                    }
+        )
+    return render(request, 'private/perfil_editar.html',{'formulario':formulario})
+
+
+from django.contrib.auth.views import PasswordChangeView
+class Password_editar(LoginRequiredMixin,PasswordChangeView):
+    template_name = 'private/password_editar.html'
+    success_url = '/password/editar/'
+    login_url = '/login/'   
+    
+    
+    
+    # model = PostUserColaborator
+    # template_name = 'CRUD/update_post_colaborator.html'
+    # success_url = '/post_colaborator/read/'
+    # fields = '__all__'    
+    # login_url = '/login/'         

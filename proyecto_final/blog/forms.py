@@ -72,3 +72,8 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username','email','password1','password2']
         # fields =  '__all__'
         help_texts = {key:'' for key in fields} #listComprension aplica para duplas y dictorionarys
+        
+class EditarPerfilFormulario(forms.Form):
+    email = forms.EmailField(label='Email')
+    first_name = forms.CharField(label='Nombre')
+    last_name = forms.CharField(label='Apellido')

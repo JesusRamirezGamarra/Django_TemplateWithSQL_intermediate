@@ -15,6 +15,7 @@ admin.site.register(Suscripcion)
 admin.site.register(Perfil)
 
 
+
 @admin.register(UserColaborator)
 class UserColaboratorAdmin(admin.ModelAdmin):
     # empty_value_display = 'unknown'
@@ -33,6 +34,7 @@ class UserColaboratorAdmin(admin.ModelAdmin):
         form.base_fields["username"].label = "User Name"
         form.base_fields["pwd"].label = "Password"
         form.base_fields["profile_picture"].label = "profile Image"
+        form.base_fields["user"].label = "Usuario Django"
         return form          
 # #admin.site.register(UserColaborator,UserColaboratorAdmin)   # otra forma de relacionar con model y form.
 
