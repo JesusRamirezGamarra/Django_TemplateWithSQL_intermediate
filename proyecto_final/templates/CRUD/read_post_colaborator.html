@@ -1,0 +1,78 @@
+
+{% extends 'base.html' %}   
+
+{% block title_pagina %}
+<title>Read Post</title>
+{% endblock title_pagina %}
+
+{% block content %}
+{% load static %}
+<main>   
+
+    {% comment %} <a href="{% url 'create_post_colaborator' %}">Crear</a> {% endcomment %}
+    <section class="bg-white dark:bg-gray-900 pb-20" >    
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Read Post </h2>
+            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-sm ">
+                En informática, <b>CRUD</b> es el acrónimo de "  Crear, <b><span class="text-purple-600" >Leer</span></b>, Actualizar y Borrar" (del original en inglés: Create,<b><span class="text-purple-600" > Read</span></b>, Update and Delete), que se usa para referirse a las funciones básicas en bases de datos o la capa de persistencia en un software.
+
+                En algunos lugares, se utilizan las siglas ABM para lo mismo ("Alta, Baja y Modificación"), obviando la operación de "obtener"; el acrónimo ABC para "Altas, Bajas y Cambios"; ABML siendo la última letra (L) de "listar, listado o lectura"; ABMC siendo la 'C' de "Consulta"; o bien CLAB que sería la traducción literal del acrónimo ("Crear, Leer, Actualizar y Borrar") también se llega a usar el acrónimo ABCC ("Altas, Bajas, Cambios y Consultas").
+            </p>        
+
+        {% if object_list %}    
+            {% for post in object_list %}
+            <hr>
+            <section class="text-gray-600 body-font ">
+                
+                <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+                    <div class="h-26 grid grid-cols-1 content-start ...">
+                        
+                        <div class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800 flex justify-between ">
+                            <div >
+                                <h2 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
+                                {{ post.title }}</h2>
+                                <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-start ">
+                                    {{ post.createdate }}</p>	                        
+                            </div>
+                            <div >
+                                <figcaption class="font-medium">
+                                    <img class="w-24 h-24 rounded-full mx-auto" src="{{ post.user.profile_picture.url }}"  alt="colaborator" >                       
+                                    <div class="text-slate-700 dark:text-slate-500 mx-auto flex justify-center">
+                                        {{ post.user.name }}
+                                    </div>
+                                    <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
+                                        {{ post.user.perfil.name }}</p>	
+                                    {% comment %} <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-center">
+                                        {{ post.createdate }}</p>		                     {% endcomment %}
+                                </figcaption>
+                            </div>                    
+                        </div>
+                    </div>           
+                    <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+                        <blockquote>
+                        <p class="text-lg font-medium w-4/5 mx-auto">
+                            {{ post.content|safe }}
+                        </p>
+                        </blockquote>
+                    </div>
+                </figure>   
+            </section>
+            {% endfor %}
+        {% else %}
+        <hr>
+        <section class="text-gray-600 body-font ">
+            <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
+                <div class="pt-6 md:p-8 text-center md:text-left space-y-4 ">
+                    <blockquote>
+                    <p class="text-lg font-medium mx-auto  flex justify-center">
+                        No se han encontado Resultados
+                    </p>
+                    </blockquote>
+                </div>
+            </figure>   
+        </section>        
+        {% endif %}
+        </div>
+    </section>        
+</main>
+{% endblock content %}    

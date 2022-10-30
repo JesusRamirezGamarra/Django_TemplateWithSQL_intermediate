@@ -17,7 +17,9 @@ from django.urls import path,re_path
 from django.conf import settings
 from django.views.static import serve
 
-from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,AllPostView
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,AllPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,Detail_UserPostColaborator
+
+
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -37,12 +39,22 @@ urlpatterns = [
     path('about/', about,name = 'about' ),
     path('add_post_colaborator/', AddPostView.as_view(), name='add_post_colaborator'),
     path('all_post_colaborator/', AllPostView_list.as_view(), name='all_post_colaborator'),    
-    path('all_post_percolaborator/<str:slug>', AllPostView, name='all_post_percolaborator'),    
+    path('all_post_percolaborator/<str:slug>', AllPostView, name='all_post_percolaborator'),  
+    
+    
+    path('post_colaborator/create/', Create_UserPostColaborator.as_view(), name='create_post_colaborator'),   
+    path('post_colaborator/read/', Read_UserPostColaborator.as_view(), name='read_post_colaborator'),   
+    path('post_colaborator/update/<int:pk>/', Update_UserPostColaborator.as_view(), name='update_post_colaborator'),   
+    path('post_colaborator/delete/<int:pk>/', Delete_UserPostColaborator.as_view(), name='delete_post_colaborator'),   
+    # path('detail_post_colaborator/', Detail_UserPostColaborator.as_view(), name='detail_post_colaborator'),   
+    
+    # path("login/", MyLogin.as_view(), name="Login"),
+    # path("logout/",LogoutView.as_view(template_name="AppCoder24/logout.html"),name="Logout",),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
 # else:
 #     urlpatterns += url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT})

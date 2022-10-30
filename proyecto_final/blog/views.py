@@ -256,18 +256,48 @@ class AllPostView_list(AddPostView):
 
 def AllPostView(request, slug):
     userColaborator = UserColaborator.objects.get(username = slug)
-    # print('userColaborator',userColaborator)
-    # breakpoint()
     postUserColaborator = PostUserColaborator.objects.filter(user= userColaborator).order_by('-createdate')
     context = {
         'posts': postUserColaborator,
     }
     return render(request, 'all_post_colaborator.html', context)    
+
+#############################################
+# CRUD + Detail
+#############################################
+
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+
+class Create_UserPostColaborator(CreateView):
+    model = PostUserColaborator
+    template_name = 'CRUD/create_post_colaborator.html'
+    success_url = '/post_colaborator/read/'
+    fields = '__all__'
     
-    # model = PostUserColaborator
-    
-    # def get(self,request):
-    #     all_post = self.model.objects.all().order_by('-id')
-    #     print(all_post)
-    #     print(all_post.user.profile_picture.url)
-    #     return render(request, 'all_post_percolaborator.html', {'posts':all_post})
+
+class Read_UserPostColaborator(ListView):
+    model = PostUserColaborator
+    template_name = 'CRUD/read_post_colaborator.html'
+    fields = '__all__'    
+    ordering = ['-createdate']
+
+    # def get_queryset(self, *args, **kwargs):
+    #     qs = super(Read_UserPostColaborator, self).get_queryset(*args, **kwargs)
+    #     qs = qs.order_by("createdate")
+    #     return qs    
+
+class Update_UserPostColaborator(UpdateView):
+    model = PostUserColaborator
+    template_name = 'CRUD/update_post_colaborator.html'
+    success_url = '/post_colaborator/read/'
+    fields = '__all__'       
+
+class Delete_UserPostColaborator(DeleteView):
+    model = PostUserColaborator
+    template_name = 'CRUD/delete_post_colaborator.html'
+    success_url = '/post_colaborator/read/'    
+    fields = '__all__'    
+
+class Detail_UserPostColaborator():
+    pass

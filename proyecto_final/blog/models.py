@@ -156,31 +156,49 @@ class Contact(models.Model):
     message = models.TextField()
     # message = RichTextField()
     
-    
-    
 
-class UserColaborator(models.Model):
-    username = models.CharField(max_length=70)
-    pwd = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-    profile_picture = models.ImageField(max_length=None, blank=True)
+class Suscripcion(models.Model):
+    name = models.CharField(max_length=50)    
+    createdate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
-        # return f"""{self.user.first_name} {self.user.last_name} """
-
+    class  Meta:   #new
+        verbose_name_plural  =  "User Colaborator Suscripcions"                    
     
+class Perfil(models.Model):
+    name = models.CharField(max_length=50)    
+    createdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+    class  Meta:   #new
+        verbose_name_plural  =  "User Colaborator Perfils"                
+
+class UserColaborator(models.Model):
+    email = models.EmailField(max_length=200)
+    username = models.CharField(max_length=70)
+    pwd = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    profile_picture = models.ImageField(max_length=None, blank=True)
+    perfil= models.ForeignKey(Perfil, on_delete=models.CASCADE)
+    suscripcion = models.ForeignKey(Suscripcion, on_delete=models.CASCADE)
+    createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+
+    def __str__(self):
+        return self.name
     class  Meta:   #new
         verbose_name_plural  =  "User colaborators"        
 
 class PostUserColaborator(models.Model):
     user = models.ForeignKey(UserColaborator, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    content = RichTextField(blank=True,null=True)
+    content = RichTextField(blank=True,null=True)#
     createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     
     def __str__(self):
         return self.title
     
     class  Meta:   #new
-        verbose_name_plural  =  "Post user colaborators"    
+        verbose_name_plural  =  "User Post colaborators"    

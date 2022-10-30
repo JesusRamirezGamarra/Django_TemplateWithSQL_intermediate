@@ -1,0 +1,62 @@
+
+{% extends 'base.html' %}    
+
+{% block title_pagina %}
+<title>Update Post</title>
+{% endblock title_pagina %}
+
+{% block content %}
+{% load static %}
+<main>   
+    <section class="bg-white dark:bg-gray-900 pb-20" >    
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Update Post </h2>
+            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-md">
+                En informática, <b>CRUD</b> es el acrónimo de " Crear, Leer,  <b><span class="text-purple-600" >Actualizar</span></b>  y Borrar" (del original en inglés: Create, Read, <b><span class="text-purple-600" >Update</span></b> and Delete), que se usa para referirse a las funciones básicas en bases de datos o la capa de persistencia en un software.
+
+                En algunos lugares, se utilizan las siglas ABM para lo mismo ("Alta, Baja y Modificación"), obviando la operación de "obtener"; el acrónimo ABC para "Altas, Bajas y Cambios"; ABML siendo la última letra (L) de "listar, listado o lectura"; ABMC siendo la 'C' de "Consulta"; o bien CLAB que sería la traducción literal del acrónimo ("Crear, Leer, Actualizar y Borrar") también se llega a usar el acrónimo ABCC ("Altas, Bajas, Cambios y Consultas").
+            </p>        
+    <form method="post" action={% url 'update_post_colaborator' object.id  %} >
+        {% csrf_token %}      
+        {{ form.media }}      
+        {% comment %} {{form}} {% endcomment %}
+        <div>
+            <label for="user"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.user.label_tag }}</label>
+                {{ form.user.errors }}
+                {% comment %} {{ form.user }} {% endcomment %}
+                <select name="user" id="user" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {% for item in form.user %}   
+                    {{item}}     
+                    {% endfor %}                                 
+                </select>
+            </div>
+            <div>                        
+            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.title.label_tag }} </label>
+                {{ form.title.errors }}
+                <input type="text"
+                name="title"
+                id="title"
+                {% if form.title.value != None %}value="{{ form.title.value|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                required
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Una nueva historia para nuestro CODER BLOG" 
+                required >                            
+            </div>
+            <div >                        
+                <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.content.label_tag }} </label>
+                    {{ form.content.errors }}
+                    <div class="flex justify-between">
+                        <div>
+                        {{ form.content }}
+                        </div>
+                    </div>
+                    <br />
+                    {{ form.content.help_text }}                            
+            </div>
+            <div class="relative z-0 mb-6 w-full group flex justify-center">                        
+                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Editar Post </button>
+            </div>   
+
+    </form>
+</main>
+{% endblock content %}    

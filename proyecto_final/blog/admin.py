@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Category, Post, Donation_Goal, JobGroup, Job , PostUserColaborator,UserColaborator
+from .models import Author, Category, Post, Donation_Goal, JobGroup, Job ,Suscripcion, Perfil, PostUserColaborator,UserColaborator
 from .forms import UserColaboratorForm
 from django import forms
 
@@ -11,9 +11,11 @@ admin.site.register(Post)
 admin.site.register(Donation_Goal)
 admin.site.register(JobGroup)
 admin.site.register(Job)
+admin.site.register(Suscripcion)
+admin.site.register(Perfil)
 
 
-# @admin.register(UserColaborator)
+@admin.register(UserColaborator)
 class UserColaboratorAdmin(admin.ModelAdmin):
     # empty_value_display = 'unknown'
     form = UserColaboratorForm    
@@ -31,10 +33,8 @@ class UserColaboratorAdmin(admin.ModelAdmin):
         form.base_fields["username"].label = "User Name"
         form.base_fields["pwd"].label = "Password"
         form.base_fields["profile_picture"].label = "profile Image"
-        return form    
-        
-        
-admin.site.register(UserColaborator,UserColaboratorAdmin)        
+        return form          
+# #admin.site.register(UserColaborator,UserColaboratorAdmin)   # otra forma de relacionar con model y form.
 
 @admin.register(PostUserColaborator)
 class PostAdmin(admin.ModelAdmin):

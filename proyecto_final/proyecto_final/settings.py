@@ -145,6 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CKEDITOR_CONFIGS = {
     'default': {
         'height':'500px',
+        'width': '720px',
         # tab key conversion space number
         'tabSpaces': 4,
         # Toolbar Style
