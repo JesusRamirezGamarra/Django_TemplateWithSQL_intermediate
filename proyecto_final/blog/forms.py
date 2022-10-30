@@ -55,3 +55,20 @@ class PostUserColaboratorForm(forms.ModelForm):
         fields = '__all__'
         # fields = ('username','title','content')
 
+
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class UserRegisterForm(UserCreationForm):
+    
+    # username = forms.CharField(label='Usuario', required=True, max_length=20)
+    email = forms.EmailField()
+    password1 = forms.CharField(label='Password',widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Re Password',widget=forms.PasswordInput)
+    
+    class Meta:  
+        model = User
+        fields = ['username','email','password1','password2']
+        # fields =  '__all__'
+        help_texts = {key:'' for key in fields} #listComprension aplica para duplas y dictorionarys

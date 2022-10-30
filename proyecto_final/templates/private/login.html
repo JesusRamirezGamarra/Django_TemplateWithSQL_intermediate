@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title_pagina %}
+<title>Iniciar Sesion</title>
+{% endblock title_pagina %}
+
+{% block content %}
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    {{ formulario }}
+    <br><br>
+    <button >Iniciar Session</button>
+</form>
+<a href={% url 'registrar' %}>Registrar</a>
+
+{% endblock content %}

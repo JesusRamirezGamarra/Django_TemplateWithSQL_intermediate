@@ -551,11 +551,14 @@
                 </button>
             </div>
         </form>   
-        {% comment %} {% if not request.user.is_authenticated %}
-            <div class="pl-5" ><a href="{% url 'Login' %}">LOGIN</a></div
+
+
+       {% if not request.user.is_authenticated %}
+            <div class="pl-5" ><a href="{% url 'login' %}">LOGIN</a></div>
         {% else %}                
-            <div class="pl-5" ><a href="{% url 'Logout' %}">LOGOUT</a></div        
-        {% endif %} {% endcomment %}
+            <div class="pl-5" ><a href="#">{{request.user.username}}</a></div>        
+            <div class="pl-5" ><a href="{% url 'logout' %}">LOGOUT</a></div>       
+        {% endif %}
         
 
     </div> 

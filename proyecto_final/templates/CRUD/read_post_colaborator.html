@@ -33,6 +33,8 @@
                                 {{ post.title }}</h2>
                                 <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-start ">
                                     {{ post.createdate }}</p>	                        
+                                <a href="{% url 'update_post_colaborator' post.id %}">Editar</a>
+                                <a href="{% url 'delete_post_colaborator' post.id %}">Eliminar</a>
                             </div>
                             <div >
                                 <figcaption class="font-medium">

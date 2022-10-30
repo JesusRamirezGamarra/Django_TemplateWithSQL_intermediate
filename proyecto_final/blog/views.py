@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace, PostUserColaborator, UserColaborator
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +6,7 @@ from datetime import date
 from django.db.models import Sum,Count
 from .forms import CreateFormEmbrace,PostUserColaboratorForm
 from django.views.generic.list import ListView
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -254,7 +255,8 @@ class AllPostView_list(AddPostView):
         print(all_post)
         return render(request, 'all_post_colaborator.html', {'posts':all_post})
 
-def AllPostView(request, slug):
+@login_required(login_url='/login')
+def allPostView(request, slug):
     userColaborator = UserColaborator.objects.get(username = slug)
     postUserColaborator = PostUserColaborator.objects.filter(user= userColaborator).order_by('-createdate')
     context = {
@@ -268,36 +270,79 @@ def AllPostView(request, slug):
 
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class Create_UserPostColaborator(CreateView):
+class Create_UserPostColaborator(LoginRequiredMixin,CreateView):
     model = PostUserColaborator
     template_name = 'CRUD/create_post_colaborator.html'
     success_url = '/post_colaborator/read/'
     fields = '__all__'
-    
+    login_url = '/login/'    
 
 class Read_UserPostColaborator(ListView):
     model = PostUserColaborator
     template_name = 'CRUD/read_post_colaborator.html'
     fields = '__all__'    
+    login_url = '/login/'               
     ordering = ['-createdate']
+    
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super(Read_UserPostColaborator, self).get_queryset(*args, **kwargs)
     #     qs = qs.order_by("createdate")
     #     return qs    
 
-class Update_UserPostColaborator(UpdateView):
+class Update_UserPostColaborator(LoginRequiredMixin,UpdateView):
     model = PostUserColaborator
     template_name = 'CRUD/update_post_colaborator.html'
     success_url = '/post_colaborator/read/'
-    fields = '__all__'       
+    fields = '__all__'    
+    login_url = '/login/'       
 
-class Delete_UserPostColaborator(DeleteView):
+class Delete_UserPostColaborator(LoginRequiredMixin,DeleteView):
     model = PostUserColaborator
     template_name = 'CRUD/delete_post_colaborator.html'
     success_url = '/post_colaborator/read/'    
     fields = '__all__'    
+    login_url = '/login/'               
 
 class Detail_UserPostColaborator():
     pass
+
+
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as django_login
+from .forms import UserRegisterForm
+
+def login(request):
+    if request.method == 'POST':
+        formulario = AuthenticationForm(request,data= request.POST)
+        if formulario.is_valid():
+            user = formulario.get_user()
+            django_login(request,user)
+            return redirect('homepage')
+    else:
+        formulario = AuthenticationForm()
+    return render(request, 'private/login.html',{'formulario':formulario})
+
+# from django.contrib.auth.forms import UserCreationForm
+# def registrar(request):
+#     if request.method == 'POST':
+#         formulario = UserCreationForm(request.POST)
+#         if formulario.is_valid():
+#             formulario.save()
+#             return redirect('homepage')
+#     else: 
+#         formulario = UserCreationForm()
+#     return render(request, 'private/registrar.html',{'formulario':formulario})
+
+def registrar(request):
+    if request.method == 'POST':
+        formulario = UserRegisterForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('homepage')
+    else: 
+        formulario = UserRegisterForm()
+    return render(request, 'private/registrar.html',{'formulario':formulario})
+

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title_pagina %}
+<title>Registrar Nuevo Usuario</title>
+{% endblock title_pagina %}
+
+{% block content %}
+<form action="{% url 'registrar' %}" method="POST">
+    {% csrf_token %}
+    {{ formulario }}
+    <br><br>
+    <button >Registrar Nuevo Usuario</button>
+</form>
+<a href={% url 'login' %}>login</a>
+
+{% endblock content %}
