@@ -38,12 +38,12 @@ urlpatterns = [
     path("contact/", contact, name="contact"),
     path("embrace/", embrace, name="embrace"),
     path('about/', about,name = 'about' ),
-                    path('add_post_colaborator/', AddPostView.as_view(), name='add_post_colaborator'),
+    path('add_post_colaborator/', AddPostView.as_view(), name='add_post_colaborator'),
     path('all_post_colaborator/', AllPostView_list.as_view(), name='all_post_colaborator'),    
     path('all_post_percolaborator/<str:slug>', allPostView, name='all_post_percolaborator'),  
     
-    
-                    path('post_colaborator/create/', Create_UserPostColaborator.as_view(), name='create_post_colaborator'),   
+    #CRUD
+    path('post_colaborator/create/', Create_UserPostColaborator.as_view(), name='create_post_colaborator'),   
     path('post_colaborator/read/', Read_UserPostColaborator.as_view(), name='read_post_colaborator'),   
     path('post_colaborator/update/<int:pk>/', Update_UserPostColaborator.as_view(), name='update_post_colaborator'),   
     path('post_colaborator/delete/<int:pk>/', Delete_UserPostColaborator.as_view(), name='delete_post_colaborator'),   

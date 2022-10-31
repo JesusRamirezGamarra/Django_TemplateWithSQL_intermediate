@@ -20,3 +20,4 @@ def get_categories():
 def get_colaboradores():
     # print(UserColaborator.objects.all()[0:4])
     return UserColaborator.objects.all()[0:4]
+

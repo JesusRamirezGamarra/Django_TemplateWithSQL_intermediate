@@ -5,11 +5,79 @@
 {% endblock title_pagina %}
 
 {% block content %}
-<form action="{% url 'perfil_editar' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ formulario }}
-    <br><br>
-    <button >Editar Perfil</button>
-</form>
+{% load static %}
+<div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Editar Informacion del usuario</h2>
+    <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-sm ">
+        Un perfil de usuario es una colección de configuraciones e información asociada con un usuario. Contiene información crítica que se utiliza para identificar a una persona, como su nombre, edad, fotografía de retrato y características individuales, como conocimiento o experiencia
+    </p>  
 
+
+        <form action="{% url 'perfil_editar' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}            
+            <div class="pb-5 flex flex-row ">
+                <div class="basis-1/2 pr-2">
+                    <img    class="w-48 h-48 rounded-full mx-auto"  
+                            src="   {% if request.user.usercolaborator.profile_picture == 'False' %}
+                                        {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                        {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                    {% endif %}             
+                                    {% else %}  
+                                        {% if request.user.usercolaborator.profile_picture %}{{ request.user.usercolaborator.profile_picture.url }} 
+                                        {% else %} 
+                                            {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                            {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                            {% endif %}                                          
+                                        {% endif %}                                          
+                                    {% endif %}"     
+                            alt="Avatar">
+                </div>
+                <div class="basis-1/2 pr-2">
+                    {{ formulario.profile_picture.label_tag }}
+                    {{ formulario.profile_picture }}
+                </div>
+            </div >  
+            <div class="pb-5 flex flex-row ">
+                <div class="basis-1/2 pr-2">
+                    <label for="{{ formulario.first_name.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ formulario.first_name.label_tag }}</label>
+                    {{ formulario.first_name }}                    
+                </div>
+                <div class="basis-1/2 pr-2">
+                    <label for="{{ formulario.last_name.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ formulario.last_name.label_tag }}</label>
+                    {{ formulario.last_name }}     
+                </div>                
+            </div >
+            <div class="pb-5 flex flex-row ">
+                <div class="basis-1/2 pr-2">
+                    <label for="{{ formulario.email.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ formulario.email.label_tag }}</label>
+                    {{ formulario.email }}                        
+                </div>
+                <div class="basis-1/2 pr-2">
+                    <label for="{{ formulario.email_colaborator.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ formulario.email_colaborator.label_tag }}</label>
+                    {{ formulario.email_colaborator }}                        
+                </div>                
+            </div >
+            <div class="pb-5">
+                 <label for="{{ formulario.description.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Descripcion pefil (Colaborador): </label>
+                {{ formulario.description }}
+            </div>                            
+            <div class="pb-5 flex flex-row ">
+                <div class="basis-1/2 pr-2">
+                    <label for="{{ formulario.perfil.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ formulario.perfil.label_tag }}</label>
+                    {{ formulario.perfil }}                        
+                </div>
+                <div class="basis-1/2 pr-2">
+                    <label for="{{ formulario.suscripcion.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ formulario.suscripcion.label_tag }}</label>
+                    {{ formulario.suscripcion }}                        
+                </div>   
+            </div >
+            <div class="relative z-0 mb-6 w-full group flex justify-center pt-10">
+                <div class="pr-5" >            
+                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Editar Perfil <button>
+                </div>        
+            </div>                        
+        </form>
+
+    </div>
+</section>  
 {% endblock content %}

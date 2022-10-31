@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace, PostUserColaborator, UserColaborator
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace, PostUserColaborator, UserColaborator,Perfil,Suscripcion
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
@@ -365,8 +365,20 @@ def perfil_editar(request):
             request.user.first_name = datanueva['first_name']
             request.user.last_name = datanueva['last_name']
             request.user.email = datanueva['email']
-            request.user.usercolaborator.profile_picture = datanueva['profile_picture']
-                        
+            request.user.usercolaborator.email = datanueva['email_colaborator']
+            request.user.usercolaborator.description = datanueva['description']
+            
+            request.user.usercolaborator.perfil =  Perfil.objects.filter(id=f"{datanueva['perfil']}").first()
+            # request.user.usercolaborator.perfil.id = datanueva['perfil']
+            request.user.usercolaborator.suscripcion = Suscripcion.objects.filter(id=f"{datanueva['suscripcion']}").first()
+            # request.user.usercolaborator.suscripcion.id = datanueva['suscripcion']
+            if(datanueva['profile_picture'] != None ):
+                request.user.usercolaborator.profile_picture = datanueva['profile_picture']
+            # print(datanueva['profile_picture'])
+            # print( datanueva['description'])                        
+            # print( datanueva['perfil'])                        
+            # print( datanueva['suscripcion'])                        
+            # request.user.usercolaborator.perfil.save()
             request.user.usercolaborator.save()
             request.user.save()
             
@@ -377,6 +389,10 @@ def perfil_editar(request):
             initial={   'first_name': request.user.first_name, 
                         'last_name': request.user.last_name,
                         'email': request.user.email,
+                        'email_colaborator': request.user.usercolaborator.email,
+                        'description': request.user.usercolaborator.description,
+                        'perfil': request.user.usercolaborator.perfil.id,
+                        'suscripcion': request.user.usercolaborator.suscripcion.id,
                         'profile_picture' : request.user.usercolaborator.profile_picture
                     }
         )
