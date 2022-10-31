@@ -8,7 +8,7 @@
 
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <div class="flex justify-between pl-5">                    
+        <div class="flex justify-between pl-5">                    
             <figcaption class="font-medium">   
                 <a href="{% url 'homepage' %}" class="ml-3 text-xl">         
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="40px"
@@ -534,7 +534,9 @@
                 </div>
             </div>            
         </nav>
-<!-- searchbar -->
+
+        
+
         <form action ="{% url 'search' %}" class ="search-form"> 
             <div class="pt-2 relative mx-auto text-gray-600">
                 <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
@@ -585,4 +587,19 @@
         
 
     </div> 
+    {% if request.user.is_authenticated %}    
+    <div class="border-t-4 border-black text-gray-600 ">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center flex justify-end ">
+            <div>
+                <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l  border-r md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+                    <a href="{% url 'homepage' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">C</span>reate Post</a>
+                    <a href="{% url 'dona' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">R</span>ead Post</a>
+                    <a href="{% url 'contact' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">U</span>pdate Post</a>
+                    <a href="{% url 'embrace' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">D</span>elete Post</a>
+                    <a href="{% url 'about' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center">Otro Menu</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    {% endif %}    
 </header>

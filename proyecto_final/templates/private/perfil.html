@@ -6,19 +6,100 @@
 {% endblock title_pagina %}
 
 {% block content %}
-<h2>Informacion de Usuario</h2>
-<hr>
-<p>
-    <img class="w-48 h-48 rounded-full mx-auto"  src=" {{request.user.usercolaborator.profile_picture.url}}" alt="Avatar">
-    <li>First Name : {{request.user.first_name}}</li>
-    <li>Last Name : {{request.user.last_name}}</li>
-    <li>Email : {{request.user.email}}</li>
-</p>
-<p>
-    <a href={% url 'perfil_editar' %} >Editar Datos</a> 
-</p>
-<hr>
-<p>
-    <a href={% url 'password_editar' %}>Cambiar Password</a> 
-</p>
+<section class="bg-white dark:bg-gray-900 pb-20" >    
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Informacion del usuario</h2>
+        <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-sm ">
+            Un perfil de usuario es una colección de configuraciones e información asociada con un usuario. Contiene información crítica que se utiliza para identificar a una persona, como su nombre, edad, fotografía de retrato y características individuales, como conocimiento o experiencia
+        </p>  
+    
+        <div class="pb-5">
+            <img class="w-48 h-48 rounded-full mx-auto"  src=" {{request.user.usercolaborator.profile_picture.url}}" alt="Avatar">
+        </div >
+        <div class="pb-5 flex flex-row ">
+            <div class="basis-1/2 pr-2">
+                <label for="first_name"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">First Name : </label>
+                <input type="text"
+                name="first_name"
+                id="first_name"
+                {% if request.user.first_name != None %}value="{{ request.user.first_name|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tus Nombres(s) : eg John Luis" 
+                disabled >   
+            </div>                           
+            <div class="basis-1/2 pl-2">
+                <label for="last_name"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Last Name : </label>
+                <input type="text"
+                name="last_name"
+                id="last_name"
+                {% if request.user.last_name != None %}value="{{ request.user.last_name|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tus Apellidos(s) : eg Snow Sanchez" 
+                disabled >     
+            </div>                                 
+        </div>
+        
+        <div class="pb-5 flex flex-row ">
+            <div class="basis-1/2 pr-2">            
+                <label for="email"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email Principal: </label>
+                <input type="text"
+                name="email"
+                id="email"
+                {% if request.user.email != None %}value="{{ request.user.email|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tu Email : eg Jhon.Snow@CoderHouse.info" 
+                disabled >   
+            </div>
+            <div class="basis-1/2 pl-2">                                                        
+                <label for="usercolaboratoremail"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email Secundario (Colaborador): </label>
+                <input type="text"
+                name="usercolaboratoremail"
+                id="usercolaboratoremail"
+                {% if request.user.usercolaborator.email != None %}value="{{ request.user.usercolaborator.email|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tu Email : eg Jhon.Snow@CoderHouse.info" 
+                disabled >                   
+            </div>
+        </div>
+        <div class="pb-5">
+            <label for="usercolaboratordescription"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Descripcion pefil (Colaborador): </label>
+                <textarea type="text"
+                name="usercolaboratordescription"
+                id="usercolaboratordescription"
+                rows="8"
+                {% comment %} {% if request.user.usercolaborator.description != None %}value="{{ request.user.usercolaborator.description|stringformat:'s' }}"{% endif %} {% endcomment %}
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                placeholder="Ingresa tu Email : eg Jhon.Snow@CoderHouse.info" 
+                disabled>{% if request.user.usercolaborator.description != None %}{{ request.user.usercolaborator.description|stringformat:'s' }}{% endif %} 
+            </textarea>
+        </div>
+        <div class="pb-5 flex flex-row ">
+            <div class="basis-1/2 pr-2">            
+                <label for="usercolaboratorperfil"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Perfil: </label>
+                <select name="usercolaboratorperfil" id="usercolaboratorperfil" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                    <option value="{{request.user.usercolaborator.perfil.id}}">{{request.user.usercolaborator.perfil.name}}</option>
+                </select>
+            </div>
+            <div class="basis-1/2 pl-2">                                                        
+                <label for="usercolaboratorsuscripcion"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Suscripcion: </label>
+                <select name="usercolaboratorsuscripcion" id="usercolaboratorsuscripcion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                    <option value="{{request.user.usercolaborator.suscripcion.id}}">{{request.user.usercolaborator.suscripcion.name}}</option>
+                </select>                
+            </div>
+        </div>      
+{% comment %} 
+        description
+        perfil
+        suscripcion {% endcomment %}
+
+        <div class="relative z-0 mb-6 w-full group flex justify-center pt-10">
+            <div class="pr-5">
+                <a href={% url 'perfil_editar' %} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Editar Datos</a> 
+            </div>    
+            <div class="pl-5">
+                <a href={% url 'password_editar' %} class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800">Cambiar Password</a> 
+            </div>
+        </div>        
+    </div>
+</section>     
 {% endblock content %}
