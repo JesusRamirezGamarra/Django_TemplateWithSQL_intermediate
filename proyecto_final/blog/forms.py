@@ -77,3 +77,4 @@ class EditarPerfilFormulario(forms.Form):
     email = forms.EmailField(label='Email')
     first_name = forms.CharField(label='Nombre')
     last_name = forms.CharField(label='Apellido')
+    profile_picture = forms.ImageField(required=False)

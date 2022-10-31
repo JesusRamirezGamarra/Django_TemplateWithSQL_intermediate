@@ -356,16 +356,18 @@ def perfil(request):
 def perfil_editar(request):
     # user = request.user # se podria realizar con la referencia a user en lugar de request.
     # user = request.user
-     
     
     if request.method == 'POST':
-        formulario = EditarPerfilFormulario(request.POST)
+        formulario = EditarPerfilFormulario(request.POST,request.FILES)
         
         if formulario.is_valid():
             datanueva = formulario.cleaned_data
             request.user.first_name = datanueva['first_name']
             request.user.last_name = datanueva['last_name']
             request.user.email = datanueva['email']
+            request.user.usercolaborator.profile_picture = datanueva['profile_picture']
+                        
+            request.user.usercolaborator.save()
             request.user.save()
             
             return redirect('perfil')
@@ -375,6 +377,7 @@ def perfil_editar(request):
             initial={   'first_name': request.user.first_name, 
                         'last_name': request.user.last_name,
                         'email': request.user.email,
+                        'profile_picture' : request.user.usercolaborator.profile_picture
                     }
         )
     return render(request, 'private/perfil_editar.html',{'formulario':formulario})

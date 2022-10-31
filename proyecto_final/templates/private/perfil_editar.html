@@ -5,7 +5,7 @@
 {% endblock title_pagina %}
 
 {% block content %}
-<form action="{% url 'perfil_editar' %}" method="POST">
+<form action="{% url 'perfil_editar' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ formulario }}
     <br><br>

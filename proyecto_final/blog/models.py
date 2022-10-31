@@ -182,7 +182,7 @@ class UserColaborator(models.Model):
     pwd = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     description = models.TextField()
-    profile_picture = models.ImageField(upload_to ='avatar',max_length=None, blank=True)
+    profile_picture = models.ImageField(upload_to ='avatar',max_length=None, blank=True,null=True)
     perfil= models.ForeignKey(Perfil, on_delete=models.CASCADE)
     suscripcion = models.ForeignKey(Suscripcion, on_delete=models.CASCADE)
     createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
