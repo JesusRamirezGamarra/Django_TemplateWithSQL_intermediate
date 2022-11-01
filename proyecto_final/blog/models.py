@@ -190,7 +190,9 @@ class UserColaborator(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        #  job = Job.objects.filter(jobgroup=f"{self.id}")
+        return  f""" {self.name}  """
+        # return self.name
     class  Meta:   #new
         verbose_name_plural  =  "User colaborators"        
 

@@ -315,22 +315,41 @@ from django.contrib.auth import login as django_login
 from .forms import UserRegisterForm
 
 def login(request):
-    if request.method == 'POST':
-        formulario = AuthenticationForm(request,data= request.POST)
-        if formulario.is_valid():
-            user = formulario.get_user()
-            django_login(request,user)
-            return redirect('homepage')
-    else:
+    if request.user.is_authenticated:
+        return redirect('homepage')
+    
+    if request.method == 'GET':
         formulario = AuthenticationForm()
         result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
         context = {
                 'formulario':formulario,
                 'result': {'image': result(1,26)},
         }        
+        return render(request, 'private/login.html',context)    
     
-    return render(request, 'private/login.html',context)
+    if request.method == 'POST':
+        formulario = AuthenticationForm(request,data= request.POST)
+        print(formulario)
 
+        if formulario.is_valid():
+            user = formulario.get_user()
+            django_login(request,user)
+            return redirect('homepage')
+        else:
+            result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
+            context = {
+                'formulario':formulario,
+                'result': {'image': result(1,26)},
+                'error' : {'detalle':'Usuario o Contrasena errados,Re intente nuevamente ...'}
+            }    
+            return render(request, 'private/login.html',context)                       
+            # return redirect('login')
+    
+    
+    
+    
+    
+    
 # from django.contrib.auth.forms import UserCreationForm
 # def registrar(request):
 #     if request.method == 'POST':

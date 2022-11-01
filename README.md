@@ -2436,6 +2436,7 @@ Scripts\activate
 * Comando para instalar libreria que permite eliminar archivo __Pycache__ : pip install pyclean
 * comando para visualizar estructura de directorios : tree -L 2
 * comando Breakpoint : https://www.python-engineer.com/posts/python-debugger-and-breakpoint/
+https://www.coursera.org/lecture/introduccion-python/el-debugger-de-python-que-es-y-como-utilizarlo-Wdg78
   
     - [x] h (elp): Print the list of available commands
 
@@ -2506,5 +2507,8 @@ pip show django
 https://www.youtube.com/watch?v=a37BL0stIuM
 https://django-ckeditor.readthedocs.io/en/latest/
 
-CRUD + Detail Views
+* CRUD + Detail Views
 https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+
+* Autentication and Authorization
+https://www.programcreek.com/python/example/64448/django.contrib.auth.forms.AuthenticationForm

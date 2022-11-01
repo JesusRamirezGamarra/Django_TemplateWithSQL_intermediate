@@ -20,6 +20,7 @@ admin.site.register(Perfil)
 class UserColaboratorAdmin(admin.ModelAdmin):
     # empty_value_display = 'unknown'
     form = UserColaboratorForm    
+    list_display = ['id','name','username','email','user']    
     
     # list_display = ['username','pwd']
     # fields = (("username", "pwd"))
