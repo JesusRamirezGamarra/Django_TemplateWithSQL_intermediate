@@ -5,12 +5,83 @@
 {% endblock title_pagina %}
 
 {% block content %}
-<form action="{% url 'registrar' %}" method="POST">
+{% comment %} <form action="{% url 'registrar' %}" method="POST">
     {% csrf_token %}
     {{ formulario }}
-    <br><br>
-    <button >Registrar Nuevo Usuario</button>
-</form>
-<a href={% url 'login' %}>login</a>
+</form>     {% endcomment %}
+
+<section class="bg-white dark:bg-gray-900 pb-20" >    
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Registrar Usuario</h2>
+        <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-sm ">
+            Para hacerlo, tienes que abrir la página de inicio de Wikipedia y hacer clic en la opción “Crear una cuenta”, que verás arriba a la derecha. Para concluir con éxito el registro, Wikipedia te pedirá únicamente un nombre de usuario y una contraseña
+        </p>  
+        <form action="{% url 'registrar' %}" method="POST">
+            {% csrf_token %}
+            {% comment %} {{formulario}} {% endcomment %}
+            <div>  
+                <label for="{{formulario.username.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{formulario.username.label_tag}}</label>    
+                <input type="text"
+                name="{{formulario.username.name}}"
+                id="{{formulario.username.id_for_label}}"
+                {% if formulario.username.value != None %}value="{{ formulario.username.value|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tu Usuario" 
+                required >
+            </div>  
+            <div>  
+                <label for="{{formulario.email.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{formulario.email.label_tag}}</label>    
+                <input type="text"
+                name="{{formulario.email.name}}"
+                id="{{formulario.email.id_for_label}}"
+                {% if formulario.email.value != None %}value="{{ formulario.email.value|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tu email" 
+                required >
+                <div class="flex justify-end text-red-500 hover:text-green-600">
+                    {% if formulario.email.errors %}
+                        {{ formulario.email.errors }}
+                    {% endif %}                  
+                </div>
+            </div>           
+            <div> 
+                <label for="{{formulario.password1.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{formulario.password1.label_tag}}</label>    
+                <input type="password"
+                name="{{formulario.password1.name}}"
+                id="{{formulario.password1.id_for_label}}"
+                {% if formulario.password1.value != None %}value="{{ formulario.password1.value|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tu password" 
+                required >
+                <div class="flex justify-end text-red-500 hover:text-green-600"> 
+                    {% if formulario.new_password1.errors %}
+                        {{ formulario.password1.errors }}
+                    {% endif %}
+                </div>                  
+            </div>              
+            <div>      
+                <label for="{{formulario.password2.id_for_label }}"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{formulario.password1.label_tag}}</label>    
+                <input type="password"
+                name="{{formulario.password2.name}}"
+                id="{{formulario.password2.id_for_label}}"
+                {% if formulario.password2.value != None %}value="{{ formulario.password2.value|stringformat:'s' }}"{% endif %}
+                maxlength="100"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Ingresa tu (re) password para confirmar" 
+                required >
+                <div class="flex justify-end text-red-500 hover:text-green-600"> 
+                    {% if formulario.password2.errors %}
+                        {{ formulario.password2.errors }}
+                    {% endif %}
+                </div>                 
+            </div>  
+
+            <div class="relative z-0 mb-6 w-full group flex justify-center pt-5 ">
+                <div class="pr-5">
+                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Registrar Nuevo Usuario</button>
+                </div>
+            </div>          
+        </form>
+    </div>
+</section>   
 
 {% endblock content %}

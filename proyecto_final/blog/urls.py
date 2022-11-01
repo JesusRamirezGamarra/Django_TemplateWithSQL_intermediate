@@ -17,11 +17,14 @@ from django.urls import path,re_path
 from django.conf import settings
 from django.views.static import serve
 
-from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,allPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,Detail_UserPostColaborator,login,registrar,perfil,perfil_editar,Password_editar
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,allPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,Detail_UserPostColaborator,login,registrar,perfil,perfil_editar,Password_editar,Logout
 
 
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
+import random
+
+result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
 
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
@@ -47,14 +50,15 @@ urlpatterns = [
     path('post_colaborator/read/', Read_UserPostColaborator.as_view(), name='read_post_colaborator'),   
     path('post_colaborator/update/<int:pk>/', Update_UserPostColaborator.as_view(), name='update_post_colaborator'),   
     path('post_colaborator/delete/<int:pk>/', Delete_UserPostColaborator.as_view(), name='delete_post_colaborator'),   
-    # path('detail_post_colaborator/', Detail_UserPostColaborator.as_view(), name='detail_post_colaborator'),   
+    
     
     path("login/", login, name="login"),
     path("registrar/", registrar, name="registrar"),
-    path("logout",LogoutView.as_view(template_name="private/logout.html"), name="logout"),
+    #path("logout",Logout,name="logout"),
+    path("logout",LogoutView.as_view(template_name="private/logout.html"),{  'result': {'image': result(1,20)} },name="logout"),
     path("perfil/", perfil, name="perfil"),
     path("perfil/editar/", perfil_editar, name="perfil_editar"),
-    path("password/editar/", Password_editar.as_view(), name="password_editar"),
+    path("password/editar/", Password_editar.as_view(),name="password_editar"),
     
     
 ]

@@ -2369,7 +2369,7 @@ Al ingresar al archivo `setting.py` de nuestro directorio `proyecto_final` podre
 TIME_ZONE = "America/Lima"
 USE_TZ = False
 ```
-</details>
+
 
 Para poder cumplir con la funcionalidad de redireccionar y mostar una pagina `404.html` que indique el clasico page not found cuando se ingrese una URL invalidatenemos que considerar configurar [ver mas](https://bestprogrammingblogs.blogspot.com/2021/03/django-static-files-not-working-when-debug-is-false.html) 
 
@@ -2418,15 +2418,19 @@ Finalmente al acabar esta configuracion podremos visualizar nuestra pagina `404.
   </p>
 </p>
 
+</details>
 
+pip install django-ckeditor --upgrade
 
 > ### Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
 ```bash
 python3 -m venv .venv
-cd .\.venv\
-scripts\activate
+cd .venv\
+Scripts\activate
+
+.venv\Scripts\activate
 ```
 * Comando para re ordenar codigo : black .
 * Comando para instalar libreria que permite eliminar archivo __Pycache__ : pip install pyclean
@@ -2501,3 +2505,6 @@ pip show django
 
 https://www.youtube.com/watch?v=a37BL0stIuM
 https://django-ckeditor.readthedocs.io/en/latest/
+
+CRUD + Detail Views
+https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html

@@ -323,7 +323,13 @@ def login(request):
             return redirect('homepage')
     else:
         formulario = AuthenticationForm()
-    return render(request, 'private/login.html',{'formulario':formulario})
+        result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
+        context = {
+                'formulario':formulario,
+                'result': {'image': result(1,26)},
+        }        
+    
+    return render(request, 'private/login.html',context)
 
 # from django.contrib.auth.forms import UserCreationForm
 # def registrar(request):
@@ -402,13 +408,45 @@ def perfil_editar(request):
 from django.contrib.auth.views import PasswordChangeView
 class Password_editar(LoginRequiredMixin,PasswordChangeView):
     template_name = 'private/password_editar.html'
-    success_url = '/password/editar/'
+    success_url = '/perfil/'
     login_url = '/login/'   
-    
+    # result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
+    # context = {
+    #     'result': {'image': '1.jpg'},
+    # }   
+    # extra_context = context
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
+        # context['result'] ={'image': result(1,20)}
+        # print('s')
+        # print(context)
+        return context
     
     
     # model = PostUserColaborator
     # template_name = 'CRUD/update_post_colaborator.html'
     # success_url = '/post_colaborator/read/'
     # fields = '__all__'    
-    # login_url = '/login/'         
+    # login_url = '/login/'    
+        
+    
+import random
+
+@login_required(login_url='/login')    
+def  Logout(request):
+    # template_name = 'private/logout.html'
+    # login_url = '/login/'   
+    result =  lambda a=1,b=2: str(random.randint(a,b)) +'.jpg'
+    #result = result(1,20)+'.jpg'
+    # print(result(1,20))        
+    context = {
+        'result': {'image': result(1,20)},
+    }    
+    # context = {
+    # 'fruits': ['Apple', 'Banana', 'Cherry', 'Orange']
+    # }
+    # {{context|random}}
+    return render(request,'private/logout.html',context )         
