@@ -29,6 +29,7 @@ urlpatterns = [
     # path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),    
     path("admin/", admin.site.urls),
     path("", include("blog.urls")),
+    path("chat/", include("chat.urls")),
 
     # path("homepage", include("blog.urls")),
     # path("search/", include("blog.urls")),
