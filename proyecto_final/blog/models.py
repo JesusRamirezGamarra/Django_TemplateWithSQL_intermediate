@@ -178,26 +178,28 @@ from django.contrib.auth.models import User
 
 class UserColaborator(models.Model):
     email = models.EmailField(max_length=200)
-    username = models.CharField(max_length=70)
-    pwd = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
+    # username = models.CharField(max_length=70)
+    # pwd = models.CharField(max_length=100)
+    # name = models.CharField(max_length=100)
     description = models.TextField()
     profile_picture = models.ImageField(upload_to ='avatar',max_length=None, blank=True,null=True)
-    perfil= models.ForeignKey(Perfil, on_delete=models.CASCADE)
-    suscripcion = models.ForeignKey(Suscripcion, on_delete=models.CASCADE)
+    perfil= models.ForeignKey(Perfil, on_delete=models.CASCADE, default=1 )
+    suscripcion = models.ForeignKey(Suscripcion, on_delete=models.CASCADE, default=1)
     createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     # user = models.Foreignkey(User, on_delete=models.CASCADE)
     user = models.OneToOneField(User,on_delete=models.CASCADE)
 
     def __str__(self):
-        #  job = Job.objects.filter(jobgroup=f"{self.id}")
-        return  f""" {self.name}  """
+        # user = User.objects.filter(username=f"{self.user.username}")
+        # print(user)
+        return  f""" {self.email}  """
         # return self.name
     class  Meta:   #new
         verbose_name_plural  =  "User colaborators"        
 
 class PostUserColaborator(models.Model):
-    user = models.ForeignKey(UserColaborator, on_delete=models.CASCADE)
+    # user = models.ForeignKey(UserColaborator, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = RichTextField(blank=True,null=True)#
     createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)

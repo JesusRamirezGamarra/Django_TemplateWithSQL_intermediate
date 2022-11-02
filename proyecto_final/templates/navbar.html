@@ -527,8 +527,12 @@
                     class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="py-1" role="none">
                         {% for colaborator in Colaborator_list %}
-                            <a href="{% url 'all_post_percolaborator' colaborator.username %}" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-gray-200 " role="menuitem" tabindex="-1" id="menu-item-0">
-                            {{ colaborator.name }}
+                            <a href="{% url 'all_post_percolaborator' colaborator.user.username %}" class="text-gray-700 block px-4 py-2 text-sm rounded-lg hover:bg-gray-200 " role="menuitem" tabindex="-1" id="menu-item-0">
+                                {%if colaborator.user.first_name %}
+                                    {{ colaborator.user.first_name }} {{ colaborator.user.last_name }}
+                                {%else%}
+                                    {{ colaborator.user.username }}
+                                {%endif%}
                             </a>
                         {% endfor %}   
                             <a href="{% url 'all_post_colaborator' %}" type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm rounded-lg hover:bg-gray-200" role="menuitem" tabindex="-1" id="menu-item-3">
@@ -538,7 +542,7 @@
             </div>            
         </nav>
 
-        
+
 
         <form action ="{% url 'search' %}" class ="search-form"> 
             <div class="pt-2 relative mx-auto text-gray-600">
@@ -612,7 +616,7 @@
                     <a href="{% url 'read_post_colaborator' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">R</span>ead Post</a>
                     <a href="{% url 'read_post_colaborator' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">U</span>pdate Post</a>
                     <a href="{% url 'read_post_colaborator' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center"><span class="text-3xl">D</span>elete Post</a>
-                    <a href="{% url 'about' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center">Otro Menu</a>
+                    <a href="{% url 'about' %}" class="mr-4 hover:text-gray-900 rounded-lg hover:bg-sky-100 inline-flex items-center">🐱‍💻CHAT</a>
                 </nav>
             </div>
         </div>

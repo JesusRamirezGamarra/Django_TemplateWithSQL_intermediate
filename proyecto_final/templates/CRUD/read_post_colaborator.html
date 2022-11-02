@@ -17,11 +17,12 @@
                 En informática, <b>CRUD</b> es el acrónimo de "  Crear, <b><span class="text-purple-600" >Leer</span></b>, Actualizar y Borrar" (del original en inglés: Create,<b><span class="text-purple-600" > Read</span></b>, Update and Delete), que se usa para referirse a las funciones básicas en bases de datos o la capa de persistencia en un software.
 
                 En algunos lugares, se utilizan las siglas ABM para lo mismo ("Alta, Baja y Modificación"), obviando la operación de "obtener"; el acrónimo ABC para "Altas, Bajas y Cambios"; ABML siendo la última letra (L) de "listar, listado o lectura"; ABMC siendo la 'C' de "Consulta"; o bien CLAB que sería la traducción literal del acrónimo ("Crear, Leer, Actualizar y Borrar") también se llega a usar el acrónimo ABCC ("Altas, Bajas, Cambios y Consultas").
-            </p>        
+            </p>    
+            
 
         {% if object_list %}    
             {% for post in object_list %}
-            <hr>
+            {% comment %} {%if object_list.user.username ==  request.user.username %}  {% endcomment %}
             <section class="text-gray-600 body-font ">
                 
                 <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
@@ -38,12 +39,26 @@
                             </div>
                             <div >
                                 <figcaption class="font-medium">
-                                    <img class="w-24 h-24 rounded-full mx-auto" src="{{ post.user.profile_picture.url }}"  alt="colaborator" >                       
+                                    <img    class="w-24 h-24 rounded-full mx-auto" 
+                                            src="   {% if request.user.usercolaborator.profile_picture == 'False' %}
+                                            {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                            {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                        {% endif %}             
+                                        {% else %}  
+                                            {% if request.user.usercolaborator.profile_picture %}{{ request.user.usercolaborator.profile_picture.url }} 
+                                            {% else %} 
+                                                {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                                {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                                {% endif %}                                          
+                                            {% endif %}                                          
+                                        {% endif %}" 
+                                            alt="colaborator" >                       
+                                        {% comment %} {{ post.user.profile_picture.url }} {% endcomment %}                                            
                                     <div class="text-slate-700 dark:text-slate-500 mx-auto flex justify-center">
-                                        {{ post.user.name }}
+                                        {{request.user.username}}
                                     </div>
                                     <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
-                                        {{ post.user.perfil.name }}</p>	
+                                        {{ post.user.usercolaborator.perfil.name }}</p>	
                                     {% comment %} <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-center">
                                         {{ post.createdate }}</p>		                     {% endcomment %}
                                 </figcaption>
@@ -59,6 +74,7 @@
                     </div>
                 </figure>   
             </section>
+            {% comment %} {%endif%} {% endcomment %}
             {% endfor %}
         {% else %}
         <hr>

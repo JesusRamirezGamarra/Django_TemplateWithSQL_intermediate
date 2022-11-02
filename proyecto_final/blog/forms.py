@@ -27,26 +27,26 @@ class CreateFormEmbrace(forms.Form):
 
 
 class UserColaboratorForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput(), required=True, max_length=70)
-    name = forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
-    pwd = forms.CharField(label='password', widget=forms.PasswordInput(),required=True, max_length=100)
+    # username = forms.CharField(widget=forms.TextInput(), required=True, max_length=70)
+    # name = forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
+    # pwd = forms.CharField(label='password', widget=forms.PasswordInput(),required=True, max_length=100)
 
     class Meta:
         model  = UserColaborator
         # fields = ['username','name','pwd','profile_picture']
         fields = '__all__'
-        widgets = {
-            'username': forms.TextInput(),
-            'name': forms.TextInput(),
-            'pwd': forms.PasswordInput(),
-            # 'profile_picture': forms.ImageField(),
+        # widgets = {
+        #     'username': forms.TextInput(),
+        #     'name': forms.TextInput(),
+        #     'pwd': forms.PasswordInput(),
+        #     # 'profile_picture': forms.ImageField(),
             
-        }
+        # }
         # ordering = ("username")
     
 
 class PostUserColaboratorForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
+    # username = forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
     title = forms.CharField(widget=forms.TextInput(),required=True, max_length=100)
     content = RichTextField()
 
@@ -74,10 +74,10 @@ class UserRegisterForm(UserCreationForm):
         help_texts = {key:'' for key in fields} #listComprension aplica para duplas y dictorionarys
         
         
-Options = (
-        ('1', 'Hello'),
-        ('2', 'World'),
-)
+# Options = (
+#         ('1', 'Hello'),
+#         ('2', 'World'),
+# )
 def ListarSuscripcion():
     # suscripcion = Suscripcion.objects.all().order_by("-id")
     # print(suscripcion)

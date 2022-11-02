@@ -16,19 +16,38 @@
 
                 En algunos lugares, se utilizan las siglas ABM para lo mismo ("Alta, Baja y Modificación"), obviando la operación de "obtener"; el acrónimo ABC para "Altas, Bajas y Cambios"; ABML siendo la última letra (L) de "listar, listado o lectura"; ABMC siendo la 'C' de "Consulta"; o bien CLAB que sería la traducción literal del acrónimo ("Crear, Leer, Actualizar y Borrar") también se llega a usar el acrónimo ABCC ("Altas, Bajas, Cambios y Consultas").
             </p>    
+
             <form method="post" action={% url 'create_post_colaborator' %} >
                 {% csrf_token %}      
                 {{ form.media }}                                  
+          
                 <div>
-                <label for="user"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.user.label_tag }}</label>
-                    {{ form.user.errors }}
-                    {% comment %} {{ form.user }} {% endcomment %}
-                    <select name="user" id="user" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        {% for item in form.user %}   
-                        {{item}}     
-                        {% endfor %}                                 
+                    {% comment %} {{ form.user.errors }}
+                    {{ form.user }} {% endcomment %}
+                    {% comment %} {% for item in form.user %}  
+                        {{ item}}
+                    {% endfor %}
+                     {% endcomment %}
+
+
+
+
+{% comment %} 
+                    {{ request.user.id }}
+                    {{ form.user }} {% endcomment %}
+                    
+                    <label for="user"  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.user.label_tag }}</label>
+                    <select name="user" id="user" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                    <option value=" {{ request.user.id }}">{{ request.user.username }}</option> 
+                        {% for item in form.user %}  
+                            {%if item.id == request.user.id  %} 
+                                {{item}}
+                            {%endif%} 
+                        {% endfor %} 
                     </select>
-                </div>
+                </div> 
+{% comment %} {{form}} {% endcomment %}
+
                 <div>                        
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ form.title.label_tag }} </label>
                     {{ form.title.errors }}

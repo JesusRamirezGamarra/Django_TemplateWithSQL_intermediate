@@ -20,7 +20,7 @@ admin.site.register(Perfil)
 class UserColaboratorAdmin(admin.ModelAdmin):
     # empty_value_display = 'unknown'
     form = UserColaboratorForm    
-    list_display = ['id','name','username','email','user']    
+    list_display = ['id','email','user']    
     
     # list_display = ['username','pwd']
     # fields = (("username", "pwd"))
@@ -31,9 +31,9 @@ class UserColaboratorAdmin(admin.ModelAdmin):
     
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields["name"].label = "Full Name"
-        form.base_fields["username"].label = "User Name"
-        form.base_fields["pwd"].label = "Password"
+        # form.base_fields["name"].label = "Full Name"
+        # form.base_fields["username"].label = "User Name"
+        # form.base_fields["pwd"].label = "Password"
         form.base_fields["profile_picture"].label = "profile Image"
         form.base_fields["user"].label = "Usuario Django"
         return form          

@@ -23,12 +23,20 @@
                         </div>
                         <div >
                             <figcaption class="font-medium">
-                                <img class="w-24 h-24 rounded-full mx-auto" src="{{ post.user.profile_picture.url }}"  alt="colaborator" >
+                                <img    class="w-24 h-24 rounded-full mx-auto" 
+                                        src="  {% if post.user.usercolaborator.profile_picture %}
+                                                    {{ post.user.usercolaborator.profile_picture.url }} 
+                                                {% else %} 
+                                                    {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                                    {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                                    {% endif %}                                          
+                                                {% endif %} " 
+                                        alt="colaborator" >
                                 <div class="text-slate-700 dark:text-slate-500 mx-auto flex justify-center">
-                                    {{ post.user.name }}
+                                    {{ post.user.username}}
                                 </div>
                                 <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
-                                    {{ post.user.perfil.name }}</p>	
+                                    {{ post.user.usercolaborator.perfil.name }}</p>	
                                 {% comment %} <p class="text-base text-base md:text-sl leading-none mb-2  flex justify-center">
                                     {{ post.createdate }}</p>		                     {% endcomment %}
                             </figcaption>

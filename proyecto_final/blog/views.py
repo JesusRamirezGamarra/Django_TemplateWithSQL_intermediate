@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace, PostUserColaborator, UserColaborator,Perfil,Suscripcion
+from .models import Post, Category, Author,Job,Donation,Collaboration,Donation_Goal,Contact,Embrace, PostUserColaborator, User, UserColaborator,Perfil,Suscripcion
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
@@ -229,20 +229,19 @@ def about (request):
 class AddPostView(ListView):
     model = PostUserColaborator
 
-    print ('AddPostView')
-    
     def get(self, request):
         form = PostUserColaboratorForm()
         return render(request, 'add_post_colaborator.html', {'form':form})
     def post(self, request):
         form = PostUserColaboratorForm(request.POST)
         if form.is_valid():
-            userName = form.cleaned_data['userName']
+            # userName = form.cleaned_data['userName']
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
 
-            user_obj = UserColaborator.objects.get(user_name=userName)
-            add_post = PostUserColaborator.objects.create(user=user_obj, title=title, content=content)
+            # user = UserColaborator.objects.get(user_name=userName)
+            user = request.user
+            add_post = PostUserColaborator.objects.create(user=user, title=title, content=content)
             add_post.save()
             form = PostUserColaboratorForm()
             return render(request,'add_post_colaborator.html',{'form':form})
@@ -257,8 +256,9 @@ class AllPostView_list(AddPostView):
 
 @login_required(login_url='/login')
 def allPostView(request, slug):
-    userColaborator = UserColaborator.objects.get(username = slug)
-    postUserColaborator = PostUserColaborator.objects.filter(user= userColaborator).order_by('-createdate')
+    user = User.objects.get(username = slug)
+    userColaborator = UserColaborator.objects.get(user = user)
+    postUserColaborator = PostUserColaborator.objects.filter(user= user).order_by('-createdate')
     context = {
         'posts': postUserColaborator,
     }
@@ -277,7 +277,13 @@ class Create_UserPostColaborator(LoginRequiredMixin,CreateView):
     template_name = 'CRUD/create_post_colaborator.html'
     success_url = '/post_colaborator/read/'
     fields = '__all__'
+    # fields = ['title','content']
     login_url = '/login/'    
+    
+    def form_valid(self, form):
+        # breakpoint()
+        self.object = form.save()
+        return redirect(self.get_success_url())
 
 class Read_UserPostColaborator(ListView):
     model = PostUserColaborator
@@ -286,7 +292,21 @@ class Read_UserPostColaborator(ListView):
     login_url = '/login/'               
     ordering = ['-createdate']
     
-
+    def get_queryset(self):
+        queryset = PostUserColaborator.objects.filter(user= self.request.user.id)
+        #User.objects.filter(username=f"{ request.POST['username']}").first()
+        # if self.request.GET.get("browse"):
+        #     selection = self.request.GET.get("browse")
+        #     if selection == "Cats":
+        #         queryset = Cats.objects.all()
+        #     elif selection == "Dogs":
+        #         queryset = Dogs.objects.all()
+        #     elif selection == "Worms":
+        #         queryset = Worms.objects.all()
+        #     else:
+        #         queryset = Cats.objects.all()
+        return queryset
+    
     # def get_queryset(self, *args, **kwargs):
     #     qs = super(Read_UserPostColaborator, self).get_queryset(*args, **kwargs)
     #     qs = qs.order_by("createdate")
@@ -297,7 +317,16 @@ class Update_UserPostColaborator(LoginRequiredMixin,UpdateView):
     template_name = 'CRUD/update_post_colaborator.html'
     success_url = '/post_colaborator/read/'
     fields = '__all__'    
-    login_url = '/login/'       
+    login_url = '/login/'    
+    
+    def form_valid(self, form):
+        # breakpoint()
+        self.object = form.save()
+        return redirect(self.get_success_url())   
+    
+# def get_queryset(self):
+#         queryset = PostUserColaborator.objects.filter(user= self.request.user.id)
+#         return queryset            
 
 class Delete_UserPostColaborator(LoginRequiredMixin,DeleteView):
     model = PostUserColaborator
@@ -329,7 +358,7 @@ def login(request):
     
     if request.method == 'POST':
         formulario = AuthenticationForm(request,data= request.POST)
-        print(formulario)
+        # print(formulario)
 
         if formulario.is_valid():
             user = formulario.get_user()
@@ -366,6 +395,11 @@ def registrar(request):
         formulario = UserRegisterForm(request.POST)
         if formulario.is_valid():
             formulario.save()
+            user = User.objects.filter(username=f"{ request.POST['username']}").first()
+            # print(user)
+            # breakpoint()
+            
+            userColaborator, es_NuevoUserColaborator = UserColaborator.objects.get_or_create(user = user)
             return redirect('homepage')
     else: 
         formulario = UserRegisterForm()
@@ -374,7 +408,11 @@ def registrar(request):
 @login_required(login_url='/login')
 def perfil(request):
     # formulario = UserRegisterForm(request.POST)
-    userColaborator, es_NuevoUserColaborator = UserColaborator.objects.get_or_create(user = request.user) #crea el objeto  UserColaborator si no existe
+    #crea el objeto  UserColaborator si no existe
+    userColaborator, es_NuevoUserColaborator = UserColaborator.objects.get_or_create(user = request.user)
+    # print(userColaborator)
+    # print(es_NuevoUserColaborator)
+    # breakpoint()
     return render(request, 'private/perfil.html',{'formulario':{}})
 
 @login_required(login_url='/login')
@@ -434,7 +472,9 @@ class Password_editar(LoginRequiredMixin,PasswordChangeView):
     #     'result': {'image': '1.jpg'},
     # }   
     # extra_context = context
-
+    def post(self, request, *args, **kwargs):
+        if request.POST["cancel"]:
+            return redirect('perfil')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
