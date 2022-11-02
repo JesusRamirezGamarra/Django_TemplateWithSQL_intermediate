@@ -2503,7 +2503,7 @@ pip freeze | grep Django
 pip show django
 ```
 
-
+* ckeditor ejemplos :
 https://www.youtube.com/watch?v=a37BL0stIuM
 https://django-ckeditor.readthedocs.io/en/latest/
 
@@ -2512,3 +2512,9 @@ https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-fo
 
 * Autentication and Authorization
 https://www.programcreek.com/python/example/64448/django.contrib.auth.forms.AuthenticationForm
+
+* Install librerias ubicado en el file 'requeriments.txt' generado previamente
+```bash
+pip freeze > requirements.txt 
+pip install -r requirements.txt
+```
