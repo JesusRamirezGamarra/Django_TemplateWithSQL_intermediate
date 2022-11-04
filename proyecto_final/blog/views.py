@@ -113,7 +113,7 @@ def dona(request):
         donation = Donation.objects.filter(email=f"{email}")
 
         if len(donation) == 0:
-            print("payment", donation)
+            # print("payment", donation)
             
             donation = Donation(
                 firtsname=firtsname,
@@ -144,8 +144,8 @@ def dona(request):
         job = Job.objects.all()
         result_net = Collaboration.objects.aggregate(total_amount=Sum('amount'))
         result = Collaboration.objects.values('donation').annotate(total_amount=Sum('amount'))
-        print(result_net)
-        print(result)
+        # print(result_net)
+        # print(result)
         
         # breakpoint()
         context = {"donation": donationAll, 
@@ -171,7 +171,7 @@ def contact(request):
         email = request.POST["email"]
         subject = request.POST["subject"]        
         message = request.POST["message"]    
-        print(request.POST)        
+        # print(request.POST)        
         Contact.objects.create(
             email= email,
             subject= subject,
@@ -251,10 +251,10 @@ class AllPostView_list(AddPostView):
     
     def get(self,request):
         all_post = self.model.objects.all().order_by('-createdate')
-        print(all_post)
+        # print(all_post)
         return render(request, 'all_post_colaborator.html', {'posts':all_post})
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def allPostView(request, slug):
     user = User.objects.get(username = slug)
     userColaborator = UserColaborator.objects.get(user = user)

@@ -26,7 +26,7 @@ def get_colaboradores():
     perfil = Perfil.objects.filter(name='Blogger').first()
     userColaborator = UserColaborator.objects.filter(perfil=perfil.id)
 
-    print(userColaborator)
+    # print(userColaborator)
     # return UserColaborator.objects.filter(username=f"{ request.POST['username']}") .all()[0:4]
     #return UserColaborator.objects.all()[0:4]
     return userColaborator

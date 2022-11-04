@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from chat.models import Room, Message
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 # def home(request):
 #     # breakpoint()
 #     return render(request, 'CHAT/home.html')
 
+@login_required(login_url='/login')    
 def room(request, room):
     username = request.GET.get('username')
     room_details = Room.objects.get(name=room)
@@ -19,6 +21,7 @@ def room(request, room):
         'room_details': room_details
     })
 
+@login_required(login_url='/login')    
 def checkview(request):
     room = request.POST['room_name']
     username = request.POST['username']
@@ -30,6 +33,7 @@ def checkview(request):
         new_room.save()
         return redirect('/chat/'+room+'/?username='+username)
 
+@login_required(login_url='/login')    
 def send(request):
     message = request.POST['message']
     username = request.POST['username']
@@ -39,6 +43,7 @@ def send(request):
     new_message.save()
     return HttpResponse('Message sent successfully')
 
+@login_required(login_url='/login')    
 def getMessages(request, room):
     room_details = Room.objects.get(name=room)
 

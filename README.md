@@ -2360,7 +2360,7 @@ Fast-forward
 
 </details>
 <details><summary>
-22 ) Setting Config
+23 ) Setting Config
 </summary>
 
 Al ingresar al archivo `setting.py` de nuestro directorio `proyecto_final` podremos realizar una serie de configuracion adicioales como la de poder colocar el GMT-5 el cual corresponde a la ciudad de Lima/Bogota/Quito. [ver mas](https://docs.djangoproject.com/en/4.1/topics/i18n/timezones/) el listado de `Time_ZONE` que podemos utilizar disponible en [ver mas](https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568)

@@ -41,37 +41,53 @@
     
 <main>
 <section class="bg-white dark:bg-gray-900 pb-20" >    
-    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+    <div class="py-8 lg:py-1 px-4 mx-auto max-w-screen-md">
         <div class="container mx-auto">
             <div class="max-w-2xl border rounded">
                 <div>
                     <div class="w-full">
-                        <div class="relative flex items-center p-3 border-b border-gray-300">
+                        <div class="relative flex items-center p-3 border-b border-gray-300 ">
                             <img class="object-cover w-10 h-10 rounded-full"
-                            src="  {% if post.user.usercolaborator.profile_picture %}
-                                        {{ post.user.usercolaborator.profile_picture.url }} 
+                            src="   {% if request.user.usercolaborator.profile_picture == 'False' %}
+                                    {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                    {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                {% endif %}             
+                                {% else %}  
+                                    {% if request.user.usercolaborator.profile_picture %}{{ request.user.usercolaborator.profile_picture.url }} 
                                     {% else %} 
                                         {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
                                         {% else %}{% static 'img/SinPerfil_Femenino.png' %}
                                         {% endif %}                                          
-                                    {% endif %} " 
-                            alt="   {%if colaborator.user.first_name %}
-                                        {{ colaborator.user.first_name }} {{ colaborator.user.last_name }}
-                                    {%else%}
-                                        {{ colaborator.user.username }}
-                                    {%endif%}" 
-                            />
-                            <span class="block ml-2 font-bold text-gray-600">
-                                {%if colaborator.user.first_name %}
-                                    {{ colaborator.user.first_name }} {{ colaborator.user.last_name }}
+                                    {% endif %}                                          
+                                {% endif %}"   
+                            alt="  
+                                {%if request.user.first_name %}
+                                    {{ request.user.first_name }} {{ request.user.last_name }}
                                 {%else%}
-                                    {{ colaborator.user.username }}
+                                    {{ request.user.username }}
                                 {%endif%}
-                            </span>
+                                    " 
+                            />
                             <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
-                            </span>
+                            </span>  
+                            <div>
+                                <div>
+                                    <span class="block ml-2 font-bold text-gray-600">
+                                        {%if request.user.first_name %}
+                                            {{ request.user.first_name }} {{ request.user.last_name }} 
+                                        {%else%}
+                                            {{ request.user.username }}
+                                        {%endif%}
+                                    </span>                           
+                                </div>
+                                <div>
+                                    <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
+                                        {{ request.user.usercolaborator.perfil.name }}
+                                    </p>
+                                </div>	                            
+                            </div>
                         </div>
-                        <div class="relative w-full p-6 overflow-y-auto h-[40rem]">
+                        <div class="relative w-full p-6 overflow-y-auto h-[30rem]">
                             <ul class="space-y-2">
                                 <div id="display">
                                 </div>
@@ -102,7 +118,8 @@
                             <!-- Inicio de Form -->
                             <form id="post-form">
                                 {% csrf_token %}
-                                <input type="hidden" name="username" id="username" value="{{username}}"/>
+                                <input type="hidden" name="username" id="username" value=" {{ request.user.username }}"/> 
+                                {% comment %} {{username}} {% endcomment %}
                                 <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>   
                                 
 
