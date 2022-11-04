@@ -2360,7 +2360,7 @@ Fast-forward
 
 </details>
 <details><summary>
-22 ) Setting Config
+23 ) Setting Config
 </summary>
 
 Al ingresar al archivo `setting.py` de nuestro directorio `proyecto_final` podremos realizar una serie de configuracion adicioales como la de poder colocar el GMT-5 el cual corresponde a la ciudad de Lima/Bogota/Quito. [ver mas](https://docs.djangoproject.com/en/4.1/topics/i18n/timezones/) el listado de `Time_ZONE` que podemos utilizar disponible en [ver mas](https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568)
@@ -2369,7 +2369,7 @@ Al ingresar al archivo `setting.py` de nuestro directorio `proyecto_final` podre
 TIME_ZONE = "America/Lima"
 USE_TZ = False
 ```
-</details>
+
 
 Para poder cumplir con la funcionalidad de redireccionar y mostar una pagina `404.html` que indique el clasico page not found cuando se ingrese una URL invalidatenemos que considerar configurar [ver mas](https://bestprogrammingblogs.blogspot.com/2021/03/django-static-files-not-working-when-debug-is-false.html) 
 
@@ -2418,20 +2418,25 @@ Finalmente al acabar esta configuracion podremos visualizar nuestra pagina `404.
   </p>
 </p>
 
+</details>
 
+pip install django-ckeditor --upgrade
 
 > ### Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
 ```bash
 python3 -m venv .venv
-cd .\.venv\
-scripts\activate
+cd .venv\
+Scripts\activate
+
+.venv\Scripts\activate
 ```
 * Comando para re ordenar codigo : black .
 * Comando para instalar libreria que permite eliminar archivo __Pycache__ : pip install pyclean
 * comando para visualizar estructura de directorios : tree -L 2
 * comando Breakpoint : https://www.python-engineer.com/posts/python-debugger-and-breakpoint/
+https://www.coursera.org/lecture/introduccion-python/el-debugger-de-python-que-es-y-como-utilizarlo-Wdg78
   
     - [x] h (elp): Print the list of available commands
 
@@ -2480,3 +2485,36 @@ kill -9 <PID>
 * Readme.md : https://readme.so/es
 * Editar administrador ( backOffice ): https://www.youtube.com/watch?v=thKO66FsBZI
 * Markdown - Tablas : https://docs.github.com/es/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables
+* Obtener version de Django : 
+```bash
+import django
+django.VERSION
+django.get_version()
+```
+
+```bash
+python -m django --version
+python -c "import django; print(django.get_version())"
+django-admin --version
+```
+
+```bash
+pip freeze | grep Django
+pip show django
+```
+
+* ckeditor ejemplos :
+https://www.youtube.com/watch?v=a37BL0stIuM
+https://django-ckeditor.readthedocs.io/en/latest/
+
+* CRUD + Detail Views
+https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+
+* Autentication and Authorization
+https://www.programcreek.com/python/example/64448/django.contrib.auth.forms.AuthenticationForm
+
+* Install librerias ubicado en el file 'requeriments.txt' generado previamente
+```bash
+pip freeze > requirements.txt 
+pip install -r requirements.txt
+```

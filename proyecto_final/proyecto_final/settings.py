@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-mha2g&e%5#oi*m%pzmuw323hmxmnif#t+5xqb*!g3l(0$&32@m"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*','localhost','127.0.0.1', 'http://jesusramirez.pythonanywhere.com/']
 
@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "blog",
+    "chat",
+    "ckeditor",
+    
 ]
 
 MIDDLEWARE = [
@@ -118,13 +121,19 @@ USE_I18N = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+#print('DEBUG : ', DEBUG) 
 
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+    # print('STATICFILES_DIRS : ', STATICFILES_DIRS) 
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    # print('STATIC_ROOT : ', STATIC_ROOT) 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
+CKEDITOR_UPLOAD_PATH= 'uploads/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
+
 
 
 
@@ -132,3 +141,37 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media_cdn')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height':'500px',
+        'width': '720px',
+        # tab key conversion space number
+        'tabSpaces': 4,
+        # Toolbar Style
+        'toolbar': 'Custom',
+        # Toolbar buttons
+        'toolbar_Custom': [
+            ['Format'],
+            ['Smiley', 'CodeSnippet'], 
+            ['Bold', 'Italic', 'Underline', 'RemoveFormat', 'Blockquote'],
+            ['TextColor', 'BGColor'],
+            ['Link', 'Unlink'],
+            ['NumberedList', 'BulletedList'],
+            ['Maximize']
+        ],
+        # Add Code Block Plug-ins
+        'extraPlugins': ','.join(['codesnippet']),
+        'codeSnippet_languages': {
+            'bash': 'Bash',
+            'css': 'CSS',
+            'django': 'Django',
+            'html': 'HTML',
+            'javascript': 'JavaScript',
+            'php': 'PHP',
+            'python': 'Python',
+        }
+    }
+}

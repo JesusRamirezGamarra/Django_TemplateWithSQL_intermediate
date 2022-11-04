@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
 
 from django.conf import settings
 from django.views.static import serve
@@ -23,10 +23,13 @@ from django.views.static import serve
 from django.conf.urls.static import static
 
 urlpatterns = [
+    # re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    # re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),       
     # path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     # path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),    
     path("admin/", admin.site.urls),
     path("", include("blog.urls")),
+    path("chat/", include("chat.urls")),
 
     # path("homepage", include("blog.urls")),
     # path("search/", include("blog.urls")),
@@ -39,9 +42,9 @@ urlpatterns = [
 ]
 
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # else:
 #     urlpatterns += url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT})
 #     urlpatterns += url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT})

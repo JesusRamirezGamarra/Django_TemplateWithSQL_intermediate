@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from ckeditor.fields import RichTextField
 # from django.utils import timezone
 # from datetime import datetime
 
 
 # Create your models here.
 User = get_user_model()
-
-
 class Author(models.Model):
     """Author utilizando el listado de Users del sistema"""
 
@@ -39,7 +38,7 @@ class Post(models.Model):
     slug = models.SlugField()
     overview = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    content = models.TextField()
+    content = models.TextField()   
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     thumbnail = models.ImageField()
     categories = models.ManyToManyField(Category)
@@ -143,6 +142,7 @@ class Embrace(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField()
     description = models.TextField()
+    # description =RichTextField()
     
     
 class Contact(models.Model):
@@ -152,3 +152,60 @@ class Contact(models.Model):
     email = models.EmailField()
     subject = models.CharField(max_length=50)
     message = models.TextField()
+    # message = RichTextField()
+    
+
+class Suscripcion(models.Model):
+    name = models.CharField(max_length=50)    
+    createdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+    class  Meta:   #new
+        verbose_name_plural  =  "User Colaborator Suscripcions"                    
+    
+class Perfil(models.Model):
+    name = models.CharField(max_length=50)    
+    createdate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+    class  Meta:   #new
+        verbose_name_plural  =  "User Colaborator Perfils"               
+        
+        
+from django.contrib.auth.models import User 
+
+class UserColaborator(models.Model):
+    email = models.EmailField(max_length=200)
+    # username = models.CharField(max_length=70)
+    # pwd = models.CharField(max_length=100)
+    # name = models.CharField(max_length=100)
+    description = models.TextField()
+    profile_picture = models.ImageField(upload_to ='avatar',max_length=None, blank=True,null=True)
+    perfil= models.ForeignKey(Perfil, on_delete=models.CASCADE, default=1 )
+    suscripcion = models.ForeignKey(Suscripcion, on_delete=models.CASCADE, default=1)
+    createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    # user = models.Foreignkey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        # user = User.objects.filter(username=f"{self.user.username}")
+        # print(user)
+        return  f""" {self.email}  """
+        # return self.name
+    class  Meta:   #new
+        verbose_name_plural  =  "User colaborators"        
+
+class PostUserColaborator(models.Model):
+    # user = models.ForeignKey(UserColaborator, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = RichTextField(blank=True,null=True)#
+    createdate = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    
+    def __str__(self):
+        return self.title
+    
+    class  Meta:   #new
+        verbose_name_plural  =  "User Post colaborators"    

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title_pagina %}
+<title>Logout</title>
+{% endblock title_pagina %}
+
+{% block content %}
+{% load static %}
+<a href="{% url 'homepage' %}">
+    <section class="bg-white dark:bg-gray-900 " >    
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <blockquote>
+            <p class="text-lg font-medium mx-auto  flex justify-center">
+                Cerraste session correctamente.
+            </p>
+            </blockquote>        
+        </div>
+    </section>   
+    <section class="bg-white dark:bg-gray-900 " >    
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <img class="rounded-lg mx-auto" 
+                src="{% static 'img/CerrarSession/'%}{{result.image }}"
+                alt="Best Briend Forever ( BFF )" > 
+        </div>
+    </section>   
+</a>
+{% endblock content %}
