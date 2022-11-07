@@ -2518,3 +2518,22 @@ https://www.programcreek.com/python/example/64448/django.contrib.auth.forms.Auth
 pip freeze > requirements.txt 
 pip install -r requirements.txt
 ```
+
+* tutorial para administracion del Admin [ver mas](https://docs.hektorprofe.net/django/web-empresarial/personalizando-panel-administrador-parte-2/)
+```python
+# blog/admin.py : alternativa para incluir un listado en una colmna del Aministrador
+class PostAdmin(admin.ModelAdmin):
+    readonly_fields = ('created', 'updated')
+    list_display = ('title', 'author', 'published', 'categories')
+    ordering = ('author', 'published')
+    search_fields = ('title','content','author__username', 
+        'categories__name')
+    date_hierarchy = 'published'
+    list_filter = ('author__username','categories__name')
+
+    def post_categories(self, obj):
+        return ", ".join(
+            [c.name for c in obj.categories.all().order_by("name")])
+    post_categories.short_description = "Categorías"
+
+```            

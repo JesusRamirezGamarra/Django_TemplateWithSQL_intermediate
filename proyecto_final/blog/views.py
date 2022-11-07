@@ -33,8 +33,6 @@ def search(request):
     context = {
         'queryset': queryset
     }
-    # breakpoint()
-    # print(context)
     return render(request, 'search_bar.html', context)
 
 def allposts(request):
