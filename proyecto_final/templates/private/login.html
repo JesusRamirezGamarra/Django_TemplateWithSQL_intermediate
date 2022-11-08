@@ -21,7 +21,8 @@
         </div>
     </div>       
 </form> {% endcomment %}
-    <section class="h-screen">
+{% comment %} class="h-screen" {% endcomment %}
+    <section >
         {% comment %} <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
         {{ formulario }}
