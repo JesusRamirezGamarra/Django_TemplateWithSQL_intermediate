@@ -4,11 +4,11 @@
     <img src="https://github.com/JesusRamirezGamarra/signature/blob/main/public/img/Logo_Negro.png" alt="BFFs" height="250">    
   </p>
   <p align="center">
-       CoderHouse - Python [ver video](https://github.com/JesusRamirezGamarra/Django_TemplateWithSQL_intermediate/blob/main/public/media/https___jesusramirez.pythonanywhere.com.mp4)
+       CoderHouse - Python 
   </p>
 </p>
 
-# CH - Django with SQL - Intermediate Python
+# CH - Django with SQL - Intermediate Python [ver video](https://github.com/JesusRamirezGamarra/Django_TemplateWithSQL_intermediate/blob/main/public/media/https___jesusramirez.pythonanywhere.com.mp4)
 
 <details><summary>
 Challenge 01 - django MVT
