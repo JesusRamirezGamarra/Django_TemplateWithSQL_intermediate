@@ -4,7 +4,7 @@
     <img src="https://github.com/JesusRamirezGamarra/signature/blob/main/public/img/Logo_Negro.png" alt="BFFs" height="250">    
   </p>
   <p align="center">
-       CoderHouse - Python
+       CoderHouse - Python [ver video](https://github.com/JesusRamirezGamarra/Django_TemplateWithSQL_intermediate/blob/main/public/media/https___jesusramirez.pythonanywhere.com.mp4)
   </p>
 </p>
 
