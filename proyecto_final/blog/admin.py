@@ -108,5 +108,15 @@ class UserColaboratorAdmin(admin.ModelAdmin):
         form.base_fields["profile_picture"].label = "Avatar"
         form.base_fields["user"].label = "Usuario"
         return form        
+    
+@admin.register(PostUserColaborator)
+class PostUserColaboratorAdmin(admin.ModelAdmin):
+    readonly_fields = ['createdate','created','updated']
+    list_display = ['user','title']    
+    ordering = ('user', 'title')
+    search_fields = ('user','title')    
+    date_hierarchy = 'createdate'
+    list_filter = ('created','user','title')
+    
 # admin.site.register(UserColaborator)    # relacion con valores por default usando models.
 # admin.site.register(UserColaborator,UserColaboratorAdmin)   # otra forma de relacionar con model y form.

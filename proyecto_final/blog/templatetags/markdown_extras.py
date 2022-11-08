@@ -19,5 +19,5 @@ def get_categories():
 @register.simple_tag
 def get_colaboradores():
     perfil = Perfil.objects.filter(name='Blogger').first()
-    userColaborator = UserColaborator.objects.filter(perfil=perfil.id)
+    userColaborator = UserColaborator.objects.filter(perfil=perfil.id)[0:4]
     return userColaborator

@@ -17,7 +17,7 @@ from django.urls import path,re_path
 from django.conf import settings
 from django.views.static import serve
 
-from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,allPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,Detail_UserPostColaborator,login,registrar,perfil,perfil_editar,Password_editar,Logout
+from blog.views import homepage, search, allposts, post, postlist, dona , contact, embrace, about, AddPostView, AllPostView_list,allPostView,Create_UserPostColaborator,Read_UserPostColaborator,Update_UserPostColaborator,Delete_UserPostColaborator,login,registrar,perfil,perfil_editar,Password_editar,Logout
 
 
 from django.conf.urls.static import static

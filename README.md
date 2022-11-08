@@ -2521,7 +2521,7 @@ para ejecutar nuestras pruebas podremos ejecutar el comando :
 python manage.py test chat.tests.Room_TestCase
 ```
 
-debemos considerar que para poder ejecutar los TestCase segun se requiera, debemos respetar la nomenclatura : 
+Debemos considerar que para poder ejecutar los TestCase segun se requiera, debemos respetar la nomenclatura : 
 
 ```bash
 python3 manage.py test  # Run All applications
@@ -2529,6 +2529,309 @@ python3 manage.py test blog.tests   # Run the specified module
 python3 manage.py test catalog.tests.Room_TestCase # Run the specified class
 python3 manage.py test catalog.tests.Room_TestCase.test_object_def_str  # Run the specified method
 ```
+
+El resultado para este TestCase en particular es : 
+
+```bash
+python manage.py test chat.tests.Room_TestCase
+Found 5 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+----------------------------------------------------------------------------------------------------
+setUpTestData: Run once to set up non-modified data for all class methods.
+----------------------------------------------------------------------------------------------------
+setUp: Run once for every test method to setup clean data.
+Method: test_add_new_room assertEqual.
+.----------------------------------------------------------------------------------------------------
+setUp: Run once for every test method to setup clean data.
+Method: test_date_of_created_label assertEquals.
+.----------------------------------------------------------------------------------------------------
+setUp: Run once for every test method to setup clean data.
+Method: test_first_name_max_length assertTrue.
+.----------------------------------------------------------------------------------------------------
+setUp: Run once for every test method to setup clean data.
+Method: test_name_label assertEquals.
+.----------------------------------------------------------------------------------------------------
+setUp: Run once for every test method to setup clean data.
+Method: test_object_def_str assertTrue.
+.
+----------------------------------------------------------------------
+Ran 5 tests in 0.019s
+
+OK
+Destroying test database for alias 'default'...
+```
+
+</details>
+<details><summary>
+26 ) CHAT : Aplicacion para mensajeria
+</summary>
+
+Para implementar un chat que pueda ser utilizado por el blog creamos una nueva aplicacion a la cual denominaremos `chat` utilizando como comando : 
+
+```bash
+python manage.py startapp chat
+```
+sobre esta aplicacion nueva procedemos a realizar la creacion de las routes que seran utilizadas sobre el archivo `urls.py`.
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('<str:room>/', views.room, name='room'),
+    path('checkview', views.checkview, name='checkview'),
+    path('send', views.send, name='send'),
+    path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
+]
+```
+
+las entidades que utilizaremos las plasmamos sobre `models.py` en este caso por simplicidad inicial debido a que la Base de datos ya tenia informacion decidimos no relacionarla con User aunque en la operacion quedaria com mejora .
+
+```python
+from django.db import models
+from datetime import datetime
+
+# Create your models here.
+class Room(models.Model):
+    """Room : Room unico que agrupa mensajes para el CHAT"""    
+    name = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación",blank=True,null=True)
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición",blank=True,null=True)       
+    def __str__(self):
+        return f"""{self.name} {self.created}"""    
+    class  Meta:
+        verbose_name = " User:Room"
+        verbose_name_plural  =  "Room [ User:Room ]"    
+        
+    
+class Message(models.Model):
+    """Message : Message por Usuario agrupados por Room"""        
+    value = models.CharField(max_length=255)
+    date = models.DateTimeField(default=datetime.now, blank=True)
+    user = models.CharField(max_length=50)
+    room = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación",blank=True,null=True)
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición",blank=True,null=True)       
+    def __str__(self):
+        return f"""{self.room} {self.user}"""
+    class  Meta:
+        verbose_name = " Mensaje"
+        verbose_name_plural  =  "Message [ Mensaje ]"        
+
+```
+
+Estas estarian mplementadas en las funciones : 
+
+```python
+from django.shortcuts import render, redirect
+from chat.models import Room, Message
+from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/login')    
+def room(request, room):
+    username = request.GET.get('username')
+    room_details = Room.objects.get(name=room)
+    return render(request, 'CHAT/room.html', {
+        'username': username,
+        'room': room,
+        'room_details': room_details
+    })
+
+@login_required(login_url='/login')    
+def checkview(request):
+    room = request.POST['room_name']
+    username = request.POST['username']
+    if Room.objects.filter(name=room).exists():
+        return redirect('/chat/'+room+'/?username='+username)
+    else:
+        new_room = Room.objects.create(name=room)
+        new_room.save()
+        return redirect('/chat/'+room+'/?username='+username)
+
+@login_required(login_url='/login')    
+def send(request):
+    message = request.POST['message']
+    username = request.POST['username']
+    room_id = request.POST['room_id']
+
+    new_message = Message.objects.create(value=message, user=username, room=room_id)
+    new_message.save()
+    return HttpResponse('Message sent successfully')
+
+@login_required(login_url='/login')    
+def getMessages(request, room):
+    room_details = Room.objects.get(name=room)
+
+    messages = Message.objects.filter(room=room_details.id)
+    return JsonResponse({"messages":list(messages.values())})
+```
+
+Para la implementacion de un flujo activo de mensajes cuando se escribe los mensaje para multiples usuarios utilizamos un poco de javascript para sensar y mostarar la actualizacion de mensajes con un delay de 1 segundo.
+
+```python
+<section class="bg-white dark:bg-gray-900 pb-20" >    
+    <div class="py-8 lg:py-1 px-4 mx-auto max-w-screen-md">
+        <div class="container mx-auto">
+            <div class="max-w-2xl border rounded">
+                <div>
+                    <div class="w-full">
+                        <div class="relative flex items-center p-3 border-b border-gray-300 ">
+                            <img class="object-cover w-10 h-10 rounded-full"
+                            src="   {% if request.user.usercolaborator.profile_picture == 'False' %}
+                                    {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                    {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                {% endif %}             
+                                {% else %}  
+                                    {% if request.user.usercolaborator.profile_picture %}{{ request.user.usercolaborator.profile_picture.url }} 
+                                    {% else %} 
+                                        {% if random_int  == 1 %}{% static 'img/SinPerfil_Masculino.png' %}
+                                        {% else %}{% static 'img/SinPerfil_Femenino.png' %}
+                                        {% endif %}                                          
+                                    {% endif %}                                          
+                                {% endif %}"   
+                            alt="  
+                                {%if request.user.first_name %}
+                                    {{ request.user.first_name }} {{ request.user.last_name }}
+                                {%else%}
+                                    {{ request.user.username }}
+                                {%endif%}
+                                    " 
+                            />
+                            <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
+                            </span>  
+                            <div>
+                                <div>
+                                    <span class="block ml-2 font-bold text-gray-600">
+                                        {%if request.user.first_name %}
+                                            {{ request.user.first_name }} {{ request.user.last_name }} 
+                                        {%else%}
+                                            {{ request.user.username }}
+                                        {%endif%}
+                                    </span>                           
+                                </div>
+                                <div>
+                                    <p class="text-xs md:text-sl leading-none mb-2  flex justify-center ">
+                                        {{ request.user.usercolaborator.perfil.name }}
+                                    </p>
+                                </div>	                            
+                            </div>
+                        </div>
+                        <div class="relative w-full p-6 overflow-y-auto h-[30rem]">
+                            <ul class="space-y-2">
+                                <div id="display">
+                                </div>
+                                {% comment %} 
+                                <li class="flex justify-start">
+                                    <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                                    <span class="block">Hi</span>
+                                    </div>
+                                </li>
+                                <li class="flex justify-end">
+                                    <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                                    <span class="block">Hiiii</span>
+                                    </div>
+                                </li>
+                                <li class="flex justify-end">
+                                    <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                                    <span class="block">how are you?</span>
+                                    </div>
+                                </li>
+                                <li class="flex justify-start">
+                                    <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                                    <span class="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. </span>
+                                    </div>
+                                </li> {% endcomment %}
+                            </ul>
+                        </div>
+                        <div>
+                            <!-- Inicio de Form -->
+                            <form id="post-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="username" id="username" value=" {{ request.user.username }}"/> 
+                                {% comment %} {{username}} {% endcomment %}
+                                <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>   
+                                
+
+                                <div class="flex p-4 border-t border-gray-300">
+                                {% comment %} flex items-center justify-between w-full p-3 border-t border-gray-300 {% endcomment %}
+                                {% comment %} <button>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                </button>
+                                <button>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                </svg>
+                                </button> {% endcomment %}
+                                {% comment %} <input type="text" placeholder="Message a todo BBFs"
+                                class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+                                name="message" required /> {% endcomment %}
+                                {% comment %} 
+                                <button>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                                </button> 
+                                {% endcomment %}
+
+                                {% comment %} <div class="container"> {% endcomment %}
+                                
+
+                                    {% comment %} <div class="pb-5 flex flex-row"> {% endcomment %}
+                                    <div class="basis-11/12 pr-2" >
+                                        <input type="text" name="message" id="message"   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
+                                    </div>
+                                    <div class="basis-1/12 pl-2">                                        
+                                        {% comment %} <button type="submit" value="Send">
+                                            <svg class="w-5 h-5 text-gray-500 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20" fill="currentColor">
+                                                <path
+                                                d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /> 
+                                            </svg>Enviar
+                                        </button>     {% endcomment %}
+                                        <button type="submit"  value="Send" class="inline-flex items-center justify-center rounded-lg px-4 py-2.5 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
+                                            <span class="font-bold">Send</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 ml-2 transform rotate-90">
+                                                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                                            </svg>
+                                            </button>                                        
+                                    </div>                              
+                                </div>
+                            </form>
+                            <!-- Fin de Form -->
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>  
+    <div>           
+</section>    
+
+
+```
+
+
+Finalmnete el resultado lo podemos visualizar al ingresar al aplicativo e ingresar al modulo CHAT
+
+<p align="center">
+  <p align="center">    
+    <img src="./public/img/Chat-Broadcast.png" alt="Chat Mesenger" >    
+  </p>
+  <p align="center">
+        Chat broadcast para todos los usuarios registrados en el sistema.
+  </p>
+</p>
+
+
 
 
 </details>
