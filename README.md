@@ -94,17 +94,6 @@ Messenger y like - integración otra db
 
 En caso que no quieran hacer una Web simil Blog, pueden, pero deberá tener la misma estructura el modelo básico, título, subtítulo, texto, imagen/es, autor, fecha. Y la web debe tener un funcionamiento similar. 
 
-
-- Requerimientos :
-    - asgiref==3.5.2
-    - Django==4.1.2
-    - importlib-metadata==5.0.0
-    - Markdown==3.2.1
-    - Pillow==9.2.0
-    - pyclean==2.2.0
-    - sqlparse==0.4.3
-    - zipp==3.8.1
-
 Nota : este desafio se cumplio con los pasos posteriores al 18 .
 </details>
 
@@ -2419,10 +2408,135 @@ Finalmente al acabar esta configuracion podremos visualizar nuestra pagina `404.
 </p>
 
 </details>
+<details><summary>
+24 ) Refactoring Code 
+</summary>
+En esta etapa realizamo la adecuacion final sobre las clases y metodos del proyecto utilizando `PascalCase` para Clases y `camel_case` para metodos y variables. Aprovechamos para agregar los meta , verbose_name, verbose_name_plural, attrs que pudieran ser necesarios : 
+
+adecuacion de `models.py`
+```python
+class Room(models.Model):
+    """Room : Room unico que agrupa mensajes para el CHAT"""    
+    name = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación",blank=True,null=True)
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición",blank=True,null=True)       
+    def __str__(self):
+        return f"""{self.name} {self.created}"""    
+    class  Meta:
+        verbose_name = " User:Room"
+        verbose_name_plural  =  "Room [ User:Room ]"    
+        
+```
+adecuacion de `admin.py`
+
+```python
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    readonly_fields = ['timestamp','created','updated']    
+    list_display = ('author','title','post_categories','featured')
+    ordering = ('author', 'title','featured')
+    search_fields = ('author','title','featured')    
+    date_hierarchy = 'created'
+    list_filter = ('created','author','featured')    
+    def post_categories(self, obj):
+        return ", ".join(
+            [c.title for c in obj.categories.all().order_by("title")])
+    post_categories.short_description = "Categorías"    
+    
+```
+
+</details>
+<details><summary>
+25 ) Test : TestCase
+</summary>
+Unit TEST  utilizando LocalLibrary [ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Testing)
+
+Al ingresar sobre el archivo `test.py` existente en nuestras aplicaciones :  `chat`, `blog` podremos definir los TestCase para lo cual definirmos : 
+
+```python
+from django.test import TestCase
+from .models import Room,Message
+from django.db.models import Q
+
+class Room_TestCase(TestCase):
+```
+la clase definida albergara los method que se definiran para las pruebas unitarias que sean determinadas por models, Form, Classview, ListView. debemos tener en cuenta respetar el ciclo : 
+
+```python
+@classmethod
+def setUpTestData(cls):
+    print("setUpTestData: Run once to set up non-modified data for all class methods.")
+    pass
+
+def setUp(self):
+    print("setUp: Run once for every test method to setup clean data.")
+    pass
+```
+utilizando estos method que tienen comportamientos especifios ( unico por clase y unico por method) implementamos : 
+
+```python
+    @classmethod
+    def setUpTestData(cls):
+        print('-'* 100)
+        print("setUpTestData: Run once to set up non-modified data for all class methods.")
+        Room.objects.create(name='TEST ROOM ONE')
+        Room.objects.create(name='TEST ROOM TWO')            
+    
+    def setUp(self):
+        print('-'* 100)
+        print("setUp: Run once for every test method to setup clean data.")
+                
+    def test_add_new_room(self):
+        print("Method: test_add_new_room assertEqual.")
+        self.room = Room.objects.filter(Q(name='TEST ROOM ONE') | Q(name='TEST ROOM TWO'))
+        self.assertEqual(len(self.room.all())   ,2)
+
+    def test_name_label(self):
+        print("Method: test_name_label assertEquals.")   
+        room=Room.objects.get(name='TEST ROOM ONE')
+        field_label = room._meta.get_field('name').verbose_name
+        self.assertEquals(field_label,'name')
+        
+    def test_date_of_created_label(self):
+        print("Method: test_date_of_created_label assertEquals.")   
+        room=Room.objects.get(name='TEST ROOM ONE')
+        field_label = Room._meta.get_field('created').verbose_name
+        self.assertEquals(field_label,'Fecha de creación')     
+        
+    def test_first_name_max_length(self):
+        print("Method: test_first_name_max_length assertTrue.")   
+        room=Room.objects.get(id=1)
+        max_length = room._meta.get_field('name').max_length
+        self.assertTrue( max_length == 100)           
+                    
+    def test_object_def_str(self):
+        print("Method: test_object_def_str assertTrue.")           
+        room=Room.objects.get(name='TEST ROOM ONE')
+        expected_object_str = '%s %s' % (room.name, room.created)
+        self.assertEquals(expected_object_str,str(room))
+```
+para ejecutar nuestras pruebas podremos ejecutar el comando : 
+
+```bash
+python manage.py test chat.tests.Room_TestCase
+```
+
+debemos considerar que para poder ejecutar los TestCase segun se requiera, debemos respetar la nomenclatura : 
+
+```bash
+python3 manage.py test  # Run All applications
+python3 manage.py test blog.tests   # Run the specified module
+python3 manage.py test catalog.tests.Room_TestCase # Run the specified class
+python3 manage.py test catalog.tests.Room_TestCase.test_object_def_str  # Run the specified method
+```
+
+
+</details>
+
 
 pip install django-ckeditor --upgrade
 
-> ### Nota : 
+> ## Nota : 
 
 * Usar .venv : https://learn.microsoft.com/en-us/windows/python/web-frameworks
 ```bash
@@ -2537,3 +2651,24 @@ class PostAdmin(admin.ModelAdmin):
     post_categories.short_description = "Categorías"
 
 ```            
+
+* Informaciuon de TESTCASE python [ver mas](https://developer.mozilla.org/es/docs/Learn/Server-side/Django/Testing)
+
+setUpTestData() se llama una vez al comienzo de la ejecución de prueba para la configuración a nivel de clase. Usaría esto para crear objetos que no se modificarán ni cambiarán en ninguno de los métodos de prueba.
+
+setUp() se llama antes de cada función de prueba para configurar cualquier objeto que pueda ser modificado por la prueba (cada función de prueba obtendrá una versión "nueva" de estos objetos).
+
+Los AssertTrue, AssertFalse, AssertEqual son afirmaciones estándar proporcionadas por unittest. Hay otras aserciones estándar en el marco y también aserciones específicas de Django (Django-specific assertions) para probar si una vista redirecciona (assertRedirects),para probar si se ha utilizado una plantilla en particular (assertTemplateUsed), etc.
+
+```python
+python3 manage.py test catalog.tests   # Run the specified module
+python3 manage.py test catalog.tests.test_models  # Run the specified module
+python3 manage.py test catalog.tests.test_models.YourTestClass # Run the specified class
+python3 manage.py test catalog.tests.test_models.YourTestClass.test_one_plus_one_equals_two  # Run the specified method
+```
+
+The allowed verbosity levels are 0, 1, 2, and 3, with the default being "1".
+
+```python
+python3 manage.py test --verbosity 2
+```

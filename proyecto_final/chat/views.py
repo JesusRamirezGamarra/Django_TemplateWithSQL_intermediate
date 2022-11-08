@@ -12,9 +12,6 @@ from django.contrib.auth.decorators import login_required
 def room(request, room):
     username = request.GET.get('username')
     room_details = Room.objects.get(name=room)
-    # print(username)
-    # print(room_details)
-    
     return render(request, 'CHAT/room.html', {
         'username': username,
         'room': room,
@@ -25,7 +22,6 @@ def room(request, room):
 def checkview(request):
     room = request.POST['room_name']
     username = request.POST['username']
-
     if Room.objects.filter(name=room).exists():
         return redirect('/chat/'+room+'/?username='+username)
     else:

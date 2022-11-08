@@ -8,7 +8,7 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación",blank=True,null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición",blank=True,null=True)       
     def __str__(self):
-        return f"""{self.name}"""    
+        return f"""{self.name} {self.created}"""    
     class  Meta:
         verbose_name = " User:Room"
         verbose_name_plural  =  "Room [ User:Room ]"    
