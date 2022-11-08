@@ -34,8 +34,20 @@
                 alert('An error occured')
             }
         });
+
+
     },1000);
     })
+
+    window.onload = function() {
+        setInterval(scrollBottonThread, 1000);
+    }
+
+    function scrollBottonThread(){
+        let thread = document.getElementById("thread");
+        thread.scrollTop = thread.scrollHeight;
+    }
+
     </script>
 
     
@@ -87,7 +99,7 @@
                                 </div>	                            
                             </div>
                         </div>
-                        <div class="relative w-full p-6 overflow-y-auto h-[30rem]">
+                        <div  id="thread" class="relative w-full p-6 overflow-y-auto h-[30rem]">
                             <ul class="space-y-2">
                                 <div id="display">
                                 </div>

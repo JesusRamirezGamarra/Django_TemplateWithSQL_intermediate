@@ -98,6 +98,16 @@ Nota : este desafio se cumplio con los pasos posteriores al 18 .
 </details>
 
 
+<p align="center">
+  <p align="center">    
+    <img src="./public/img/CHAT.gif" alt="Chat BFFs" >    
+  </p>
+  <p align="center">
+       CHAT Blog - BFFs
+  </p>
+</p>
+
+
 
 Ubicarse sobre Root del proyecto : 
 
@@ -2718,7 +2728,7 @@ Para la implementacion de un flujo activo de mensajes cuando se escribe los mens
                                 </div>	                            
                             </div>
                         </div>
-                        <div class="relative w-full p-6 overflow-y-auto h-[30rem]">
+                        <div  id="thread" class="relative w-full p-6 overflow-y-auto h-[30rem]">
                             <ul class="space-y-2">
                                 <div id="display">
                                 </div>
@@ -2815,7 +2825,6 @@ Para la implementacion de un flujo activo de mensajes cuando se escribe los mens
         </div>  
     <div>           
 </section>    
-
 
 ```
 
