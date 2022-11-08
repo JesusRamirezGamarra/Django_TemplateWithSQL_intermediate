@@ -43,6 +43,17 @@ funcionalidades.
 Nota : este desafio se cumplio con los pasos del 1 al 17 .
 </details>
 
+
+<p align="center">
+  <p align="center">    
+    <img src="./public/img/PostUserColaborador.gif" alt="Blog BFFs" >    
+  </p>
+  <p align="center">
+       Blog - BFFs
+  </p>
+</p>
+
+
 <details><summary>
 Challenge 02 - django Entrega Final
 </summary>
@@ -103,7 +114,7 @@ Nota : este desafio se cumplio con los pasos posteriores al 18 .
     <img src="./public/img/CHAT.gif" alt="Chat BFFs" >    
   </p>
   <p align="center">
-       CHAT Blog - BFFs
+       CHAT - BFFs
   </p>
 </p>
 
