@@ -8,7 +8,7 @@
   </p>
 </p>
 
-# CH - Django with SQL - Intermediate Python [ver video](https://github.com/JesusRamirezGamarra/Django_TemplateWithSQL_intermediate/blob/main/public/media/https___jesusramirez.pythonanywhere.com.mp4)
+# CH - Django with SQL - Intermediate Python [ver video](https://www.dropbox.com/s/0v9emtr4ryuapna/https___jesusramirez.pythonanywhere.com.mp4?dl=0)
 
 <details><summary>
 Challenge 01 - django MVT
