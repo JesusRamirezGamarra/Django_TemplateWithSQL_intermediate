@@ -2857,7 +2857,7 @@ Finalmnete el resultado lo podemos visualizar al ingresar al aplicativo e ingres
 </details>
 
 
-pip install django-ckeditor --upgrade
+
 
 > ## Nota : 
 
@@ -2943,6 +2943,10 @@ pip show django
 * ckeditor ejemplos :
 https://www.youtube.com/watch?v=a37BL0stIuM
 https://django-ckeditor.readthedocs.io/en/latest/
+
+```bash
+pip install django-ckeditor --upgrade
+```
 
 * CRUD + Detail Views
 https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
