@@ -338,13 +338,14 @@ def perfil_editar(request):
         )
     return render(request, 'private/perfil_editar.html',{'formulario':formulario})
 
+
 class Password_editar(LoginRequiredMixin,PasswordChangeView):
     template_name = 'private/password_editar.html'
     success_url = '/perfil/'
     login_url = '/login/'   
-    def post(self, request, *args, **kwargs):
-        if request.POST["cancel"]:
-            return redirect('perfil')
+    # def post(self, request, *args, **kwargs):
+    #     if request.POST["cancel"]:
+    #         return redirect('perfil')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
